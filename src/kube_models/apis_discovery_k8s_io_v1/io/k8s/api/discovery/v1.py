@@ -67,11 +67,8 @@ class EndpointSlice(K8sResource):
     kind: ClassVar[str] = 'EndpointSlice'
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
     ports: List[EndpointPort] | None = None
-    api_path_: ClassVar[str] = (
-        'apis/discovery.k8s.io/v1/namespaces/{namespace}/endpointslices'
-    )
     plural_: ClassVar[str] = 'endpointslices'
-    is_namespaced_: ClassVar[bool] = False
+    is_namespaced_: ClassVar[bool] = True
     group_: ClassVar[Optional[str]] = 'discovery.k8s.io'
     patch_strategies_: ClassVar[set[PatchRequestType]] = {
         'application/apply-patch+cbor',

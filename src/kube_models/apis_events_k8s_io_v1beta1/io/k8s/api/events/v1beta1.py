@@ -41,11 +41,8 @@ class Event(K8sResource):
     reportingInstance: str | None = None
     series: EventSeries | None = None
     type: str | None = None
-    api_path_: ClassVar[str] = (
-        'apis/events.k8s.io/v1beta1/namespaces/{namespace}/events'
-    )
     plural_: ClassVar[str] = 'events'
-    is_namespaced_: ClassVar[bool] = False
+    is_namespaced_: ClassVar[bool] = True
     group_: ClassVar[Optional[str]] = 'events.k8s.io'
     patch_strategies_: ClassVar[set[PatchRequestType]] = {
         'application/apply-patch+yaml',

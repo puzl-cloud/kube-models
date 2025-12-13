@@ -85,11 +85,8 @@ class PodScheduling(K8sResource):
     kind: ClassVar[str] = 'PodScheduling'
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
     status: PodSchedulingStatus | None = None
-    api_path_: ClassVar[str] = (
-        'apis/resource.k8s.io/v1alpha1/namespaces/{namespace}/podschedulings'
-    )
     plural_: ClassVar[str] = 'podschedulings'
-    is_namespaced_: ClassVar[bool] = False
+    is_namespaced_: ClassVar[bool] = True
     group_: ClassVar[Optional[str]] = 'resource.k8s.io'
     patch_strategies_: ClassVar[set[PatchRequestType]] = {
         'application/apply-patch+yaml',
@@ -114,11 +111,8 @@ class ResourceClaim(K8sResource):
     kind: ClassVar[str] = 'ResourceClaim'
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
     status: ResourceClaimStatus | None = None
-    api_path_: ClassVar[str] = (
-        'apis/resource.k8s.io/v1alpha1/namespaces/{namespace}/resourceclaims'
-    )
     plural_: ClassVar[str] = 'resourceclaims'
-    is_namespaced_: ClassVar[bool] = False
+    is_namespaced_: ClassVar[bool] = True
     group_: ClassVar[Optional[str]] = 'resource.k8s.io'
     patch_strategies_: ClassVar[set[PatchRequestType]] = {
         'application/apply-patch+yaml',
@@ -150,7 +144,6 @@ class ResourceClass(K8sResource):
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
     parametersRef: ResourceClassParametersReference | None = None
     suitableNodes: NodeSelector | None = None
-    api_path_: ClassVar[str] = 'apis/resource.k8s.io/v1alpha1/resourceclasses'
     plural_: ClassVar[str] = 'resourceclasses'
     is_namespaced_: ClassVar[bool] = False
     group_: ClassVar[Optional[str]] = 'resource.k8s.io'
@@ -176,11 +169,8 @@ class ResourceClaimTemplate(K8sResource):
     apiVersion: ClassVar[str] = 'resource.k8s.io/v1alpha1'
     kind: ClassVar[str] = 'ResourceClaimTemplate'
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
-    api_path_: ClassVar[str] = (
-        'apis/resource.k8s.io/v1alpha1/namespaces/{namespace}/resourceclaimtemplates'
-    )
     plural_: ClassVar[str] = 'resourceclaimtemplates'
-    is_namespaced_: ClassVar[bool] = False
+    is_namespaced_: ClassVar[bool] = True
     group_: ClassVar[Optional[str]] = 'resource.k8s.io'
     patch_strategies_: ClassVar[set[PatchRequestType]] = {
         'application/apply-patch+yaml',

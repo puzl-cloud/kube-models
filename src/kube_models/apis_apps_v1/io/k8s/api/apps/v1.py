@@ -173,9 +173,8 @@ class ControllerRevision(K8sResource):
     data: RawExtension | None = None
     kind: ClassVar[str] = 'ControllerRevision'
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
-    api_path_: ClassVar[str] = 'apis/apps/v1/namespaces/{namespace}/controllerrevisions'
     plural_: ClassVar[str] = 'controllerrevisions'
-    is_namespaced_: ClassVar[bool] = False
+    is_namespaced_: ClassVar[bool] = True
     group_: ClassVar[Optional[str]] = 'apps'
     patch_strategies_: ClassVar[set[PatchRequestType]] = {
         'application/apply-patch+cbor',
@@ -261,9 +260,8 @@ class DaemonSet(K8sResource):
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
     spec: DaemonSetSpec | None = None
     status: DaemonSetStatus | None = None
-    api_path_: ClassVar[str] = 'apis/apps/v1/namespaces/{namespace}/daemonsets'
     plural_: ClassVar[str] = 'daemonsets'
-    is_namespaced_: ClassVar[bool] = False
+    is_namespaced_: ClassVar[bool] = True
     group_: ClassVar[Optional[str]] = 'apps'
     patch_strategies_: ClassVar[set[PatchRequestType]] = {
         'application/apply-patch+cbor',
@@ -289,9 +287,8 @@ class Deployment(K8sResource):
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
     spec: DeploymentSpec | None = None
     status: DeploymentStatus | None = None
-    api_path_: ClassVar[str] = 'apis/apps/v1/namespaces/{namespace}/deployments'
     plural_: ClassVar[str] = 'deployments'
-    is_namespaced_: ClassVar[bool] = False
+    is_namespaced_: ClassVar[bool] = True
     group_: ClassVar[Optional[str]] = 'apps'
     patch_strategies_: ClassVar[set[PatchRequestType]] = {
         'application/apply-patch+cbor',
@@ -317,9 +314,8 @@ class ReplicaSet(K8sResource):
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
     spec: ReplicaSetSpec | None = None
     status: ReplicaSetStatus | None = None
-    api_path_: ClassVar[str] = 'apis/apps/v1/namespaces/{namespace}/replicasets'
     plural_: ClassVar[str] = 'replicasets'
-    is_namespaced_: ClassVar[bool] = False
+    is_namespaced_: ClassVar[bool] = True
     group_: ClassVar[Optional[str]] = 'apps'
     patch_strategies_: ClassVar[set[PatchRequestType]] = {
         'application/apply-patch+cbor',
@@ -345,9 +341,8 @@ class StatefulSet(K8sResource):
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
     spec: StatefulSetSpec | None = None
     status: StatefulSetStatus | None = None
-    api_path_: ClassVar[str] = 'apis/apps/v1/namespaces/{namespace}/statefulsets'
     plural_: ClassVar[str] = 'statefulsets'
-    is_namespaced_: ClassVar[bool] = False
+    is_namespaced_: ClassVar[bool] = True
     group_: ClassVar[Optional[str]] = 'apps'
     patch_strategies_: ClassVar[set[PatchRequestType]] = {
         'application/apply-patch+cbor',

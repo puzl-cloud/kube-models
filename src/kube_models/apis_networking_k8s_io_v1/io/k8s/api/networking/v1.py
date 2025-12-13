@@ -116,7 +116,6 @@ class IPAddress(K8sResource):
     kind: ClassVar[str] = 'IPAddress'
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
     spec: IPAddressSpec | None = None
-    api_path_: ClassVar[str] = 'apis/networking.k8s.io/v1/ipaddresses'
     plural_: ClassVar[str] = 'ipaddresses'
     is_namespaced_: ClassVar[bool] = False
     group_: ClassVar[Optional[str]] = 'networking.k8s.io'
@@ -149,7 +148,6 @@ class IngressClass(K8sResource):
     kind: ClassVar[str] = 'IngressClass'
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
     spec: IngressClassSpec | None = None
-    api_path_: ClassVar[str] = 'apis/networking.k8s.io/v1/ingressclasses'
     plural_: ClassVar[str] = 'ingressclasses'
     is_namespaced_: ClassVar[bool] = False
     group_: ClassVar[Optional[str]] = 'networking.k8s.io'
@@ -241,7 +239,6 @@ class ServiceCIDR(K8sResource):
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
     spec: ServiceCIDRSpec | None = None
     status: ServiceCIDRStatus | None = None
-    api_path_: ClassVar[str] = 'apis/networking.k8s.io/v1/servicecidrs'
     plural_: ClassVar[str] = 'servicecidrs'
     is_namespaced_: ClassVar[bool] = False
     group_: ClassVar[Optional[str]] = 'networking.k8s.io'
@@ -269,11 +266,8 @@ class Ingress(K8sResource):
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
     spec: IngressSpec | None = None
     status: IngressStatus | None = None
-    api_path_: ClassVar[str] = (
-        'apis/networking.k8s.io/v1/namespaces/{namespace}/ingresses'
-    )
     plural_: ClassVar[str] = 'ingresses'
-    is_namespaced_: ClassVar[bool] = False
+    is_namespaced_: ClassVar[bool] = True
     group_: ClassVar[Optional[str]] = 'networking.k8s.io'
     patch_strategies_: ClassVar[set[PatchRequestType]] = {
         'application/apply-patch+cbor',
@@ -298,11 +292,8 @@ class NetworkPolicy(K8sResource):
     kind: ClassVar[str] = 'NetworkPolicy'
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
     spec: NetworkPolicySpec | None = None
-    api_path_: ClassVar[str] = (
-        'apis/networking.k8s.io/v1/namespaces/{namespace}/networkpolicies'
-    )
     plural_: ClassVar[str] = 'networkpolicies'
-    is_namespaced_: ClassVar[bool] = False
+    is_namespaced_: ClassVar[bool] = True
     group_: ClassVar[Optional[str]] = 'networking.k8s.io'
     patch_strategies_: ClassVar[set[PatchRequestType]] = {
         'application/apply-patch+cbor',

@@ -190,11 +190,8 @@ class HorizontalPodAutoscaler(K8sResource):
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
     spec: HorizontalPodAutoscalerSpec | None = None
     status: HorizontalPodAutoscalerStatus | None = None
-    api_path_: ClassVar[str] = (
-        'apis/autoscaling/v2/namespaces/{namespace}/horizontalpodautoscalers'
-    )
     plural_: ClassVar[str] = 'horizontalpodautoscalers'
-    is_namespaced_: ClassVar[bool] = False
+    is_namespaced_: ClassVar[bool] = True
     group_: ClassVar[Optional[str]] = 'autoscaling'
     patch_strategies_: ClassVar[set[PatchRequestType]] = {
         'application/apply-patch+cbor',

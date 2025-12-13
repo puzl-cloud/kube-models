@@ -41,7 +41,6 @@ class RuntimeClass(K8sResource):
     apiVersion: ClassVar[str] = 'node.k8s.io/v1alpha1'
     kind: ClassVar[str] = 'RuntimeClass'
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
-    api_path_: ClassVar[str] = 'apis/node.k8s.io/v1alpha1/runtimeclasses'
     plural_: ClassVar[str] = 'runtimeclasses'
     is_namespaced_: ClassVar[bool] = False
     group_: ClassVar[Optional[str]] = 'node.k8s.io'

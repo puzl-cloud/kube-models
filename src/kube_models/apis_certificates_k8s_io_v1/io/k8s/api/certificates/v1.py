@@ -50,7 +50,6 @@ class CertificateSigningRequest(K8sResource):
     kind: ClassVar[str] = 'CertificateSigningRequest'
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
     status: CertificateSigningRequestStatus | None = None
-    api_path_: ClassVar[str] = 'apis/certificates.k8s.io/v1/certificatesigningrequests'
     plural_: ClassVar[str] = 'certificatesigningrequests'
     is_namespaced_: ClassVar[bool] = False
     group_: ClassVar[Optional[str]] = 'certificates.k8s.io'

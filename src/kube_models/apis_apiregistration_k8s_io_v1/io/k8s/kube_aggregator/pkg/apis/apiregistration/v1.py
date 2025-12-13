@@ -60,7 +60,6 @@ class APIService(K8sResource):
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
     spec: APIServiceSpec | None = None
     status: APIServiceStatus | None = None
-    api_path_: ClassVar[str] = 'apis/apiregistration.k8s.io/v1/apiservices'
     plural_: ClassVar[str] = 'apiservices'
     is_namespaced_: ClassVar[bool] = False
     group_: ClassVar[Optional[str]] = 'apiregistration.k8s.io'

@@ -54,7 +54,6 @@ class DeviceTaintRule(K8sResource):
     apiVersion: ClassVar[str] = 'resource.k8s.io/v1alpha3'
     kind: ClassVar[str] = 'DeviceTaintRule'
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
-    api_path_: ClassVar[str] = 'apis/resource.k8s.io/v1alpha3/devicetaintrules'
     plural_: ClassVar[str] = 'devicetaintrules'
     is_namespaced_: ClassVar[bool] = False
     group_: ClassVar[Optional[str]] = 'resource.k8s.io'

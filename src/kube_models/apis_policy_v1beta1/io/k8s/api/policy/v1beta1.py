@@ -145,7 +145,6 @@ class PodSecurityPolicy(K8sResource):
     kind: ClassVar[str] = 'PodSecurityPolicy'
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
     spec: PodSecurityPolicySpec | None = None
-    api_path_: ClassVar[str] = 'apis/policy/v1beta1/podsecuritypolicies'
     plural_: ClassVar[str] = 'podsecuritypolicies'
     is_namespaced_: ClassVar[bool] = False
     group_: ClassVar[Optional[str]] = 'policy'
@@ -172,11 +171,8 @@ class PodDisruptionBudget(K8sResource):
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
     spec: PodDisruptionBudgetSpec | None = None
     status: PodDisruptionBudgetStatus | None = None
-    api_path_: ClassVar[str] = (
-        'apis/policy/v1beta1/namespaces/{namespace}/poddisruptionbudgets'
-    )
     plural_: ClassVar[str] = 'poddisruptionbudgets'
-    is_namespaced_: ClassVar[bool] = False
+    is_namespaced_: ClassVar[bool] = True
     group_: ClassVar[Optional[str]] = 'policy'
     patch_strategies_: ClassVar[set[PatchRequestType]] = {
         'application/apply-patch+yaml',

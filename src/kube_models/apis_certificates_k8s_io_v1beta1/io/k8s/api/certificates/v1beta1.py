@@ -27,7 +27,6 @@ class ClusterTrustBundle(K8sResource):
     apiVersion: ClassVar[str] = 'certificates.k8s.io/v1beta1'
     kind: ClassVar[str] = 'ClusterTrustBundle'
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
-    api_path_: ClassVar[str] = 'apis/certificates.k8s.io/v1beta1/clustertrustbundles'
     plural_: ClassVar[str] = 'clustertrustbundles'
     is_namespaced_: ClassVar[bool] = False
     group_: ClassVar[Optional[str]] = 'certificates.k8s.io'

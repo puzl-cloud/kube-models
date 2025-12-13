@@ -27,7 +27,6 @@ class SelfSubjectReview(K8sResource):
     kind: ClassVar[str] = 'SelfSubjectReview'
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
     status: SelfSubjectReviewStatus | None = None
-    api_path_: ClassVar[str] = 'apis/authentication.k8s.io/v1alpha1/selfsubjectreviews'
     plural_: ClassVar[str] = 'selfsubjectreviews'
     is_namespaced_: ClassVar[bool] = False
     group_: ClassVar[Optional[str]] = 'authentication.k8s.io'

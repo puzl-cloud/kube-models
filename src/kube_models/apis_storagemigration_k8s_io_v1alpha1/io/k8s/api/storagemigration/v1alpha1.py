@@ -56,9 +56,6 @@ class StorageVersionMigration(K8sResource):
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
     spec: StorageVersionMigrationSpec | None = None
     status: StorageVersionMigrationStatus | None = None
-    api_path_: ClassVar[str] = (
-        'apis/storagemigration.k8s.io/v1alpha1/storageversionmigrations'
-    )
     plural_: ClassVar[str] = 'storageversionmigrations'
     is_namespaced_: ClassVar[bool] = False
     group_: ClassVar[Optional[str]] = 'storagemigration.k8s.io'

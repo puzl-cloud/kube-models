@@ -31,11 +31,8 @@ class LeaseCandidate(K8sResource):
     kind: ClassVar[str] = 'LeaseCandidate'
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
     spec: LeaseCandidateSpec | None = None
-    api_path_: ClassVar[str] = (
-        'apis/coordination.k8s.io/v1alpha1/namespaces/{namespace}/leasecandidates'
-    )
     plural_: ClassVar[str] = 'leasecandidates'
-    is_namespaced_: ClassVar[bool] = False
+    is_namespaced_: ClassVar[bool] = True
     group_: ClassVar[Optional[str]] = 'coordination.k8s.io'
     patch_strategies_: ClassVar[set[PatchRequestType]] = {
         'application/apply-patch+yaml',

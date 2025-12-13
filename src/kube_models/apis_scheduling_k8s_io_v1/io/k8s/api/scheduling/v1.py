@@ -24,7 +24,6 @@ class PriorityClass(K8sResource):
     kind: ClassVar[str] = 'PriorityClass'
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
     preemptionPolicy: str | None = None
-    api_path_: ClassVar[str] = 'apis/scheduling.k8s.io/v1/priorityclasses'
     plural_: ClassVar[str] = 'priorityclasses'
     is_namespaced_: ClassVar[bool] = False
     group_: ClassVar[Optional[str]] = 'scheduling.k8s.io'

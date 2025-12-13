@@ -56,11 +56,8 @@ class PodDisruptionBudget(K8sResource):
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
     spec: PodDisruptionBudgetSpec | None = None
     status: PodDisruptionBudgetStatus | None = None
-    api_path_: ClassVar[str] = (
-        'apis/policy/v1/namespaces/{namespace}/poddisruptionbudgets'
-    )
     plural_: ClassVar[str] = 'poddisruptionbudgets'
-    is_namespaced_: ClassVar[bool] = False
+    is_namespaced_: ClassVar[bool] = True
     group_: ClassVar[Optional[str]] = 'policy'
     patch_strategies_: ClassVar[set[PatchRequestType]] = {
         'application/apply-patch+cbor',

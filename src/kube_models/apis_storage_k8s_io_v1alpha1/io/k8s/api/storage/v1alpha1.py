@@ -22,7 +22,6 @@ class VolumeAttributesClass(K8sResource):
     kind: ClassVar[str] = 'VolumeAttributesClass'
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
     parameters: Dict[str, str] | None = None
-    api_path_: ClassVar[str] = 'apis/storage.k8s.io/v1alpha1/volumeattributesclasses'
     plural_: ClassVar[str] = 'volumeattributesclasses'
     is_namespaced_: ClassVar[bool] = False
     group_: ClassVar[Optional[str]] = 'storage.k8s.io'

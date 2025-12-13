@@ -51,7 +51,6 @@ class ClusterRole(K8sResource):
     kind: ClassVar[str] = 'ClusterRole'
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
     rules: List[PolicyRule] | None = None
-    api_path_: ClassVar[str] = 'apis/rbac.authorization.k8s.io/v1/clusterroles'
     plural_: ClassVar[str] = 'clusterroles'
     is_namespaced_: ClassVar[bool] = False
     group_: ClassVar[Optional[str]] = 'rbac.authorization.k8s.io'
@@ -71,7 +70,6 @@ class ClusterRoleBinding(K8sResource):
     kind: ClassVar[str] = 'ClusterRoleBinding'
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
     subjects: List[Subject] | None = None
-    api_path_: ClassVar[str] = 'apis/rbac.authorization.k8s.io/v1/clusterrolebindings'
     plural_: ClassVar[str] = 'clusterrolebindings'
     is_namespaced_: ClassVar[bool] = False
     group_: ClassVar[Optional[str]] = 'rbac.authorization.k8s.io'
@@ -106,11 +104,8 @@ class Role(K8sResource):
     kind: ClassVar[str] = 'Role'
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
     rules: List[PolicyRule] | None = None
-    api_path_: ClassVar[str] = (
-        'apis/rbac.authorization.k8s.io/v1/namespaces/{namespace}/roles'
-    )
     plural_: ClassVar[str] = 'roles'
-    is_namespaced_: ClassVar[bool] = False
+    is_namespaced_: ClassVar[bool] = True
     group_: ClassVar[Optional[str]] = 'rbac.authorization.k8s.io'
     patch_strategies_: ClassVar[set[PatchRequestType]] = {
         'application/apply-patch+cbor',
@@ -128,11 +123,8 @@ class RoleBinding(K8sResource):
     kind: ClassVar[str] = 'RoleBinding'
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
     subjects: List[Subject] | None = None
-    api_path_: ClassVar[str] = (
-        'apis/rbac.authorization.k8s.io/v1/namespaces/{namespace}/rolebindings'
-    )
     plural_: ClassVar[str] = 'rolebindings'
-    is_namespaced_: ClassVar[bool] = False
+    is_namespaced_: ClassVar[bool] = True
     group_: ClassVar[Optional[str]] = 'rbac.authorization.k8s.io'
     patch_strategies_: ClassVar[set[PatchRequestType]] = {
         'application/apply-patch+cbor',

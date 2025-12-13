@@ -251,7 +251,6 @@ class DeviceClass(K8sResource):
     apiVersion: ClassVar[str] = 'resource.k8s.io/v1beta2'
     kind: ClassVar[str] = 'DeviceClass'
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
-    api_path_: ClassVar[str] = 'apis/resource.k8s.io/v1beta2/deviceclasses'
     plural_: ClassVar[str] = 'deviceclasses'
     is_namespaced_: ClassVar[bool] = False
     group_: ClassVar[Optional[str]] = 'resource.k8s.io'
@@ -315,11 +314,8 @@ class ResourceClaim(K8sResource):
     kind: ClassVar[str] = 'ResourceClaim'
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
     status: ResourceClaimStatus | None = None
-    api_path_: ClassVar[str] = (
-        'apis/resource.k8s.io/v1beta2/namespaces/{namespace}/resourceclaims'
-    )
     plural_: ClassVar[str] = 'resourceclaims'
-    is_namespaced_: ClassVar[bool] = False
+    is_namespaced_: ClassVar[bool] = True
     group_: ClassVar[Optional[str]] = 'resource.k8s.io'
     patch_strategies_: ClassVar[set[PatchRequestType]] = {
         'application/apply-patch+cbor',
@@ -344,11 +340,8 @@ class ResourceClaimTemplate(K8sResource):
     apiVersion: ClassVar[str] = 'resource.k8s.io/v1beta2'
     kind: ClassVar[str] = 'ResourceClaimTemplate'
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
-    api_path_: ClassVar[str] = (
-        'apis/resource.k8s.io/v1beta2/namespaces/{namespace}/resourceclaimtemplates'
-    )
     plural_: ClassVar[str] = 'resourceclaimtemplates'
-    is_namespaced_: ClassVar[bool] = False
+    is_namespaced_: ClassVar[bool] = True
     group_: ClassVar[Optional[str]] = 'resource.k8s.io'
     patch_strategies_: ClassVar[set[PatchRequestType]] = {
         'application/apply-patch+cbor',
@@ -373,7 +366,6 @@ class ResourceSlice(K8sResource):
     apiVersion: ClassVar[str] = 'resource.k8s.io/v1beta2'
     kind: ClassVar[str] = 'ResourceSlice'
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
-    api_path_: ClassVar[str] = 'apis/resource.k8s.io/v1beta2/resourceslices'
     plural_: ClassVar[str] = 'resourceslices'
     is_namespaced_: ClassVar[bool] = False
     group_: ClassVar[Optional[str]] = 'resource.k8s.io'

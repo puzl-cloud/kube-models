@@ -72,7 +72,6 @@ class CSIDriver(K8sResource):
     apiVersion: ClassVar[str] = 'storage.k8s.io/v1'
     kind: ClassVar[str] = 'CSIDriver'
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
-    api_path_: ClassVar[str] = 'apis/storage.k8s.io/v1/csidrivers'
     plural_: ClassVar[str] = 'csidrivers'
     is_namespaced_: ClassVar[bool] = False
     group_: ClassVar[Optional[str]] = 'storage.k8s.io'
@@ -99,7 +98,6 @@ class CSINode(K8sResource):
     apiVersion: ClassVar[str] = 'storage.k8s.io/v1'
     kind: ClassVar[str] = 'CSINode'
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
-    api_path_: ClassVar[str] = 'apis/storage.k8s.io/v1/csinodes'
     plural_: ClassVar[str] = 'csinodes'
     is_namespaced_: ClassVar[bool] = False
     group_: ClassVar[Optional[str]] = 'storage.k8s.io'
@@ -129,11 +127,8 @@ class CSIStorageCapacity(K8sResource):
     maximumVolumeSize: Quantity | None = None
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
     nodeTopology: LabelSelector | None = None
-    api_path_: ClassVar[str] = (
-        'apis/storage.k8s.io/v1/namespaces/{namespace}/csistoragecapacities'
-    )
     plural_: ClassVar[str] = 'csistoragecapacities'
-    is_namespaced_: ClassVar[bool] = False
+    is_namespaced_: ClassVar[bool] = True
     group_: ClassVar[Optional[str]] = 'storage.k8s.io'
     patch_strategies_: ClassVar[set[PatchRequestType]] = {
         'application/apply-patch+cbor',
@@ -164,7 +159,6 @@ class StorageClass(K8sResource):
     parameters: Dict[str, str] | None = None
     reclaimPolicy: str | None = None
     volumeBindingMode: str | None = None
-    api_path_: ClassVar[str] = 'apis/storage.k8s.io/v1/storageclasses'
     plural_: ClassVar[str] = 'storageclasses'
     is_namespaced_: ClassVar[bool] = False
     group_: ClassVar[Optional[str]] = 'storage.k8s.io'
@@ -213,7 +207,6 @@ class VolumeAttributesClass(K8sResource):
     kind: ClassVar[str] = 'VolumeAttributesClass'
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
     parameters: Dict[str, str] | None = None
-    api_path_: ClassVar[str] = 'apis/storage.k8s.io/v1/volumeattributesclasses'
     plural_: ClassVar[str] = 'volumeattributesclasses'
     is_namespaced_: ClassVar[bool] = False
     group_: ClassVar[Optional[str]] = 'storage.k8s.io'
@@ -241,7 +234,6 @@ class VolumeAttachment(K8sResource):
     kind: ClassVar[str] = 'VolumeAttachment'
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
     status: VolumeAttachmentStatus | None = None
-    api_path_: ClassVar[str] = 'apis/storage.k8s.io/v1/volumeattachments'
     plural_: ClassVar[str] = 'volumeattachments'
     is_namespaced_: ClassVar[bool] = False
     group_: ClassVar[Optional[str]] = 'storage.k8s.io'

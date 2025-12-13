@@ -1217,7 +1217,6 @@ class Binding(K8sResource):
     apiVersion: ClassVar[str] = 'v1'
     kind: ClassVar[str] = 'Binding'
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
-    api_path_: ClassVar[str] = 'api/v1/namespaces/{namespace}/pods/{name}/binding'
     plural_: ClassVar[str] = 'binding'
     is_namespaced_: ClassVar[bool] = True
     group_: ClassVar[Optional[str]] = None
@@ -1262,7 +1261,6 @@ class ConfigMap(K8sResource):
     immutable: bool | None = None
     kind: ClassVar[str] = 'ConfigMap'
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
-    api_path_: ClassVar[str] = 'api/v1/namespaces/{namespace}/configmaps'
     plural_: ClassVar[str] = 'configmaps'
     is_namespaced_: ClassVar[bool] = True
     group_: ClassVar[Optional[str]] = None
@@ -1341,7 +1339,6 @@ class Endpoints(K8sResource):
     kind: ClassVar[str] = 'Endpoints'
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
     subsets: List[EndpointSubset] | None = None
-    api_path_: ClassVar[str] = 'api/v1/namespaces/{namespace}/endpoints'
     plural_: ClassVar[str] = 'endpoints'
     is_namespaced_: ClassVar[bool] = True
     group_: ClassVar[Optional[str]] = None
@@ -1390,7 +1387,6 @@ class Event(K8sResource):
     series: EventSeries | None = None
     source: EventSource | None = None
     type: str | None = None
-    api_path_: ClassVar[str] = 'api/v1/namespaces/{namespace}/events'
     plural_: ClassVar[str] = 'events'
     is_namespaced_: ClassVar[bool] = True
     group_: ClassVar[Optional[str]] = None
@@ -1425,7 +1421,6 @@ class LimitRange(K8sResource):
     kind: ClassVar[str] = 'LimitRange'
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
     spec: LimitRangeSpec | None = None
-    api_path_: ClassVar[str] = 'api/v1/namespaces/{namespace}/limitranges'
     plural_: ClassVar[str] = 'limitranges'
     is_namespaced_: ClassVar[bool] = True
     group_: ClassVar[Optional[str]] = None
@@ -1453,7 +1448,6 @@ class Namespace(K8sResource):
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
     spec: NamespaceSpec | None = None
     status: NamespaceStatus | None = None
-    api_path_: ClassVar[str] = 'api/v1/namespaces'
     plural_: ClassVar[str] = 'namespaces'
     is_namespaced_: ClassVar[bool] = False
     group_: ClassVar[Optional[str]] = None
@@ -1635,7 +1629,6 @@ class Secret(K8sResource):
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
     stringData: Dict[str, str] | None = None
     type: str | None = None
-    api_path_: ClassVar[str] = 'api/v1/namespaces/{namespace}/secrets'
     plural_: ClassVar[str] = 'secrets'
     is_namespaced_: ClassVar[bool] = True
     group_: ClassVar[Optional[str]] = None
@@ -1670,7 +1663,6 @@ class ServiceAccount(K8sResource):
             'x-kubernetes-patch-merge-key': 'name',
         },
     )
-    api_path_: ClassVar[str] = 'api/v1/namespaces/{namespace}/serviceaccounts'
     plural_: ClassVar[str] = 'serviceaccounts'
     is_namespaced_: ClassVar[bool] = True
     group_: ClassVar[Optional[str]] = None
@@ -1752,7 +1744,6 @@ class Node(K8sResource):
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
     spec: NodeSpec | None = None
     status: NodeStatus | None = None
-    api_path_: ClassVar[str] = 'api/v1/nodes'
     plural_: ClassVar[str] = 'nodes'
     is_namespaced_: ClassVar[bool] = False
     group_: ClassVar[Optional[str]] = None
@@ -1780,7 +1771,6 @@ class PersistentVolume(K8sResource):
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
     spec: PersistentVolumeSpec | None = None
     status: PersistentVolumeStatus | None = None
-    api_path_: ClassVar[str] = 'api/v1/persistentvolumes'
     plural_: ClassVar[str] = 'persistentvolumes'
     is_namespaced_: ClassVar[bool] = False
     group_: ClassVar[Optional[str]] = None
@@ -1800,7 +1790,6 @@ class PersistentVolumeClaim(K8sResource):
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
     spec: PersistentVolumeClaimSpec | None = None
     status: PersistentVolumeClaimStatus | None = None
-    api_path_: ClassVar[str] = 'api/v1/namespaces/{namespace}/persistentvolumeclaims'
     plural_: ClassVar[str] = 'persistentvolumeclaims'
     is_namespaced_: ClassVar[bool] = True
     group_: ClassVar[Optional[str]] = None
@@ -1852,7 +1841,6 @@ class ResourceQuota(K8sResource):
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
     spec: ResourceQuotaSpec | None = None
     status: ResourceQuotaStatus | None = None
-    api_path_: ClassVar[str] = 'api/v1/namespaces/{namespace}/resourcequotas'
     plural_: ClassVar[str] = 'resourcequotas'
     is_namespaced_: ClassVar[bool] = True
     group_: ClassVar[Optional[str]] = None
@@ -1880,7 +1868,6 @@ class Service(K8sResource):
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
     spec: ServiceSpec | None = None
     status: ServiceStatus | None = None
-    api_path_: ClassVar[str] = 'api/v1/namespaces/{namespace}/services'
     plural_: ClassVar[str] = 'services'
     is_namespaced_: ClassVar[bool] = True
     group_: ClassVar[Optional[str]] = None
@@ -2185,7 +2172,6 @@ class Pod(K8sResource):
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
     spec: PodSpec | None = None
     status: PodStatus | None = None
-    api_path_: ClassVar[str] = 'api/v1/namespaces/{namespace}/pods'
     plural_: ClassVar[str] = 'pods'
     is_namespaced_: ClassVar[bool] = True
     group_: ClassVar[Optional[str]] = None
@@ -2212,7 +2198,6 @@ class PodTemplate(K8sResource):
     kind: ClassVar[str] = 'PodTemplate'
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
     template: PodTemplateSpec | None = None
-    api_path_: ClassVar[str] = 'api/v1/namespaces/{namespace}/podtemplates'
     plural_: ClassVar[str] = 'podtemplates'
     is_namespaced_: ClassVar[bool] = True
     group_: ClassVar[Optional[str]] = None
@@ -2240,7 +2225,6 @@ class ReplicationController(K8sResource):
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
     spec: ReplicationControllerSpec | None = None
     status: ReplicationControllerStatus | None = None
-    api_path_: ClassVar[str] = 'api/v1/namespaces/{namespace}/replicationcontrollers'
     plural_: ClassVar[str] = 'replicationcontrollers'
     is_namespaced_: ClassVar[bool] = True
     group_: ClassVar[Optional[str]] = None

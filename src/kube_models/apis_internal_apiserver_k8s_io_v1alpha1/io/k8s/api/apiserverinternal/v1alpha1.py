@@ -52,7 +52,6 @@ class StorageVersion(K8sResource):
     apiVersion: ClassVar[str] = 'internal.apiserver.k8s.io/v1alpha1'
     kind: ClassVar[str] = 'StorageVersion'
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
-    api_path_: ClassVar[str] = 'apis/internal.apiserver.k8s.io/v1alpha1/storageversions'
     plural_: ClassVar[str] = 'storageversions'
     is_namespaced_: ClassVar[bool] = False
     group_: ClassVar[Optional[str]] = 'internal.apiserver.k8s.io'

@@ -41,7 +41,6 @@ class ClusterTrustBundle(K8sResource):
     apiVersion: ClassVar[str] = 'certificates.k8s.io/v1alpha1'
     kind: ClassVar[str] = 'ClusterTrustBundle'
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
-    api_path_: ClassVar[str] = 'apis/certificates.k8s.io/v1alpha1/clustertrustbundles'
     plural_: ClassVar[str] = 'clustertrustbundles'
     is_namespaced_: ClassVar[bool] = False
     group_: ClassVar[Optional[str]] = 'certificates.k8s.io'
@@ -84,11 +83,8 @@ class PodCertificateRequest(K8sResource):
     kind: ClassVar[str] = 'PodCertificateRequest'
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
     status: PodCertificateRequestStatus | None = None
-    api_path_: ClassVar[str] = (
-        'apis/certificates.k8s.io/v1alpha1/namespaces/{namespace}/podcertificaterequests'
-    )
     plural_: ClassVar[str] = 'podcertificaterequests'
-    is_namespaced_: ClassVar[bool] = False
+    is_namespaced_: ClassVar[bool] = True
     group_: ClassVar[Optional[str]] = 'certificates.k8s.io'
     patch_strategies_: ClassVar[set[PatchRequestType]] = {
         'application/apply-patch+cbor',

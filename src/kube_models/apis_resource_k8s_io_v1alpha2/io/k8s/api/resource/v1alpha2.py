@@ -159,11 +159,8 @@ class PodSchedulingContext(K8sResource):
     kind: ClassVar[str] = 'PodSchedulingContext'
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
     status: PodSchedulingContextStatus | None = None
-    api_path_: ClassVar[str] = (
-        'apis/resource.k8s.io/v1alpha2/namespaces/{namespace}/podschedulingcontexts'
-    )
     plural_: ClassVar[str] = 'podschedulingcontexts'
-    is_namespaced_: ClassVar[bool] = False
+    is_namespaced_: ClassVar[bool] = True
     group_: ClassVar[Optional[str]] = 'resource.k8s.io'
     patch_strategies_: ClassVar[set[PatchRequestType]] = {
         'application/apply-patch+yaml',
@@ -189,11 +186,8 @@ class ResourceClaimParameters(K8sResource):
     kind: ClassVar[str] = 'ResourceClaimParameters'
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
     shareable: bool | None = None
-    api_path_: ClassVar[str] = (
-        'apis/resource.k8s.io/v1alpha2/namespaces/{namespace}/resourceclaimparameters'
-    )
     plural_: ClassVar[str] = 'resourceclaimparameters'
-    is_namespaced_: ClassVar[bool] = False
+    is_namespaced_: ClassVar[bool] = True
     group_: ClassVar[Optional[str]] = 'resource.k8s.io'
     patch_strategies_: ClassVar[set[PatchRequestType]] = {
         'application/apply-patch+yaml',
@@ -226,7 +220,6 @@ class ResourceClass(K8sResource):
     parametersRef: ResourceClassParametersReference | None = None
     structuredParameters: bool | None = None
     suitableNodes: NodeSelector | None = None
-    api_path_: ClassVar[str] = 'apis/resource.k8s.io/v1alpha2/resourceclasses'
     plural_: ClassVar[str] = 'resourceclasses'
     is_namespaced_: ClassVar[bool] = False
     group_: ClassVar[Optional[str]] = 'resource.k8s.io'
@@ -254,11 +247,8 @@ class ResourceClassParameters(K8sResource):
     kind: ClassVar[str] = 'ResourceClassParameters'
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
     vendorParameters: List[VendorParameters] | None = None
-    api_path_: ClassVar[str] = (
-        'apis/resource.k8s.io/v1alpha2/namespaces/{namespace}/resourceclassparameters'
-    )
     plural_: ClassVar[str] = 'resourceclassparameters'
-    is_namespaced_: ClassVar[bool] = False
+    is_namespaced_: ClassVar[bool] = True
     group_: ClassVar[Optional[str]] = 'resource.k8s.io'
     patch_strategies_: ClassVar[set[PatchRequestType]] = {
         'application/apply-patch+yaml',
@@ -291,7 +281,6 @@ class ResourceSlice(K8sResource):
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
     namedResources: NamedResourcesResources | None = None
     nodeName: str | None = None
-    api_path_: ClassVar[str] = 'apis/resource.k8s.io/v1alpha2/resourceslices'
     plural_: ClassVar[str] = 'resourceslices'
     is_namespaced_: ClassVar[bool] = False
     group_: ClassVar[Optional[str]] = 'resource.k8s.io'
@@ -338,11 +327,8 @@ class ResourceClaimTemplate(K8sResource):
     apiVersion: ClassVar[str] = 'resource.k8s.io/v1alpha2'
     kind: ClassVar[str] = 'ResourceClaimTemplate'
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
-    api_path_: ClassVar[str] = (
-        'apis/resource.k8s.io/v1alpha2/namespaces/{namespace}/resourceclaimtemplates'
-    )
     plural_: ClassVar[str] = 'resourceclaimtemplates'
-    is_namespaced_: ClassVar[bool] = False
+    is_namespaced_: ClassVar[bool] = True
     group_: ClassVar[Optional[str]] = 'resource.k8s.io'
     patch_strategies_: ClassVar[set[PatchRequestType]] = {
         'application/apply-patch+yaml',
@@ -367,11 +353,8 @@ class ResourceClaim(K8sResource):
     kind: ClassVar[str] = 'ResourceClaim'
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
     status: ResourceClaimStatus | None = None
-    api_path_: ClassVar[str] = (
-        'apis/resource.k8s.io/v1alpha2/namespaces/{namespace}/resourceclaims'
-    )
     plural_: ClassVar[str] = 'resourceclaims'
-    is_namespaced_: ClassVar[bool] = False
+    is_namespaced_: ClassVar[bool] = True
     group_: ClassVar[Optional[str]] = 'resource.k8s.io'
     patch_strategies_: ClassVar[set[PatchRequestType]] = {
         'application/apply-patch+yaml',

@@ -108,11 +108,8 @@ class LocalSubjectAccessReview(K8sResource):
     kind: ClassVar[str] = 'LocalSubjectAccessReview'
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
     status: SubjectAccessReviewStatus | None = None
-    api_path_: ClassVar[str] = (
-        'apis/authorization.k8s.io/v1/namespaces/{namespace}/localsubjectaccessreviews'
-    )
     plural_: ClassVar[str] = 'localsubjectaccessreviews'
-    is_namespaced_: ClassVar[bool] = False
+    is_namespaced_: ClassVar[bool] = True
     group_: ClassVar[Optional[str]] = 'authorization.k8s.io'
 
 
@@ -123,7 +120,6 @@ class SelfSubjectAccessReview(K8sResource):
     kind: ClassVar[str] = 'SelfSubjectAccessReview'
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
     status: SubjectAccessReviewStatus | None = None
-    api_path_: ClassVar[str] = 'apis/authorization.k8s.io/v1/selfsubjectaccessreviews'
     plural_: ClassVar[str] = 'selfsubjectaccessreviews'
     is_namespaced_: ClassVar[bool] = False
     group_: ClassVar[Optional[str]] = 'authorization.k8s.io'
@@ -136,7 +132,6 @@ class SelfSubjectRulesReview(K8sResource):
     kind: ClassVar[str] = 'SelfSubjectRulesReview'
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
     status: SubjectRulesReviewStatus | None = None
-    api_path_: ClassVar[str] = 'apis/authorization.k8s.io/v1/selfsubjectrulesreviews'
     plural_: ClassVar[str] = 'selfsubjectrulesreviews'
     is_namespaced_: ClassVar[bool] = False
     group_: ClassVar[Optional[str]] = 'authorization.k8s.io'
@@ -149,7 +144,6 @@ class SubjectAccessReview(K8sResource):
     kind: ClassVar[str] = 'SubjectAccessReview'
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
     status: SubjectAccessReviewStatus | None = None
-    api_path_: ClassVar[str] = 'apis/authorization.k8s.io/v1/subjectaccessreviews'
     plural_: ClassVar[str] = 'subjectaccessreviews'
     is_namespaced_: ClassVar[bool] = False
     group_: ClassVar[Optional[str]] = 'authorization.k8s.io'

@@ -21,7 +21,6 @@ class Eviction(K8sResource):
     deleteOptions: DeleteOptions | None = None
     kind: ClassVar[str] = 'Eviction'
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
-    api_path_: ClassVar[str] = 'api/v1/namespaces/{namespace}/pods/{name}/eviction'
     plural_: ClassVar[str] = 'eviction'
     is_namespaced_: ClassVar[bool] = True
     group_: ClassVar[Optional[str]] = 'policy'

@@ -140,9 +140,6 @@ class MutatingWebhookConfiguration(K8sResource):
             'x-kubernetes-patch-merge-key': 'name',
         },
     )
-    api_path_: ClassVar[str] = (
-        'apis/admissionregistration.k8s.io/v1/mutatingwebhookconfigurations'
-    )
     plural_: ClassVar[str] = 'mutatingwebhookconfigurations'
     is_namespaced_: ClassVar[bool] = False
     group_: ClassVar[Optional[str]] = 'admissionregistration.k8s.io'
@@ -242,9 +239,6 @@ class ValidatingWebhookConfiguration(K8sResource):
             'x-kubernetes-patch-merge-key': 'name',
         },
     )
-    api_path_: ClassVar[str] = (
-        'apis/admissionregistration.k8s.io/v1/validatingwebhookconfigurations'
-    )
     plural_: ClassVar[str] = 'validatingwebhookconfigurations'
     is_namespaced_: ClassVar[bool] = False
     group_: ClassVar[Optional[str]] = 'admissionregistration.k8s.io'
@@ -272,9 +266,6 @@ class ValidatingAdmissionPolicy(K8sResource):
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
     spec: ValidatingAdmissionPolicySpec | None = None
     status: ValidatingAdmissionPolicyStatus | None = None
-    api_path_: ClassVar[str] = (
-        'apis/admissionregistration.k8s.io/v1/validatingadmissionpolicies'
-    )
     plural_: ClassVar[str] = 'validatingadmissionpolicies'
     is_namespaced_: ClassVar[bool] = False
     group_: ClassVar[Optional[str]] = 'admissionregistration.k8s.io'
@@ -293,9 +284,6 @@ class ValidatingAdmissionPolicyBinding(K8sResource):
     kind: ClassVar[str] = 'ValidatingAdmissionPolicyBinding'
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
     spec: ValidatingAdmissionPolicyBindingSpec | None = None
-    api_path_: ClassVar[str] = (
-        'apis/admissionregistration.k8s.io/v1/validatingadmissionpolicybindings'
-    )
     plural_: ClassVar[str] = 'validatingadmissionpolicybindings'
     is_namespaced_: ClassVar[bool] = False
     group_: ClassVar[Optional[str]] = 'admissionregistration.k8s.io'

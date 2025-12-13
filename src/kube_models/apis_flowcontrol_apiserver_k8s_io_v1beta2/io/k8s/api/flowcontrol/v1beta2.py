@@ -140,9 +140,6 @@ class PriorityLevelConfiguration(K8sResource):
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
     spec: PriorityLevelConfigurationSpec | None = None
     status: PriorityLevelConfigurationStatus | None = None
-    api_path_: ClassVar[str] = (
-        'apis/flowcontrol.apiserver.k8s.io/v1beta2/prioritylevelconfigurations'
-    )
     plural_: ClassVar[str] = 'prioritylevelconfigurations'
     is_namespaced_: ClassVar[bool] = False
     group_: ClassVar[Optional[str]] = 'flowcontrol.apiserver.k8s.io'
@@ -177,7 +174,6 @@ class FlowSchema(K8sResource):
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
     spec: FlowSchemaSpec | None = None
     status: FlowSchemaStatus | None = None
-    api_path_: ClassVar[str] = 'apis/flowcontrol.apiserver.k8s.io/v1beta2/flowschemas'
     plural_: ClassVar[str] = 'flowschemas'
     is_namespaced_: ClassVar[bool] = False
     group_: ClassVar[Optional[str]] = 'flowcontrol.apiserver.k8s.io'

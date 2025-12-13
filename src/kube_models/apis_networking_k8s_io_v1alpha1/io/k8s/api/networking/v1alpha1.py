@@ -39,7 +39,6 @@ class IPAddress(K8sResource):
     kind: ClassVar[str] = 'IPAddress'
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
     spec: IPAddressSpec | None = None
-    api_path_: ClassVar[str] = 'apis/networking.k8s.io/v1alpha1/ipaddresses'
     plural_: ClassVar[str] = 'ipaddresses'
     is_namespaced_: ClassVar[bool] = False
     group_: ClassVar[Optional[str]] = 'networking.k8s.io'
@@ -77,7 +76,6 @@ class ServiceCIDR(K8sResource):
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
     spec: ServiceCIDRSpec | None = None
     status: ServiceCIDRStatus | None = None
-    api_path_: ClassVar[str] = 'apis/networking.k8s.io/v1alpha1/servicecidrs'
     plural_: ClassVar[str] = 'servicecidrs'
     is_namespaced_: ClassVar[bool] = False
     group_: ClassVar[Optional[str]] = 'networking.k8s.io'

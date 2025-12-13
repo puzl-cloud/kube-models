@@ -43,9 +43,6 @@ class TokenRequest(K8sResource):
     kind: ClassVar[str] = 'TokenRequest'
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
     status: TokenRequestStatus | None = None
-    api_path_: ClassVar[str] = (
-        'api/v1/namespaces/{namespace}/serviceaccounts/{name}/token'
-    )
     plural_: ClassVar[str] = 'token'
     is_namespaced_: ClassVar[bool] = True
     group_: ClassVar[Optional[str]] = 'authentication.k8s.io'

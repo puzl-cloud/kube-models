@@ -141,9 +141,8 @@ class Job(K8sResource):
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
     spec: JobSpec | None = None
     status: JobStatus | None = None
-    api_path_: ClassVar[str] = 'apis/batch/v1/namespaces/{namespace}/jobs'
     plural_: ClassVar[str] = 'jobs'
-    is_namespaced_: ClassVar[bool] = False
+    is_namespaced_: ClassVar[bool] = True
     group_: ClassVar[Optional[str]] = 'batch'
     patch_strategies_: ClassVar[set[PatchRequestType]] = {
         'application/apply-patch+cbor',
@@ -169,9 +168,8 @@ class CronJob(K8sResource):
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
     spec: CronJobSpec | None = None
     status: CronJobStatus | None = None
-    api_path_: ClassVar[str] = 'apis/batch/v1/namespaces/{namespace}/cronjobs'
     plural_: ClassVar[str] = 'cronjobs'
-    is_namespaced_: ClassVar[bool] = False
+    is_namespaced_: ClassVar[bool] = True
     group_: ClassVar[Optional[str]] = 'batch'
     patch_strategies_: ClassVar[set[PatchRequestType]] = {
         'application/apply-patch+cbor',

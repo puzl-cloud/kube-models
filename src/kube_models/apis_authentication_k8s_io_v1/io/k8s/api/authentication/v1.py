@@ -48,7 +48,6 @@ class SelfSubjectReview(K8sResource):
     kind: ClassVar[str] = 'SelfSubjectReview'
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
     status: SelfSubjectReviewStatus | None = None
-    api_path_: ClassVar[str] = 'apis/authentication.k8s.io/v1/selfsubjectreviews'
     plural_: ClassVar[str] = 'selfsubjectreviews'
     is_namespaced_: ClassVar[bool] = False
     group_: ClassVar[Optional[str]] = 'authentication.k8s.io'
@@ -61,7 +60,6 @@ class TokenReview(K8sResource):
     kind: ClassVar[str] = 'TokenReview'
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
     status: TokenReviewStatus | None = None
-    api_path_: ClassVar[str] = 'apis/authentication.k8s.io/v1/tokenreviews'
     plural_: ClassVar[str] = 'tokenreviews'
     is_namespaced_: ClassVar[bool] = False
     group_: ClassVar[Optional[str]] = 'authentication.k8s.io'

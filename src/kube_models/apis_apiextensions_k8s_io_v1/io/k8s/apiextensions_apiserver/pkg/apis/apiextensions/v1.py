@@ -212,7 +212,6 @@ class CustomResourceDefinition(K8sResource):
     kind: ClassVar[str] = 'CustomResourceDefinition'
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
     status: CustomResourceDefinitionStatus | None = None
-    api_path_: ClassVar[str] = 'apis/apiextensions.k8s.io/v1/customresourcedefinitions'
     plural_: ClassVar[str] = 'customresourcedefinitions'
     is_namespaced_: ClassVar[bool] = False
     group_: ClassVar[Optional[str]] = 'apiextensions.k8s.io'

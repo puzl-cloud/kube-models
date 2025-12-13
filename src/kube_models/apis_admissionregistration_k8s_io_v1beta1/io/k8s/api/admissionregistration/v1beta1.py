@@ -100,9 +100,6 @@ class MutatingAdmissionPolicy(K8sResource):
     kind: ClassVar[str] = 'MutatingAdmissionPolicy'
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
     spec: MutatingAdmissionPolicySpec | None = None
-    api_path_: ClassVar[str] = (
-        'apis/admissionregistration.k8s.io/v1beta1/mutatingadmissionpolicies'
-    )
     plural_: ClassVar[str] = 'mutatingadmissionpolicies'
     is_namespaced_: ClassVar[bool] = False
     group_: ClassVar[Optional[str]] = 'admissionregistration.k8s.io'
@@ -136,9 +133,6 @@ class MutatingAdmissionPolicyBinding(K8sResource):
     kind: ClassVar[str] = 'MutatingAdmissionPolicyBinding'
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
     spec: MutatingAdmissionPolicyBindingSpec | None = None
-    api_path_: ClassVar[str] = (
-        'apis/admissionregistration.k8s.io/v1beta1/mutatingadmissionpolicybindings'
-    )
     plural_: ClassVar[str] = 'mutatingadmissionpolicybindings'
     is_namespaced_: ClassVar[bool] = False
     group_: ClassVar[Optional[str]] = 'admissionregistration.k8s.io'

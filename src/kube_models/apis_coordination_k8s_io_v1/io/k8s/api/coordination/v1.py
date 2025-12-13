@@ -32,11 +32,8 @@ class Lease(K8sResource):
     kind: ClassVar[str] = 'Lease'
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
     spec: LeaseSpec | None = None
-    api_path_: ClassVar[str] = (
-        'apis/coordination.k8s.io/v1/namespaces/{namespace}/leases'
-    )
     plural_: ClassVar[str] = 'leases'
-    is_namespaced_: ClassVar[bool] = False
+    is_namespaced_: ClassVar[bool] = True
     group_: ClassVar[Optional[str]] = 'coordination.k8s.io'
     patch_strategies_: ClassVar[set[PatchRequestType]] = {
         'application/apply-patch+cbor',
