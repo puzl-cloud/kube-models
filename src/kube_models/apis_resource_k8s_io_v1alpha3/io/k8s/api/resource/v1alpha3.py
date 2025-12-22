@@ -9,24 +9,24 @@ from typing import ClassVar, List, Set
 
 from kube_models.const import *
 from kube_models.loader import *
-from kube_models.loader import LazyLoadModel
+from kube_models.loader import Loadable
 from kube_models.resource import *
 
 from ...apimachinery.pkg.apis.meta.v1 import ListMeta, ObjectMeta, Time
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class CELDeviceSelector(LazyLoadModel):
+class CELDeviceSelector(Loadable):
     expression: str
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class DeviceSelector(LazyLoadModel):
+class DeviceSelector(Loadable):
     cel: CELDeviceSelector | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class DeviceTaintSelector(LazyLoadModel):
+class DeviceTaintSelector(Loadable):
     device: str | None = None
     deviceClassName: str | None = None
     driver: str | None = None
@@ -35,7 +35,7 @@ class DeviceTaintSelector(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class DeviceTaint(LazyLoadModel):
+class DeviceTaint(Loadable):
     effect: str
     key: str
     timeAdded: Time | None = None
@@ -43,7 +43,7 @@ class DeviceTaint(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class DeviceTaintRuleSpec(LazyLoadModel):
+class DeviceTaintRuleSpec(Loadable):
     taint: DeviceTaint
     deviceSelector: DeviceTaintSelector | None = None
 
@@ -67,7 +67,7 @@ class DeviceTaintRule(K8sResource):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class DeviceTaintRuleList(LazyLoadModel):
+class DeviceTaintRuleList(Loadable):
     items: List[DeviceTaintRule]
     apiVersion: str = 'resource.k8s.io/v1alpha3'
     kind: str = 'DeviceTaintRuleList'

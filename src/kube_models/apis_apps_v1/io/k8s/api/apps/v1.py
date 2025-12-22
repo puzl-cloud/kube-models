@@ -9,7 +9,7 @@ from typing import ClassVar, List, Set
 
 from kube_models.const import *
 from kube_models.loader import *
-from kube_models.loader import LazyLoadModel
+from kube_models.loader import Loadable
 from kube_models.resource import *
 
 from ...apimachinery.pkg.apis.meta.v1 import LabelSelector, ListMeta, ObjectMeta, Time
@@ -19,18 +19,18 @@ from ..core.v1 import PersistentVolumeClaim, PodTemplateSpec
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class StatefulSetOrdinals(LazyLoadModel):
+class StatefulSetOrdinals(Loadable):
     start: int | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class StatefulSetPersistentVolumeClaimRetentionPolicy(LazyLoadModel):
+class StatefulSetPersistentVolumeClaimRetentionPolicy(Loadable):
     whenDeleted: str | None = None
     whenScaled: str | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class DaemonSetCondition(LazyLoadModel):
+class DaemonSetCondition(Loadable):
     status: str
     type: str
     lastTransitionTime: Time | None = None
@@ -39,7 +39,7 @@ class DaemonSetCondition(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class DaemonSetStatus(LazyLoadModel):
+class DaemonSetStatus(Loadable):
     currentNumberScheduled: int
     desiredNumberScheduled: int
     numberMisscheduled: int
@@ -59,7 +59,7 @@ class DaemonSetStatus(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class DeploymentCondition(LazyLoadModel):
+class DeploymentCondition(Loadable):
     status: str
     type: str
     lastTransitionTime: Time | None = None
@@ -69,7 +69,7 @@ class DeploymentCondition(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class DeploymentStatus(LazyLoadModel):
+class DeploymentStatus(Loadable):
     availableReplicas: int | None = None
     collisionCount: int | None = None
     conditions: List[DeploymentCondition] = field(
@@ -88,7 +88,7 @@ class DeploymentStatus(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ReplicaSetCondition(LazyLoadModel):
+class ReplicaSetCondition(Loadable):
     status: str
     type: str
     lastTransitionTime: Time | None = None
@@ -97,7 +97,7 @@ class ReplicaSetCondition(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ReplicaSetStatus(LazyLoadModel):
+class ReplicaSetStatus(Loadable):
     replicas: int
     availableReplicas: int | None = None
     conditions: List[ReplicaSetCondition] = field(
@@ -114,25 +114,25 @@ class ReplicaSetStatus(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class RollingUpdateDaemonSet(LazyLoadModel):
+class RollingUpdateDaemonSet(Loadable):
     maxSurge: IntOrString | None = None
     maxUnavailable: IntOrString | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class RollingUpdateDeployment(LazyLoadModel):
+class RollingUpdateDeployment(Loadable):
     maxSurge: IntOrString | None = None
     maxUnavailable: IntOrString | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class RollingUpdateStatefulSetStrategy(LazyLoadModel):
+class RollingUpdateStatefulSetStrategy(Loadable):
     maxUnavailable: IntOrString | None = None
     partition: int | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class StatefulSetCondition(LazyLoadModel):
+class StatefulSetCondition(Loadable):
     status: str
     type: str
     lastTransitionTime: Time | None = None
@@ -141,7 +141,7 @@ class StatefulSetCondition(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class StatefulSetStatus(LazyLoadModel):
+class StatefulSetStatus(Loadable):
     replicas: int
     availableReplicas: int | None = None
     collisionCount: int | None = None
@@ -161,7 +161,7 @@ class StatefulSetStatus(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class StatefulSetUpdateStrategy(LazyLoadModel):
+class StatefulSetUpdateStrategy(Loadable):
     rollingUpdate: RollingUpdateStatefulSetStrategy | None = None
     type: str | None = None
 
@@ -186,7 +186,7 @@ class ControllerRevision(K8sResource):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ControllerRevisionList(LazyLoadModel):
+class ControllerRevisionList(Loadable):
     items: List[ControllerRevision]
     apiVersion: str = 'apps/v1'
     kind: str = 'ControllerRevisionList'
@@ -194,19 +194,19 @@ class ControllerRevisionList(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class DaemonSetUpdateStrategy(LazyLoadModel):
+class DaemonSetUpdateStrategy(Loadable):
     rollingUpdate: RollingUpdateDaemonSet | None = None
     type: str | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class DeploymentStrategy(LazyLoadModel):
+class DeploymentStrategy(Loadable):
     rollingUpdate: RollingUpdateDeployment | None = None
     type: str | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class DaemonSetSpec(LazyLoadModel):
+class DaemonSetSpec(Loadable):
     selector: LabelSelector
     template: PodTemplateSpec
     minReadySeconds: int | None = None
@@ -215,7 +215,7 @@ class DaemonSetSpec(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class DeploymentSpec(LazyLoadModel):
+class DeploymentSpec(Loadable):
     selector: LabelSelector
     template: PodTemplateSpec
     minReadySeconds: int | None = None
@@ -229,7 +229,7 @@ class DeploymentSpec(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ReplicaSetSpec(LazyLoadModel):
+class ReplicaSetSpec(Loadable):
     selector: LabelSelector
     minReadySeconds: int | None = None
     replicas: int | None = None
@@ -237,7 +237,7 @@ class ReplicaSetSpec(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class StatefulSetSpec(LazyLoadModel):
+class StatefulSetSpec(Loadable):
     selector: LabelSelector
     template: PodTemplateSpec
     minReadySeconds: int | None = None
@@ -273,7 +273,7 @@ class DaemonSet(K8sResource):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class DaemonSetList(LazyLoadModel):
+class DaemonSetList(Loadable):
     items: List[DaemonSet]
     apiVersion: str = 'apps/v1'
     kind: str = 'DaemonSetList'
@@ -300,7 +300,7 @@ class Deployment(K8sResource):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class DeploymentList(LazyLoadModel):
+class DeploymentList(Loadable):
     items: List[Deployment]
     apiVersion: str = 'apps/v1'
     kind: str = 'DeploymentList'
@@ -327,7 +327,7 @@ class ReplicaSet(K8sResource):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ReplicaSetList(LazyLoadModel):
+class ReplicaSetList(Loadable):
     items: List[ReplicaSet]
     apiVersion: str = 'apps/v1'
     kind: str = 'ReplicaSetList'
@@ -354,7 +354,7 @@ class StatefulSet(K8sResource):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class StatefulSetList(LazyLoadModel):
+class StatefulSetList(Loadable):
     items: List[StatefulSet]
     apiVersion: str = 'apps/v1'
     kind: str = 'StatefulSetList'

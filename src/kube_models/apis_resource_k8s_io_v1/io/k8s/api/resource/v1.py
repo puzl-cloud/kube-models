@@ -9,7 +9,7 @@ from typing import ClassVar, Dict, List, Set
 
 from kube_models.const import *
 from kube_models.loader import *
-from kube_models.loader import LazyLoadModel
+from kube_models.loader import Loadable
 from kube_models.resource import *
 
 from ...apimachinery.pkg.api.resource import Quantity
@@ -19,12 +19,12 @@ from ..core.v1 import NodeSelector
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class CELDeviceSelector(LazyLoadModel):
+class CELDeviceSelector(Loadable):
     expression: str
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class DeviceAttribute(LazyLoadModel):
+class DeviceAttribute(Loadable):
     bool: bool | None = None
     int: int | None = None
     string: str | None = None
@@ -32,19 +32,19 @@ class DeviceAttribute(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class DeviceConstraint(LazyLoadModel):
+class DeviceConstraint(Loadable):
     distinctAttribute: str | None = None
     matchAttribute: str | None = None
     requests: List[str] | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class DeviceSelector(LazyLoadModel):
+class DeviceSelector(Loadable):
     cel: CELDeviceSelector | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class DeviceToleration(LazyLoadModel):
+class DeviceToleration(Loadable):
     effect: str | None = None
     key: str | None = None
     operator: str | None = 'Equal'
@@ -53,14 +53,14 @@ class DeviceToleration(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class NetworkDeviceData(LazyLoadModel):
+class NetworkDeviceData(Loadable):
     hardwareAddress: str | None = None
     interfaceName: str | None = None
     ips: List[str] | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ResourceClaimConsumerReference(LazyLoadModel):
+class ResourceClaimConsumerReference(Loadable):
     name: str
     resource: str
     uid: str
@@ -68,43 +68,43 @@ class ResourceClaimConsumerReference(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ResourcePool(LazyLoadModel):
+class ResourcePool(Loadable):
     generation: int
     name: str
     resourceSliceCount: int
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class CapacityRequestPolicyRange(LazyLoadModel):
+class CapacityRequestPolicyRange(Loadable):
     min: Quantity
     max: Quantity | None = None
     step: Quantity | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class CapacityRequirements(LazyLoadModel):
+class CapacityRequirements(Loadable):
     requests: Dict[str, Quantity] | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class Counter(LazyLoadModel):
+class Counter(Loadable):
     value: Quantity
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class CounterSet(LazyLoadModel):
+class CounterSet(Loadable):
     counters: Dict[str, Counter]
     name: str
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class DeviceCounterConsumption(LazyLoadModel):
+class DeviceCounterConsumption(Loadable):
     counterSet: str
     counters: Dict[str, Counter]
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class DeviceRequestAllocationResult(LazyLoadModel):
+class DeviceRequestAllocationResult(Loadable):
     device: str
     driver: str
     pool: str
@@ -118,7 +118,7 @@ class DeviceRequestAllocationResult(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class DeviceSubRequest(LazyLoadModel):
+class DeviceSubRequest(Loadable):
     deviceClassName: str
     name: str
     allocationMode: str | None = None
@@ -129,7 +129,7 @@ class DeviceSubRequest(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class DeviceTaint(LazyLoadModel):
+class DeviceTaint(Loadable):
     effect: str
     key: str
     timeAdded: Time | None = None
@@ -137,7 +137,7 @@ class DeviceTaint(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ExactDeviceRequest(LazyLoadModel):
+class ExactDeviceRequest(Loadable):
     deviceClassName: str
     adminAccess: bool | None = None
     allocationMode: str | None = None
@@ -148,13 +148,13 @@ class ExactDeviceRequest(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class OpaqueDeviceConfiguration(LazyLoadModel):
+class OpaqueDeviceConfiguration(Loadable):
     driver: str
     parameters: RawExtension
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class AllocatedDeviceStatus(LazyLoadModel):
+class AllocatedDeviceStatus(Loadable):
     device: str
     driver: str
     pool: str
@@ -165,65 +165,65 @@ class AllocatedDeviceStatus(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class CapacityRequestPolicy(LazyLoadModel):
+class CapacityRequestPolicy(Loadable):
     default: Quantity | None = None
     validRange: CapacityRequestPolicyRange | None = None
     validValues: List[Quantity] | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class DeviceAllocationConfiguration(LazyLoadModel):
+class DeviceAllocationConfiguration(Loadable):
     source: str
     opaque: OpaqueDeviceConfiguration | None = None
     requests: List[str] | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class DeviceAllocationResult(LazyLoadModel):
+class DeviceAllocationResult(Loadable):
     config: List[DeviceAllocationConfiguration] | None = None
     results: List[DeviceRequestAllocationResult] | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class DeviceCapacity(LazyLoadModel):
+class DeviceCapacity(Loadable):
     value: Quantity
     requestPolicy: CapacityRequestPolicy | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class DeviceClaimConfiguration(LazyLoadModel):
+class DeviceClaimConfiguration(Loadable):
     opaque: OpaqueDeviceConfiguration | None = None
     requests: List[str] | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class DeviceClassConfiguration(LazyLoadModel):
+class DeviceClassConfiguration(Loadable):
     opaque: OpaqueDeviceConfiguration | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class DeviceClassSpec(LazyLoadModel):
+class DeviceClassSpec(Loadable):
     config: List[DeviceClassConfiguration] | None = None
     extendedResourceName: str | None = None
     selectors: List[DeviceSelector] | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class DeviceRequest(LazyLoadModel):
+class DeviceRequest(Loadable):
     name: str
     exactly: ExactDeviceRequest | None = None
     firstAvailable: List[DeviceSubRequest] | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class AllocationResult(LazyLoadModel):
+class AllocationResult(Loadable):
     allocationTimestamp: Time | None = None
     devices: DeviceAllocationResult | None = None
     nodeSelector: NodeSelector | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class Device(LazyLoadModel):
+class Device(Loadable):
     name: str
     allNodes: bool | None = None
     allowMultipleAllocations: bool | None = None
@@ -239,7 +239,7 @@ class Device(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class DeviceClaim(LazyLoadModel):
+class DeviceClaim(Loadable):
     config: List[DeviceClaimConfiguration] | None = None
     constraints: List[DeviceConstraint] | None = None
     requests: List[DeviceRequest] | None = None
@@ -264,7 +264,7 @@ class DeviceClass(K8sResource):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class DeviceClassList(LazyLoadModel):
+class DeviceClassList(Loadable):
     items: List[DeviceClass]
     apiVersion: str = 'resource.k8s.io/v1'
     kind: str = 'DeviceClassList'
@@ -272,12 +272,12 @@ class DeviceClassList(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ResourceClaimSpec(LazyLoadModel):
+class ResourceClaimSpec(Loadable):
     devices: DeviceClaim | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ResourceClaimStatus(LazyLoadModel):
+class ResourceClaimStatus(Loadable):
     allocation: AllocationResult | None = None
     devices: List[AllocatedDeviceStatus] | None = None
     reservedFor: List[ResourceClaimConsumerReference] = field(
@@ -290,13 +290,13 @@ class ResourceClaimStatus(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ResourceClaimTemplateSpec(LazyLoadModel):
+class ResourceClaimTemplateSpec(Loadable):
     spec: ResourceClaimSpec
     metadata: ObjectMeta | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ResourceSliceSpec(LazyLoadModel):
+class ResourceSliceSpec(Loadable):
     driver: str
     pool: ResourcePool
     allNodes: bool | None = None
@@ -327,7 +327,7 @@ class ResourceClaim(K8sResource):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ResourceClaimList(LazyLoadModel):
+class ResourceClaimList(Loadable):
     items: List[ResourceClaim]
     apiVersion: str = 'resource.k8s.io/v1'
     kind: str = 'ResourceClaimList'
@@ -353,7 +353,7 @@ class ResourceClaimTemplate(K8sResource):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ResourceClaimTemplateList(LazyLoadModel):
+class ResourceClaimTemplateList(Loadable):
     items: List[ResourceClaimTemplate]
     apiVersion: str = 'resource.k8s.io/v1'
     kind: str = 'ResourceClaimTemplateList'
@@ -379,7 +379,7 @@ class ResourceSlice(K8sResource):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ResourceSliceList(LazyLoadModel):
+class ResourceSliceList(Loadable):
     items: List[ResourceSlice]
     apiVersion: str = 'resource.k8s.io/v1'
     kind: str = 'ResourceSliceList'

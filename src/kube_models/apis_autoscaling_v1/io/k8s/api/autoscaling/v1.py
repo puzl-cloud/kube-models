@@ -9,21 +9,21 @@ from typing import ClassVar, List, Set
 
 from kube_models.const import *
 from kube_models.loader import *
-from kube_models.loader import LazyLoadModel
+from kube_models.loader import Loadable
 from kube_models.resource import *
 
 from ...apimachinery.pkg.apis.meta.v1 import ListMeta, ObjectMeta, Time
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class CrossVersionObjectReference(LazyLoadModel):
+class CrossVersionObjectReference(Loadable):
     kind: str
     name: str
     apiVersion: str | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class HorizontalPodAutoscalerSpec(LazyLoadModel):
+class HorizontalPodAutoscalerSpec(Loadable):
     maxReplicas: int
     scaleTargetRef: CrossVersionObjectReference
     minReplicas: int | None = None
@@ -31,7 +31,7 @@ class HorizontalPodAutoscalerSpec(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class HorizontalPodAutoscalerStatus(LazyLoadModel):
+class HorizontalPodAutoscalerStatus(Loadable):
     currentReplicas: int
     desiredReplicas: int
     currentCPUUtilizationPercentage: int | None = None
@@ -59,7 +59,7 @@ class HorizontalPodAutoscaler(K8sResource):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class HorizontalPodAutoscalerList(LazyLoadModel):
+class HorizontalPodAutoscalerList(Loadable):
     items: List[HorizontalPodAutoscaler]
     apiVersion: str = 'autoscaling/v1'
     kind: str = 'HorizontalPodAutoscalerList'

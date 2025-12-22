@@ -9,14 +9,14 @@ from typing import ClassVar, Dict, List, Set
 
 from kube_models.const import *
 from kube_models.loader import *
-from kube_models.loader import LazyLoadModel
+from kube_models.loader import Loadable
 from kube_models.resource import *
 
 from ...apimachinery.pkg.api.resource import Quantity
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class AWSElasticBlockStoreVolumeSource(LazyLoadModel):
+class AWSElasticBlockStoreVolumeSource(Loadable):
     volumeID: str
     fsType: str | None = None
     partition: int | None = None
@@ -24,7 +24,7 @@ class AWSElasticBlockStoreVolumeSource(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class AzureDiskVolumeSource(LazyLoadModel):
+class AzureDiskVolumeSource(Loadable):
     diskName: str
     diskURI: str
     cachingMode: str | None = 'ReadWrite'
@@ -34,7 +34,7 @@ class AzureDiskVolumeSource(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class AzureFilePersistentVolumeSource(LazyLoadModel):
+class AzureFilePersistentVolumeSource(Loadable):
     secretName: str
     shareName: str
     readOnly: bool | None = None
@@ -42,7 +42,7 @@ class AzureFilePersistentVolumeSource(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class FCVolumeSource(LazyLoadModel):
+class FCVolumeSource(Loadable):
     fsType: str | None = None
     lun: int | None = None
     readOnly: bool | None = None
@@ -51,13 +51,13 @@ class FCVolumeSource(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class FlockerVolumeSource(LazyLoadModel):
+class FlockerVolumeSource(Loadable):
     datasetName: str | None = None
     datasetUUID: str | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class GCEPersistentDiskVolumeSource(LazyLoadModel):
+class GCEPersistentDiskVolumeSource(Loadable):
     pdName: str
     fsType: str | None = None
     partition: int | None = None
@@ -65,7 +65,7 @@ class GCEPersistentDiskVolumeSource(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class GlusterfsPersistentVolumeSource(LazyLoadModel):
+class GlusterfsPersistentVolumeSource(Loadable):
     endpoints: str
     path: str
     endpointsNamespace: str | None = None
@@ -73,39 +73,39 @@ class GlusterfsPersistentVolumeSource(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class HostPathVolumeSource(LazyLoadModel):
+class HostPathVolumeSource(Loadable):
     path: str
     type: str | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class LocalVolumeSource(LazyLoadModel):
+class LocalVolumeSource(Loadable):
     path: str
     fsType: str | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class NFSVolumeSource(LazyLoadModel):
+class NFSVolumeSource(Loadable):
     path: str
     server: str
     readOnly: bool | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class NodeSelectorRequirement(LazyLoadModel):
+class NodeSelectorRequirement(Loadable):
     key: str
     operator: str
     values: List[str] | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class NodeSelectorTerm(LazyLoadModel):
+class NodeSelectorTerm(Loadable):
     matchExpressions: List[NodeSelectorRequirement] | None = None
     matchFields: List[NodeSelectorRequirement] | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ObjectReference(LazyLoadModel):
+class ObjectReference(Loadable):
     apiVersion: str | None = None
     fieldPath: str | None = None
     kind: str | None = None
@@ -116,20 +116,20 @@ class ObjectReference(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class PhotonPersistentDiskVolumeSource(LazyLoadModel):
+class PhotonPersistentDiskVolumeSource(Loadable):
     pdID: str
     fsType: str | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class PortworxVolumeSource(LazyLoadModel):
+class PortworxVolumeSource(Loadable):
     volumeID: str
     fsType: str | None = None
     readOnly: bool | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class QuobyteVolumeSource(LazyLoadModel):
+class QuobyteVolumeSource(Loadable):
     registry: str
     volume: str
     group: str | None = None
@@ -139,13 +139,13 @@ class QuobyteVolumeSource(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class SecretReference(LazyLoadModel):
+class SecretReference(Loadable):
     name: str | None = None
     namespace: str | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class StorageOSPersistentVolumeSource(LazyLoadModel):
+class StorageOSPersistentVolumeSource(Loadable):
     fsType: str | None = None
     readOnly: bool | None = None
     secretRef: ObjectReference | None = None
@@ -154,18 +154,18 @@ class StorageOSPersistentVolumeSource(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class TopologySelectorLabelRequirement(LazyLoadModel):
+class TopologySelectorLabelRequirement(Loadable):
     key: str
     values: List[str]
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class TopologySelectorTerm(LazyLoadModel):
+class TopologySelectorTerm(Loadable):
     matchLabelExpressions: List[TopologySelectorLabelRequirement] | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class VsphereVirtualDiskVolumeSource(LazyLoadModel):
+class VsphereVirtualDiskVolumeSource(Loadable):
     volumePath: str
     fsType: str | None = None
     storagePolicyID: str | None = None
@@ -173,7 +173,7 @@ class VsphereVirtualDiskVolumeSource(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class CSIPersistentVolumeSource(LazyLoadModel):
+class CSIPersistentVolumeSource(Loadable):
     driver: str
     volumeHandle: str
     controllerExpandSecretRef: SecretReference | None = None
@@ -187,7 +187,7 @@ class CSIPersistentVolumeSource(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class CephFSPersistentVolumeSource(LazyLoadModel):
+class CephFSPersistentVolumeSource(Loadable):
     monitors: List[str]
     path: str | None = None
     readOnly: bool | None = None
@@ -197,7 +197,7 @@ class CephFSPersistentVolumeSource(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class CinderPersistentVolumeSource(LazyLoadModel):
+class CinderPersistentVolumeSource(Loadable):
     volumeID: str
     fsType: str | None = None
     readOnly: bool | None = None
@@ -205,7 +205,7 @@ class CinderPersistentVolumeSource(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class FlexPersistentVolumeSource(LazyLoadModel):
+class FlexPersistentVolumeSource(Loadable):
     driver: str
     fsType: str | None = None
     options: Dict[str, str] | None = None
@@ -214,7 +214,7 @@ class FlexPersistentVolumeSource(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ISCSIPersistentVolumeSource(LazyLoadModel):
+class ISCSIPersistentVolumeSource(Loadable):
     iqn: str
     lun: int
     targetPortal: str
@@ -229,12 +229,12 @@ class ISCSIPersistentVolumeSource(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class NodeSelector(LazyLoadModel):
+class NodeSelector(Loadable):
     nodeSelectorTerms: List[NodeSelectorTerm]
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class RBDPersistentVolumeSource(LazyLoadModel):
+class RBDPersistentVolumeSource(Loadable):
     image: str
     monitors: List[str]
     fsType: str | None = None
@@ -246,7 +246,7 @@ class RBDPersistentVolumeSource(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ScaleIOPersistentVolumeSource(LazyLoadModel):
+class ScaleIOPersistentVolumeSource(Loadable):
     gateway: str
     secretRef: SecretReference
     system: str
@@ -260,12 +260,12 @@ class ScaleIOPersistentVolumeSource(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class VolumeNodeAffinity(LazyLoadModel):
+class VolumeNodeAffinity(Loadable):
     required: NodeSelector | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class PersistentVolumeSpec(LazyLoadModel):
+class PersistentVolumeSpec(Loadable):
     accessModes: List[str] | None = None
     awsElasticBlockStore: AWSElasticBlockStoreVolumeSource | None = None
     azureDisk: AzureDiskVolumeSource | None = None

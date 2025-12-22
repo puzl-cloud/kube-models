@@ -9,14 +9,14 @@ from typing import ClassVar, List, Set
 
 from kube_models.const import *
 from kube_models.loader import *
-from kube_models.loader import LazyLoadModel
+from kube_models.loader import Loadable
 from kube_models.resource import *
 
 from ...apimachinery.pkg.apis.meta.v1 import LabelSelector, ListMeta, ObjectMeta
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class PolicyRule(LazyLoadModel):
+class PolicyRule(Loadable):
     verbs: List[str]
     apiGroups: List[str] | None = None
     nonResourceURLs: List[str] | None = None
@@ -25,14 +25,14 @@ class PolicyRule(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class RoleRef(LazyLoadModel):
+class RoleRef(Loadable):
     apiGroup: str
     kind: str
     name: str
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class Subject(LazyLoadModel):
+class Subject(Loadable):
     kind: str
     name: str
     apiGroup: str | None = None
@@ -40,7 +40,7 @@ class Subject(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class AggregationRule(LazyLoadModel):
+class AggregationRule(Loadable):
     clusterRoleSelectors: List[LabelSelector] | None = None
 
 
@@ -83,7 +83,7 @@ class ClusterRoleBinding(K8sResource):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ClusterRoleBindingList(LazyLoadModel):
+class ClusterRoleBindingList(Loadable):
     items: List[ClusterRoleBinding]
     apiVersion: str = 'rbac.authorization.k8s.io/v1'
     kind: str = 'ClusterRoleBindingList'
@@ -91,7 +91,7 @@ class ClusterRoleBindingList(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ClusterRoleList(LazyLoadModel):
+class ClusterRoleList(Loadable):
     items: List[ClusterRole]
     apiVersion: str = 'rbac.authorization.k8s.io/v1'
     kind: str = 'ClusterRoleList'
@@ -136,7 +136,7 @@ class RoleBinding(K8sResource):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class RoleBindingList(LazyLoadModel):
+class RoleBindingList(Loadable):
     items: List[RoleBinding]
     apiVersion: str = 'rbac.authorization.k8s.io/v1'
     kind: str = 'RoleBindingList'
@@ -144,7 +144,7 @@ class RoleBindingList(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class RoleList(LazyLoadModel):
+class RoleList(Loadable):
     items: List[Role]
     apiVersion: str = 'rbac.authorization.k8s.io/v1'
     kind: str = 'RoleList'

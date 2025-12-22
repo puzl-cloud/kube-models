@@ -9,14 +9,14 @@ from typing import ClassVar, Dict, List, Set
 
 from kube_models.const import *
 from kube_models.loader import *
-from kube_models.loader import LazyLoadModel
+from kube_models.loader import Loadable
 from kube_models.resource import *
 
 from ...runtime import RawExtension
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class APIResource(LazyLoadModel):
+class APIResource(Loadable):
     kind: str
     name: str
     namespaced: bool
@@ -30,7 +30,7 @@ class APIResource(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class APIResourceList(LazyLoadModel):
+class APIResourceList(Loadable):
     groupVersion: str
     resources: List[APIResource]
     apiVersion: str = 'v1'
@@ -38,12 +38,12 @@ class APIResourceList(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class FieldsV1(LazyLoadModel):
+class FieldsV1(Loadable):
     pass
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ListMeta(LazyLoadModel):
+class ListMeta(Loadable):
     continue_: str | None = None
     remainingItemCount: int | None = None
     resourceVersion: str | None = None
@@ -51,7 +51,7 @@ class ListMeta(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class OwnerReference(LazyLoadModel):
+class OwnerReference(Loadable):
     apiVersion: str
     kind: str
     name: str
@@ -61,25 +61,25 @@ class OwnerReference(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class Patch(LazyLoadModel):
+class Patch(Loadable):
     pass
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class Preconditions(LazyLoadModel):
+class Preconditions(Loadable):
     resourceVersion: str | None = None
     uid: str | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class StatusCause(LazyLoadModel):
+class StatusCause(Loadable):
     field: str | None = None
     message: str | None = None
     reason: str | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class StatusDetails(LazyLoadModel):
+class StatusDetails(Loadable):
     causes: List[StatusCause] | None = None
     group: str | None = None
     kind: str | None = None
@@ -92,7 +92,7 @@ Time = str
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class DeleteOptions(LazyLoadModel):
+class DeleteOptions(Loadable):
     apiVersion: str = 'v1'
     dryRun: List[str] | None = None
     gracePeriodSeconds: int | None = None
@@ -103,7 +103,7 @@ class DeleteOptions(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ManagedFieldsEntry(LazyLoadModel):
+class ManagedFieldsEntry(Loadable):
     apiVersion: str | None = None
     fieldsType: str | None = None
     fieldsV1: FieldsV1 | None = None
@@ -114,7 +114,7 @@ class ManagedFieldsEntry(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ObjectMeta(LazyLoadModel):
+class ObjectMeta(Loadable):
     annotations: Dict[str, str] | None = None
     creationTimestamp: Time | None = None
     deletionGracePeriodSeconds: int | None = None
@@ -141,7 +141,7 @@ class ObjectMeta(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class Status(LazyLoadModel):
+class Status(Loadable):
     apiVersion: str = 'v1'
     code: int | None = None
     details: StatusDetails | None = None
@@ -153,6 +153,6 @@ class Status(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class WatchEvent(LazyLoadModel):
+class WatchEvent(Loadable):
     object: RawExtension
     type: str

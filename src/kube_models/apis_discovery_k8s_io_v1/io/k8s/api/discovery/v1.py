@@ -9,7 +9,7 @@ from typing import ClassVar, Dict, List, Set
 
 from kube_models.const import *
 from kube_models.loader import *
-from kube_models.loader import LazyLoadModel
+from kube_models.loader import Loadable
 from kube_models.resource import *
 
 from ...apimachinery.pkg.apis.meta.v1 import ListMeta, ObjectMeta
@@ -17,14 +17,14 @@ from ..core.v1 import ObjectReference
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class EndpointConditions(LazyLoadModel):
+class EndpointConditions(Loadable):
     ready: bool | None = None
     serving: bool | None = None
     terminating: bool | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class EndpointPort(LazyLoadModel):
+class EndpointPort(Loadable):
     appProtocol: str | None = None
     name: str | None = None
     port: int | None = None
@@ -32,23 +32,23 @@ class EndpointPort(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ForNode(LazyLoadModel):
+class ForNode(Loadable):
     name: str
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ForZone(LazyLoadModel):
+class ForZone(Loadable):
     name: str
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class EndpointHints(LazyLoadModel):
+class EndpointHints(Loadable):
     forNodes: List[ForNode] | None = None
     forZones: List[ForZone] | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class Endpoint(LazyLoadModel):
+class Endpoint(Loadable):
     addresses: List[str]
     conditions: EndpointConditions | None = None
     deprecatedTopology: Dict[str, str] | None = None
@@ -80,7 +80,7 @@ class EndpointSlice(K8sResource):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class EndpointSliceList(LazyLoadModel):
+class EndpointSliceList(Loadable):
     items: List[EndpointSlice]
     apiVersion: str = 'discovery.k8s.io/v1'
     kind: str = 'EndpointSliceList'

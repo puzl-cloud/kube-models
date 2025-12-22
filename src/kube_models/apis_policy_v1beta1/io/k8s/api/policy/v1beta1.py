@@ -9,7 +9,7 @@ from typing import ClassVar, Dict, List, Set
 
 from kube_models.const import *
 from kube_models.loader import *
-from kube_models.loader import LazyLoadModel
+from kube_models.loader import Loadable
 from kube_models.resource import *
 
 from ...apimachinery.pkg.apis.meta.v1 import (
@@ -24,71 +24,71 @@ from ..core.v1 import SELinuxOptions
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class AllowedCSIDriver(LazyLoadModel):
+class AllowedCSIDriver(Loadable):
     name: str
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class AllowedFlexVolume(LazyLoadModel):
+class AllowedFlexVolume(Loadable):
     driver: str
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class AllowedHostPath(LazyLoadModel):
+class AllowedHostPath(Loadable):
     pathPrefix: str | None = None
     readOnly: bool | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class HostPortRange(LazyLoadModel):
+class HostPortRange(Loadable):
     max: int
     min: int
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class IDRange(LazyLoadModel):
+class IDRange(Loadable):
     max: int
     min: int
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class RunAsGroupStrategyOptions(LazyLoadModel):
+class RunAsGroupStrategyOptions(Loadable):
     rule: str
     ranges: List[IDRange] | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class RunAsUserStrategyOptions(LazyLoadModel):
+class RunAsUserStrategyOptions(Loadable):
     rule: str
     ranges: List[IDRange] | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class RuntimeClassStrategyOptions(LazyLoadModel):
+class RuntimeClassStrategyOptions(Loadable):
     allowedRuntimeClassNames: List[str]
     defaultRuntimeClassName: str | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class SELinuxStrategyOptions(LazyLoadModel):
+class SELinuxStrategyOptions(Loadable):
     rule: str
     seLinuxOptions: SELinuxOptions | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class SupplementalGroupsStrategyOptions(LazyLoadModel):
+class SupplementalGroupsStrategyOptions(Loadable):
     ranges: List[IDRange] | None = None
     rule: str | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class FSGroupStrategyOptions(LazyLoadModel):
+class FSGroupStrategyOptions(Loadable):
     ranges: List[IDRange] | None = None
     rule: str | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class PodSecurityPolicySpec(LazyLoadModel):
+class PodSecurityPolicySpec(Loadable):
     fsGroup: FSGroupStrategyOptions
     runAsUser: RunAsUserStrategyOptions
     seLinux: SELinuxStrategyOptions
@@ -116,14 +116,14 @@ class PodSecurityPolicySpec(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class PodDisruptionBudgetSpec(LazyLoadModel):
+class PodDisruptionBudgetSpec(Loadable):
     maxUnavailable: IntOrString | None = None
     minAvailable: IntOrString | None = None
     selector: LabelSelector | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class PodDisruptionBudgetStatus(LazyLoadModel):
+class PodDisruptionBudgetStatus(Loadable):
     currentHealthy: int
     desiredHealthy: int
     disruptionsAllowed: int
@@ -157,7 +157,7 @@ class PodSecurityPolicy(K8sResource):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class PodSecurityPolicyList(LazyLoadModel):
+class PodSecurityPolicyList(Loadable):
     items: List[PodSecurityPolicy]
     apiVersion: str = 'policy/v1beta1'
     kind: str = 'PodSecurityPolicyList'
@@ -183,7 +183,7 @@ class PodDisruptionBudget(K8sResource):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class PodDisruptionBudgetList(LazyLoadModel):
+class PodDisruptionBudgetList(Loadable):
     items: List[PodDisruptionBudget]
     apiVersion: str = 'policy/v1beta1'
     kind: str = 'PodDisruptionBudgetList'

@@ -9,7 +9,7 @@ from typing import ClassVar, List, Set
 
 from kube_models.const import *
 from kube_models.loader import *
-from kube_models.loader import LazyLoadModel
+from kube_models.loader import Loadable
 from kube_models.resource import *
 
 from ...apimachinery.pkg.api.resource import Quantity
@@ -17,14 +17,14 @@ from ...apimachinery.pkg.apis.meta.v1 import LabelSelector, ListMeta, ObjectMeta
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class CrossVersionObjectReference(LazyLoadModel):
+class CrossVersionObjectReference(Loadable):
     kind: str
     name: str
     apiVersion: str | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ContainerResourceMetricSource(LazyLoadModel):
+class ContainerResourceMetricSource(Loadable):
     container: str
     name: str
     targetAverageUtilization: int | None = None
@@ -32,7 +32,7 @@ class ContainerResourceMetricSource(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ContainerResourceMetricStatus(LazyLoadModel):
+class ContainerResourceMetricStatus(Loadable):
     container: str
     currentAverageValue: Quantity
     name: str
@@ -40,7 +40,7 @@ class ContainerResourceMetricStatus(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class HorizontalPodAutoscalerCondition(LazyLoadModel):
+class HorizontalPodAutoscalerCondition(Loadable):
     status: str
     type: str
     lastTransitionTime: Time | None = None
@@ -49,21 +49,21 @@ class HorizontalPodAutoscalerCondition(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ResourceMetricSource(LazyLoadModel):
+class ResourceMetricSource(Loadable):
     name: str
     targetAverageUtilization: int | None = None
     targetAverageValue: Quantity | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ResourceMetricStatus(LazyLoadModel):
+class ResourceMetricStatus(Loadable):
     currentAverageValue: Quantity
     name: str
     currentAverageUtilization: int | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ExternalMetricSource(LazyLoadModel):
+class ExternalMetricSource(Loadable):
     metricName: str
     metricSelector: LabelSelector | None = None
     targetAverageValue: Quantity | None = None
@@ -71,7 +71,7 @@ class ExternalMetricSource(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ExternalMetricStatus(LazyLoadModel):
+class ExternalMetricStatus(Loadable):
     currentValue: Quantity
     metricName: str
     currentAverageValue: Quantity | None = None
@@ -79,7 +79,7 @@ class ExternalMetricStatus(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ObjectMetricSource(LazyLoadModel):
+class ObjectMetricSource(Loadable):
     metricName: str
     target: CrossVersionObjectReference
     targetValue: Quantity
@@ -88,7 +88,7 @@ class ObjectMetricSource(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ObjectMetricStatus(LazyLoadModel):
+class ObjectMetricStatus(Loadable):
     currentValue: Quantity
     metricName: str
     target: CrossVersionObjectReference
@@ -97,21 +97,21 @@ class ObjectMetricStatus(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class PodsMetricSource(LazyLoadModel):
+class PodsMetricSource(Loadable):
     metricName: str
     targetAverageValue: Quantity
     selector: LabelSelector | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class PodsMetricStatus(LazyLoadModel):
+class PodsMetricStatus(Loadable):
     currentAverageValue: Quantity
     metricName: str
     selector: LabelSelector | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class MetricSpec(LazyLoadModel):
+class MetricSpec(Loadable):
     type: str
     containerResource: ContainerResourceMetricSource | None = None
     external: ExternalMetricSource | None = None
@@ -121,7 +121,7 @@ class MetricSpec(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class MetricStatus(LazyLoadModel):
+class MetricStatus(Loadable):
     type: str
     containerResource: ContainerResourceMetricStatus | None = None
     external: ExternalMetricStatus | None = None
@@ -131,7 +131,7 @@ class MetricStatus(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class HorizontalPodAutoscalerSpec(LazyLoadModel):
+class HorizontalPodAutoscalerSpec(Loadable):
     maxReplicas: int
     scaleTargetRef: CrossVersionObjectReference
     metrics: List[MetricSpec] | None = None
@@ -139,7 +139,7 @@ class HorizontalPodAutoscalerSpec(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class HorizontalPodAutoscalerStatus(LazyLoadModel):
+class HorizontalPodAutoscalerStatus(Loadable):
     currentReplicas: int
     desiredReplicas: int
     conditions: List[HorizontalPodAutoscalerCondition] | None = None
@@ -167,7 +167,7 @@ class HorizontalPodAutoscaler(K8sResource):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class HorizontalPodAutoscalerList(LazyLoadModel):
+class HorizontalPodAutoscalerList(Loadable):
     items: List[HorizontalPodAutoscaler]
     apiVersion: str = 'autoscaling/v2beta1'
     kind: str = 'HorizontalPodAutoscalerList'

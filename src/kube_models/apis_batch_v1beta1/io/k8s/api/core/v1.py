@@ -9,7 +9,7 @@ from typing import ClassVar, Dict, List, Set
 
 from kube_models.const import *
 from kube_models.loader import *
-from kube_models.loader import LazyLoadModel
+from kube_models.loader import Loadable
 from kube_models.resource import *
 
 from ...apimachinery.pkg.api.resource import Quantity
@@ -18,7 +18,7 @@ from ...apimachinery.pkg.util.intstr import IntOrString
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class AWSElasticBlockStoreVolumeSource(LazyLoadModel):
+class AWSElasticBlockStoreVolumeSource(Loadable):
     volumeID: str
     fsType: str | None = None
     partition: int | None = None
@@ -26,7 +26,7 @@ class AWSElasticBlockStoreVolumeSource(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class AzureDiskVolumeSource(LazyLoadModel):
+class AzureDiskVolumeSource(Loadable):
     diskName: str
     diskURI: str
     cachingMode: str | None = None
@@ -36,33 +36,33 @@ class AzureDiskVolumeSource(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class AzureFileVolumeSource(LazyLoadModel):
+class AzureFileVolumeSource(Loadable):
     secretName: str
     shareName: str
     readOnly: bool | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class Capabilities(LazyLoadModel):
+class Capabilities(Loadable):
     add: List[str] | None = None
     drop: List[str] | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ConfigMapEnvSource(LazyLoadModel):
+class ConfigMapEnvSource(Loadable):
     name: str | None = None
     optional: bool | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ConfigMapKeySelector(LazyLoadModel):
+class ConfigMapKeySelector(Loadable):
     key: str
     name: str | None = None
     optional: bool | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ContainerPort(LazyLoadModel):
+class ContainerPort(Loadable):
     containerPort: int
     hostIP: str | None = None
     hostPort: int | None = None
@@ -71,12 +71,12 @@ class ContainerPort(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ExecAction(LazyLoadModel):
+class ExecAction(Loadable):
     command: List[str] | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class FCVolumeSource(LazyLoadModel):
+class FCVolumeSource(Loadable):
     fsType: str | None = None
     lun: int | None = None
     readOnly: bool | None = None
@@ -85,13 +85,13 @@ class FCVolumeSource(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class FlockerVolumeSource(LazyLoadModel):
+class FlockerVolumeSource(Loadable):
     datasetName: str | None = None
     datasetUUID: str | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class GCEPersistentDiskVolumeSource(LazyLoadModel):
+class GCEPersistentDiskVolumeSource(Loadable):
     pdName: str
     fsType: str | None = None
     partition: int | None = None
@@ -99,83 +99,83 @@ class GCEPersistentDiskVolumeSource(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class GRPCAction(LazyLoadModel):
+class GRPCAction(Loadable):
     port: int
     service: str | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class GitRepoVolumeSource(LazyLoadModel):
+class GitRepoVolumeSource(Loadable):
     repository: str
     directory: str | None = None
     revision: str | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class GlusterfsVolumeSource(LazyLoadModel):
+class GlusterfsVolumeSource(Loadable):
     endpoints: str
     path: str
     readOnly: bool | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class HTTPHeader(LazyLoadModel):
+class HTTPHeader(Loadable):
     name: str
     value: str
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class HostAlias(LazyLoadModel):
+class HostAlias(Loadable):
     hostnames: List[str] | None = None
     ip: str | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class HostPathVolumeSource(LazyLoadModel):
+class HostPathVolumeSource(Loadable):
     path: str
     type: str | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class KeyToPath(LazyLoadModel):
+class KeyToPath(Loadable):
     key: str
     path: str
     mode: int | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class LocalObjectReference(LazyLoadModel):
+class LocalObjectReference(Loadable):
     name: str | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class NFSVolumeSource(LazyLoadModel):
+class NFSVolumeSource(Loadable):
     path: str
     server: str
     readOnly: bool | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class NodeSelectorRequirement(LazyLoadModel):
+class NodeSelectorRequirement(Loadable):
     key: str
     operator: str
     values: List[str] | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class NodeSelectorTerm(LazyLoadModel):
+class NodeSelectorTerm(Loadable):
     matchExpressions: List[NodeSelectorRequirement] | None = None
     matchFields: List[NodeSelectorRequirement] | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ObjectFieldSelector(LazyLoadModel):
+class ObjectFieldSelector(Loadable):
     fieldPath: str
     apiVersion: str | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ObjectReference(LazyLoadModel):
+class ObjectReference(Loadable):
     apiVersion: str | None = None
     fieldPath: str | None = None
     kind: str | None = None
@@ -186,48 +186,48 @@ class ObjectReference(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class PersistentVolumeClaimVolumeSource(LazyLoadModel):
+class PersistentVolumeClaimVolumeSource(Loadable):
     claimName: str
     readOnly: bool | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class PhotonPersistentDiskVolumeSource(LazyLoadModel):
+class PhotonPersistentDiskVolumeSource(Loadable):
     pdID: str
     fsType: str | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class PodDNSConfigOption(LazyLoadModel):
+class PodDNSConfigOption(Loadable):
     name: str | None = None
     value: str | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class PodOS(LazyLoadModel):
+class PodOS(Loadable):
     name: str
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class PodReadinessGate(LazyLoadModel):
+class PodReadinessGate(Loadable):
     conditionType: str
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class PortworxVolumeSource(LazyLoadModel):
+class PortworxVolumeSource(Loadable):
     volumeID: str
     fsType: str | None = None
     readOnly: bool | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class PreferredSchedulingTerm(LazyLoadModel):
+class PreferredSchedulingTerm(Loadable):
     preference: NodeSelectorTerm
     weight: int
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class QuobyteVolumeSource(LazyLoadModel):
+class QuobyteVolumeSource(Loadable):
     registry: str
     volume: str
     group: str | None = None
@@ -237,7 +237,7 @@ class QuobyteVolumeSource(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class RBDVolumeSource(LazyLoadModel):
+class RBDVolumeSource(Loadable):
     image: str
     monitors: List[str]
     fsType: str | None = None
@@ -249,7 +249,7 @@ class RBDVolumeSource(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class SELinuxOptions(LazyLoadModel):
+class SELinuxOptions(Loadable):
     level: str | None = None
     role: str | None = None
     type: str | None = None
@@ -257,7 +257,7 @@ class SELinuxOptions(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ScaleIOVolumeSource(LazyLoadModel):
+class ScaleIOVolumeSource(Loadable):
     gateway: str
     secretRef: LocalObjectReference
     system: str
@@ -271,33 +271,33 @@ class ScaleIOVolumeSource(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class SeccompProfile(LazyLoadModel):
+class SeccompProfile(Loadable):
     type: str
     localhostProfile: str | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class SecretEnvSource(LazyLoadModel):
+class SecretEnvSource(Loadable):
     name: str | None = None
     optional: bool | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class SecretKeySelector(LazyLoadModel):
+class SecretKeySelector(Loadable):
     key: str
     name: str | None = None
     optional: bool | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class SecretProjection(LazyLoadModel):
+class SecretProjection(Loadable):
     items: List[KeyToPath] | None = None
     name: str | None = None
     optional: bool | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class SecretVolumeSource(LazyLoadModel):
+class SecretVolumeSource(Loadable):
     defaultMode: int | None = None
     items: List[KeyToPath] | None = None
     optional: bool | None = None
@@ -305,14 +305,14 @@ class SecretVolumeSource(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ServiceAccountTokenProjection(LazyLoadModel):
+class ServiceAccountTokenProjection(Loadable):
     path: str
     audience: str | None = None
     expirationSeconds: int | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class StorageOSVolumeSource(LazyLoadModel):
+class StorageOSVolumeSource(Loadable):
     fsType: str | None = None
     readOnly: bool | None = None
     secretRef: LocalObjectReference | None = None
@@ -321,13 +321,13 @@ class StorageOSVolumeSource(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class Sysctl(LazyLoadModel):
+class Sysctl(Loadable):
     name: str
     value: str
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class Toleration(LazyLoadModel):
+class Toleration(Loadable):
     effect: str | None = None
     key: str | None = None
     operator: str | None = None
@@ -336,20 +336,20 @@ class Toleration(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class TypedLocalObjectReference(LazyLoadModel):
+class TypedLocalObjectReference(Loadable):
     kind: str
     name: str
     apiGroup: str | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class VolumeDevice(LazyLoadModel):
+class VolumeDevice(Loadable):
     devicePath: str
     name: str
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class VolumeMount(LazyLoadModel):
+class VolumeMount(Loadable):
     mountPath: str
     name: str
     mountPropagation: str | None = None
@@ -359,7 +359,7 @@ class VolumeMount(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class VsphereVirtualDiskVolumeSource(LazyLoadModel):
+class VsphereVirtualDiskVolumeSource(Loadable):
     volumePath: str
     fsType: str | None = None
     storagePolicyID: str | None = None
@@ -367,7 +367,7 @@ class VsphereVirtualDiskVolumeSource(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class WindowsSecurityContextOptions(LazyLoadModel):
+class WindowsSecurityContextOptions(Loadable):
     gmsaCredentialSpec: str | None = None
     gmsaCredentialSpecName: str | None = None
     hostProcess: bool | None = None
@@ -375,7 +375,7 @@ class WindowsSecurityContextOptions(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class CSIVolumeSource(LazyLoadModel):
+class CSIVolumeSource(Loadable):
     driver: str
     fsType: str | None = None
     nodePublishSecretRef: LocalObjectReference | None = None
@@ -384,7 +384,7 @@ class CSIVolumeSource(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class CephFSVolumeSource(LazyLoadModel):
+class CephFSVolumeSource(Loadable):
     monitors: List[str]
     path: str | None = None
     readOnly: bool | None = None
@@ -394,7 +394,7 @@ class CephFSVolumeSource(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class CinderVolumeSource(LazyLoadModel):
+class CinderVolumeSource(Loadable):
     volumeID: str
     fsType: str | None = None
     readOnly: bool | None = None
@@ -402,14 +402,14 @@ class CinderVolumeSource(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ConfigMapProjection(LazyLoadModel):
+class ConfigMapProjection(Loadable):
     items: List[KeyToPath] | None = None
     name: str | None = None
     optional: bool | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ConfigMapVolumeSource(LazyLoadModel):
+class ConfigMapVolumeSource(Loadable):
     defaultMode: int | None = None
     items: List[KeyToPath] | None = None
     name: str | None = None
@@ -417,20 +417,20 @@ class ConfigMapVolumeSource(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class EmptyDirVolumeSource(LazyLoadModel):
+class EmptyDirVolumeSource(Loadable):
     medium: str | None = None
     sizeLimit: Quantity | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class EnvFromSource(LazyLoadModel):
+class EnvFromSource(Loadable):
     configMapRef: ConfigMapEnvSource | None = None
     prefix: str | None = None
     secretRef: SecretEnvSource | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class FlexVolumeSource(LazyLoadModel):
+class FlexVolumeSource(Loadable):
     driver: str
     fsType: str | None = None
     options: Dict[str, str] | None = None
@@ -439,7 +439,7 @@ class FlexVolumeSource(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class HTTPGetAction(LazyLoadModel):
+class HTTPGetAction(Loadable):
     port: IntOrString
     host: str | None = None
     httpHeaders: List[HTTPHeader] | None = None
@@ -448,7 +448,7 @@ class HTTPGetAction(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ISCSIVolumeSource(LazyLoadModel):
+class ISCSIVolumeSource(Loadable):
     iqn: str
     lun: int
     targetPortal: str
@@ -463,19 +463,19 @@ class ISCSIVolumeSource(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class NodeSelector(LazyLoadModel):
+class NodeSelector(Loadable):
     nodeSelectorTerms: List[NodeSelectorTerm]
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class PodDNSConfig(LazyLoadModel):
+class PodDNSConfig(Loadable):
     nameservers: List[str] | None = None
     options: List[PodDNSConfigOption] | None = None
     searches: List[str] | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class PodSecurityContext(LazyLoadModel):
+class PodSecurityContext(Loadable):
     fsGroup: int | None = None
     fsGroupChangePolicy: str | None = None
     runAsGroup: int | None = None
@@ -489,20 +489,20 @@ class PodSecurityContext(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ResourceFieldSelector(LazyLoadModel):
+class ResourceFieldSelector(Loadable):
     resource: str
     containerName: str | None = None
     divisor: Quantity | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ResourceRequirements(LazyLoadModel):
+class ResourceRequirements(Loadable):
     limits: Dict[str, Quantity] | None = None
     requests: Dict[str, Quantity] | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class SecurityContext(LazyLoadModel):
+class SecurityContext(Loadable):
     allowPrivilegeEscalation: bool | None = None
     capabilities: Capabilities | None = None
     privileged: bool | None = None
@@ -517,13 +517,13 @@ class SecurityContext(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class TCPSocketAction(LazyLoadModel):
+class TCPSocketAction(Loadable):
     port: IntOrString
     host: str | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class DownwardAPIVolumeFile(LazyLoadModel):
+class DownwardAPIVolumeFile(Loadable):
     path: str
     fieldRef: ObjectFieldSelector | None = None
     mode: int | None = None
@@ -531,13 +531,13 @@ class DownwardAPIVolumeFile(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class DownwardAPIVolumeSource(LazyLoadModel):
+class DownwardAPIVolumeSource(Loadable):
     defaultMode: int | None = None
     items: List[DownwardAPIVolumeFile] | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class EnvVarSource(LazyLoadModel):
+class EnvVarSource(Loadable):
     configMapKeyRef: ConfigMapKeySelector | None = None
     fieldRef: ObjectFieldSelector | None = None
     resourceFieldRef: ResourceFieldSelector | None = None
@@ -545,14 +545,14 @@ class EnvVarSource(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class LifecycleHandler(LazyLoadModel):
+class LifecycleHandler(Loadable):
     exec: ExecAction | None = None
     httpGet: HTTPGetAction | None = None
     tcpSocket: TCPSocketAction | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class NodeAffinity(LazyLoadModel):
+class NodeAffinity(Loadable):
     preferredDuringSchedulingIgnoredDuringExecution: (
         List[PreferredSchedulingTerm] | None
     ) = None
@@ -560,7 +560,7 @@ class NodeAffinity(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class PersistentVolumeClaimSpec(LazyLoadModel):
+class PersistentVolumeClaimSpec(Loadable):
     accessModes: List[str] | None = None
     dataSource: TypedLocalObjectReference | None = None
     dataSourceRef: TypedLocalObjectReference | None = None
@@ -572,13 +572,13 @@ class PersistentVolumeClaimSpec(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class PersistentVolumeClaimTemplate(LazyLoadModel):
+class PersistentVolumeClaimTemplate(Loadable):
     spec: PersistentVolumeClaimSpec
     metadata: ObjectMeta | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class PodAffinityTerm(LazyLoadModel):
+class PodAffinityTerm(Loadable):
     topologyKey: str
     labelSelector: LabelSelector | None = None
     namespaceSelector: LabelSelector | None = None
@@ -586,7 +586,7 @@ class PodAffinityTerm(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class Probe(LazyLoadModel):
+class Probe(Loadable):
     exec: ExecAction | None = None
     failureThreshold: int | None = None
     grpc: GRPCAction | None = None
@@ -600,7 +600,7 @@ class Probe(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class TopologySpreadConstraint(LazyLoadModel):
+class TopologySpreadConstraint(Loadable):
     maxSkew: int
     topologyKey: str
     whenUnsatisfiable: str
@@ -609,36 +609,36 @@ class TopologySpreadConstraint(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class WeightedPodAffinityTerm(LazyLoadModel):
+class WeightedPodAffinityTerm(Loadable):
     podAffinityTerm: PodAffinityTerm
     weight: int
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class DownwardAPIProjection(LazyLoadModel):
+class DownwardAPIProjection(Loadable):
     items: List[DownwardAPIVolumeFile] | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class EnvVar(LazyLoadModel):
+class EnvVar(Loadable):
     name: str
     value: str | None = None
     valueFrom: EnvVarSource | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class EphemeralVolumeSource(LazyLoadModel):
+class EphemeralVolumeSource(Loadable):
     volumeClaimTemplate: PersistentVolumeClaimTemplate | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class Lifecycle(LazyLoadModel):
+class Lifecycle(Loadable):
     postStart: LifecycleHandler | None = None
     preStop: LifecycleHandler | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class PodAffinity(LazyLoadModel):
+class PodAffinity(Loadable):
     preferredDuringSchedulingIgnoredDuringExecution: (
         List[WeightedPodAffinityTerm] | None
     ) = None
@@ -646,7 +646,7 @@ class PodAffinity(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class PodAntiAffinity(LazyLoadModel):
+class PodAntiAffinity(Loadable):
     preferredDuringSchedulingIgnoredDuringExecution: (
         List[WeightedPodAffinityTerm] | None
     ) = None
@@ -654,7 +654,7 @@ class PodAntiAffinity(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class VolumeProjection(LazyLoadModel):
+class VolumeProjection(Loadable):
     configMap: ConfigMapProjection | None = None
     downwardAPI: DownwardAPIProjection | None = None
     secret: SecretProjection | None = None
@@ -662,14 +662,14 @@ class VolumeProjection(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class Affinity(LazyLoadModel):
+class Affinity(Loadable):
     nodeAffinity: NodeAffinity | None = None
     podAffinity: PodAffinity | None = None
     podAntiAffinity: PodAntiAffinity | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class Container(LazyLoadModel):
+class Container(Loadable):
     name: str
     args: List[str] | None = None
     command: List[str] | None = None
@@ -719,7 +719,7 @@ class Container(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class EphemeralContainer(LazyLoadModel):
+class EphemeralContainer(Loadable):
     name: str
     args: List[str] | None = None
     command: List[str] | None = None
@@ -770,13 +770,13 @@ class EphemeralContainer(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ProjectedVolumeSource(LazyLoadModel):
+class ProjectedVolumeSource(Loadable):
     defaultMode: int | None = None
     sources: List[VolumeProjection] | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class Volume(LazyLoadModel):
+class Volume(Loadable):
     name: str
     awsElasticBlockStore: AWSElasticBlockStoreVolumeSource | None = None
     azureDisk: AzureDiskVolumeSource | None = None
@@ -810,7 +810,7 @@ class Volume(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class PodSpec(LazyLoadModel):
+class PodSpec(Loadable):
     activeDeadlineSeconds: int | None = None
     affinity: Affinity | None = None
     automountServiceAccountToken: bool | None = None
@@ -891,6 +891,6 @@ class PodSpec(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class PodTemplateSpec(LazyLoadModel):
+class PodTemplateSpec(Loadable):
     metadata: ObjectMeta | None = None
     spec: PodSpec | None = None

@@ -9,14 +9,14 @@ from typing import ClassVar, List, Set
 
 from kube_models.const import *
 from kube_models.loader import *
-from kube_models.loader import LazyLoadModel
+from kube_models.loader import Loadable
 from kube_models.resource import *
 
 from ...apimachinery.pkg.apis.meta.v1 import ListMeta, ObjectMeta
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ClusterTrustBundleSpec(LazyLoadModel):
+class ClusterTrustBundleSpec(Loadable):
     trustBundle: str
     signerName: str | None = None
 
@@ -40,7 +40,7 @@ class ClusterTrustBundle(K8sResource):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ClusterTrustBundleList(LazyLoadModel):
+class ClusterTrustBundleList(Loadable):
     items: List[ClusterTrustBundle]
     apiVersion: str = 'certificates.k8s.io/v1beta1'
     kind: str = 'ClusterTrustBundleList'

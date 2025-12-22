@@ -9,14 +9,14 @@ from typing import ClassVar, Dict, List, Set
 
 from kube_models.const import *
 from kube_models.loader import *
-from kube_models.loader import LazyLoadModel
+from kube_models.loader import Loadable
 from kube_models.resource import *
 
 from ...apimachinery.pkg.apis.meta.v1 import ListMeta, ObjectMeta, Time
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class CertificateSigningRequestSpec(LazyLoadModel):
+class CertificateSigningRequestSpec(Loadable):
     request: str
     signerName: str
     expirationSeconds: int | None = None
@@ -28,7 +28,7 @@ class CertificateSigningRequestSpec(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class CertificateSigningRequestCondition(LazyLoadModel):
+class CertificateSigningRequestCondition(Loadable):
     status: str
     type: str
     lastTransitionTime: Time | None = None
@@ -38,7 +38,7 @@ class CertificateSigningRequestCondition(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class CertificateSigningRequestStatus(LazyLoadModel):
+class CertificateSigningRequestStatus(Loadable):
     certificate: str | None = None
     conditions: List[CertificateSigningRequestCondition] | None = None
 
@@ -63,7 +63,7 @@ class CertificateSigningRequest(K8sResource):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class CertificateSigningRequestList(LazyLoadModel):
+class CertificateSigningRequestList(Loadable):
     items: List[CertificateSigningRequest]
     apiVersion: str = 'certificates.k8s.io/v1'
     kind: str = 'CertificateSigningRequestList'

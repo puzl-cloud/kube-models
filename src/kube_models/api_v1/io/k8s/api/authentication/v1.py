@@ -9,14 +9,14 @@ from typing import ClassVar, List, Set
 
 from kube_models.const import *
 from kube_models.loader import *
-from kube_models.loader import LazyLoadModel
+from kube_models.loader import Loadable
 from kube_models.resource import *
 
 from ...apimachinery.pkg.apis.meta.v1 import ObjectMeta, Time
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class BoundObjectReference(LazyLoadModel):
+class BoundObjectReference(Loadable):
     apiVersion: str | None = None
     kind: str | None = None
     name: str | None = None
@@ -24,14 +24,14 @@ class BoundObjectReference(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class TokenRequestSpec(LazyLoadModel):
+class TokenRequestSpec(Loadable):
     audiences: List[str]
     boundObjectRef: BoundObjectReference | None = None
     expirationSeconds: int | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class TokenRequestStatus(LazyLoadModel):
+class TokenRequestStatus(Loadable):
     expirationTimestamp: Time
     token: str
 

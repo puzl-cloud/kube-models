@@ -9,25 +9,25 @@ from typing import ClassVar, Set
 
 from kube_models.const import *
 from kube_models.loader import *
-from kube_models.loader import LazyLoadModel
+from kube_models.loader import Loadable
 from kube_models.resource import *
 
 from ...apimachinery.pkg.apis.meta.v1 import ObjectMeta
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ScaleSpec(LazyLoadModel):
+class ScaleSpec(Loadable):
     replicas: int | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ScaleStatus(LazyLoadModel):
+class ScaleStatus(Loadable):
     replicas: int
     selector: str | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class Scale(LazyLoadModel):
+class Scale(Loadable):
     apiVersion: str = 'autoscaling/v1'
     kind: str = 'Scale'
     metadata: ObjectMeta = field(default_factory=ObjectMeta)

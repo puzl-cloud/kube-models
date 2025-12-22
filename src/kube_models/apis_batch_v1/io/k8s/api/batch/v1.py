@@ -9,7 +9,7 @@ from typing import ClassVar, List, Set
 
 from kube_models.const import *
 from kube_models.loader import *
-from kube_models.loader import LazyLoadModel
+from kube_models.loader import Loadable
 from kube_models.resource import *
 
 from ...apimachinery.pkg.apis.meta.v1 import LabelSelector, ListMeta, ObjectMeta, Time
@@ -17,46 +17,46 @@ from ..core.v1 import ObjectReference, PodTemplateSpec
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class PodFailurePolicyOnExitCodesRequirement(LazyLoadModel):
+class PodFailurePolicyOnExitCodesRequirement(Loadable):
     operator: str
     values: List[int]
     containerName: str | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class PodFailurePolicyOnPodConditionsPattern(LazyLoadModel):
+class PodFailurePolicyOnPodConditionsPattern(Loadable):
     status: str
     type: str
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class PodFailurePolicyRule(LazyLoadModel):
+class PodFailurePolicyRule(Loadable):
     action: str
     onExitCodes: PodFailurePolicyOnExitCodesRequirement | None = None
     onPodConditions: List[PodFailurePolicyOnPodConditionsPattern] | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class SuccessPolicyRule(LazyLoadModel):
+class SuccessPolicyRule(Loadable):
     succeededCount: int | None = None
     succeededIndexes: str | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class UncountedTerminatedPods(LazyLoadModel):
+class UncountedTerminatedPods(Loadable):
     failed: List[str] | None = None
     succeeded: List[str] | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class CronJobStatus(LazyLoadModel):
+class CronJobStatus(Loadable):
     active: List[ObjectReference] | None = None
     lastScheduleTime: Time | None = None
     lastSuccessfulTime: Time | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class JobCondition(LazyLoadModel):
+class JobCondition(Loadable):
     status: str
     type: str
     lastProbeTime: Time | None = None
@@ -66,7 +66,7 @@ class JobCondition(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class JobStatus(LazyLoadModel):
+class JobStatus(Loadable):
     active: int | None = None
     completedIndexes: str | None = None
     completionTime: Time | None = None
@@ -87,17 +87,17 @@ class JobStatus(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class PodFailurePolicy(LazyLoadModel):
+class PodFailurePolicy(Loadable):
     rules: List[PodFailurePolicyRule]
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class SuccessPolicy(LazyLoadModel):
+class SuccessPolicy(Loadable):
     rules: List[SuccessPolicyRule]
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class JobSpec(LazyLoadModel):
+class JobSpec(Loadable):
     template: PodTemplateSpec
     activeDeadlineSeconds: int | None = None
     backoffLimit: int | None = None
@@ -117,13 +117,13 @@ class JobSpec(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class JobTemplateSpec(LazyLoadModel):
+class JobTemplateSpec(Loadable):
     metadata: ObjectMeta | None = None
     spec: JobSpec | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class CronJobSpec(LazyLoadModel):
+class CronJobSpec(Loadable):
     jobTemplate: JobTemplateSpec
     schedule: str
     concurrencyPolicy: str | None = None
@@ -154,7 +154,7 @@ class Job(K8sResource):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class JobList(LazyLoadModel):
+class JobList(Loadable):
     items: List[Job]
     apiVersion: str = 'batch/v1'
     kind: str = 'JobList'
@@ -181,7 +181,7 @@ class CronJob(K8sResource):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class CronJobList(LazyLoadModel):
+class CronJobList(Loadable):
     items: List[CronJob]
     apiVersion: str = 'batch/v1'
     kind: str = 'CronJobList'

@@ -9,7 +9,7 @@ if sys.version_info < (3, 11):
 else:
     from typing import Self
 
-from .loader import LazyLoadModel, _LOAD_LAZY_FIELD, _LOAD_TYPES_ON_INIT
+from .loader import Loadable, _LOAD_LAZY_FIELD, _LOAD_TYPES_ON_INIT
 from .const import *
 
 from kube_models.api_v1.io.k8s.apimachinery.pkg.apis.meta import ObjectMeta, ListMeta
@@ -19,7 +19,7 @@ _DYNAMIC_CLASS_VARS = ["apiVersion", "kind"]
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class K8sResource(LazyLoadModel):
+class K8sResource(Loadable):
     apiVersion: ClassVar[str]
     kind: ClassVar[str]
     metadata: ObjectMeta
@@ -27,7 +27,14 @@ class K8sResource(LazyLoadModel):
     # OpenAPI fields which are not a part of the resource model
     plural_: ClassVar[str]
     group_: ClassVar[str]
-    patch_strategies_: ClassVar[Set[PatchRequestType]]
+    
+    # Defaults for any resource including CRDs
+    patch_strategies_: ClassVar[Set[PatchRequestType]] = {
+        PatchRequestType.json,
+        PatchRequestType.server_side_cbor,
+        PatchRequestType.server_side,
+        PatchRequestType.merge
+    }
     is_namespaced_: ClassVar[bool]
     
     @classmethod

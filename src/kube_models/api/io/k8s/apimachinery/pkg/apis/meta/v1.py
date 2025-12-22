@@ -9,18 +9,18 @@ from typing import ClassVar, List, Set
 
 from kube_models.const import *
 from kube_models.loader import *
-from kube_models.loader import LazyLoadModel
+from kube_models.loader import Loadable
 from kube_models.resource import *
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ServerAddressByClientCIDR(LazyLoadModel):
+class ServerAddressByClientCIDR(Loadable):
     clientCIDR: str
     serverAddress: str
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class APIVersions(LazyLoadModel):
+class APIVersions(Loadable):
     serverAddressByClientCIDRs: List[ServerAddressByClientCIDR]
     versions: List[str]
     apiVersion: str = 'v1'

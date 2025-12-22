@@ -9,42 +9,42 @@ from typing import ClassVar, List, Set
 
 from kube_models.const import *
 from kube_models.loader import *
-from kube_models.loader import LazyLoadModel
+from kube_models.loader import Loadable
 from kube_models.resource import *
 
 from ...apimachinery.pkg.apis.meta.v1 import ListMeta, ObjectMeta, Time
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class FlowDistinguisherMethod(LazyLoadModel):
+class FlowDistinguisherMethod(Loadable):
     type: str
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class GroupSubject(LazyLoadModel):
+class GroupSubject(Loadable):
     name: str
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class NonResourcePolicyRule(LazyLoadModel):
+class NonResourcePolicyRule(Loadable):
     nonResourceURLs: List[str]
     verbs: List[str]
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class PriorityLevelConfigurationReference(LazyLoadModel):
+class PriorityLevelConfigurationReference(Loadable):
     name: str
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class QueuingConfiguration(LazyLoadModel):
+class QueuingConfiguration(Loadable):
     handSize: int | None = None
     queueLengthLimit: int | None = None
     queues: int | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ResourcePolicyRule(LazyLoadModel):
+class ResourcePolicyRule(Loadable):
     apiGroups: List[str]
     resources: List[str]
     verbs: List[str]
@@ -53,18 +53,18 @@ class ResourcePolicyRule(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ServiceAccountSubject(LazyLoadModel):
+class ServiceAccountSubject(Loadable):
     name: str
     namespace: str
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class UserSubject(LazyLoadModel):
+class UserSubject(Loadable):
     name: str
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class FlowSchemaCondition(LazyLoadModel):
+class FlowSchemaCondition(Loadable):
     lastTransitionTime: Time | None = None
     message: str | None = None
     reason: str | None = None
@@ -73,24 +73,24 @@ class FlowSchemaCondition(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class FlowSchemaStatus(LazyLoadModel):
+class FlowSchemaStatus(Loadable):
     conditions: List[FlowSchemaCondition] | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class LimitResponse(LazyLoadModel):
+class LimitResponse(Loadable):
     type: str
     queuing: QueuingConfiguration | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class LimitedPriorityLevelConfiguration(LazyLoadModel):
+class LimitedPriorityLevelConfiguration(Loadable):
     assuredConcurrencyShares: int | None = None
     limitResponse: LimitResponse | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class PriorityLevelConfigurationCondition(LazyLoadModel):
+class PriorityLevelConfigurationCondition(Loadable):
     lastTransitionTime: Time | None = None
     message: str | None = None
     reason: str | None = None
@@ -99,18 +99,18 @@ class PriorityLevelConfigurationCondition(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class PriorityLevelConfigurationSpec(LazyLoadModel):
+class PriorityLevelConfigurationSpec(Loadable):
     type: str
     limited: LimitedPriorityLevelConfiguration | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class PriorityLevelConfigurationStatus(LazyLoadModel):
+class PriorityLevelConfigurationStatus(Loadable):
     conditions: List[PriorityLevelConfigurationCondition] | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class Subject(LazyLoadModel):
+class Subject(Loadable):
     kind: str
     group: GroupSubject | None = None
     serviceAccount: ServiceAccountSubject | None = None
@@ -118,7 +118,7 @@ class Subject(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class PolicyRulesWithSubjects(LazyLoadModel):
+class PolicyRulesWithSubjects(Loadable):
     subjects: List[Subject]
     nonResourceRules: List[NonResourcePolicyRule] | None = None
     resourceRules: List[ResourcePolicyRule] | None = None
@@ -143,7 +143,7 @@ class PriorityLevelConfiguration(K8sResource):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class PriorityLevelConfigurationList(LazyLoadModel):
+class PriorityLevelConfigurationList(Loadable):
     items: List[PriorityLevelConfiguration]
     apiVersion: str = 'flowcontrol.apiserver.k8s.io/v1beta1'
     kind: str = 'PriorityLevelConfigurationList'
@@ -151,7 +151,7 @@ class PriorityLevelConfigurationList(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class FlowSchemaSpec(LazyLoadModel):
+class FlowSchemaSpec(Loadable):
     priorityLevelConfiguration: PriorityLevelConfigurationReference
     distinguisherMethod: FlowDistinguisherMethod | None = None
     matchingPrecedence: int | None = None
@@ -177,7 +177,7 @@ class FlowSchema(K8sResource):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class FlowSchemaList(LazyLoadModel):
+class FlowSchemaList(Loadable):
     items: List[FlowSchema]
     apiVersion: str = 'flowcontrol.apiserver.k8s.io/v1beta1'
     kind: str = 'FlowSchemaList'

@@ -9,7 +9,7 @@ from typing import ClassVar, Set
 
 from kube_models.const import *
 from kube_models.loader import *
-from kube_models.loader import LazyLoadModel
+from kube_models.loader import Loadable
 from kube_models.resource import *
 
 from ...apimachinery.pkg.apis.meta.v1 import LabelSelector
@@ -17,7 +17,7 @@ from ..core.v1 import PodTemplateSpec
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class JobSpec(LazyLoadModel):
+class JobSpec(Loadable):
     template: PodTemplateSpec
     activeDeadlineSeconds: int | None = None
     backoffLimit: int | None = None

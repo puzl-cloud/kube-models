@@ -9,12 +9,12 @@ from typing import ClassVar, Dict, List, Set
 
 from kube_models.const import *
 from kube_models.loader import *
-from kube_models.loader import LazyLoadModel
+from kube_models.loader import Loadable
 from kube_models.resource import *
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class UserInfo(LazyLoadModel):
+class UserInfo(Loadable):
     extra: Dict[str, List[str]] | None = None
     groups: List[str] | None = None
     uid: str | None = None

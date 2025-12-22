@@ -9,14 +9,14 @@ from typing import ClassVar, List, Set
 
 from kube_models.const import *
 from kube_models.loader import *
-from kube_models.loader import LazyLoadModel
+from kube_models.loader import Loadable
 from kube_models.resource import *
 
 from ...apimachinery.pkg.apis.meta.v1 import ListMeta, MicroTime, ObjectMeta
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class LeaseCandidateSpec(LazyLoadModel):
+class LeaseCandidateSpec(Loadable):
     binaryVersion: str
     leaseName: str
     strategy: str
@@ -44,7 +44,7 @@ class LeaseCandidate(K8sResource):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class LeaseCandidateList(LazyLoadModel):
+class LeaseCandidateList(Loadable):
     items: List[LeaseCandidate]
     apiVersion: str = 'coordination.k8s.io/v1beta1'
     kind: str = 'LeaseCandidateList'

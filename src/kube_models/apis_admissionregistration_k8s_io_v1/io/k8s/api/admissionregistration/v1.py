@@ -9,7 +9,7 @@ from typing import ClassVar, List, Set
 
 from kube_models.const import *
 from kube_models.loader import *
-from kube_models.loader import LazyLoadModel
+from kube_models.loader import Loadable
 from kube_models.resource import *
 
 from ...apimachinery.pkg.apis.meta.v1 import (
@@ -21,25 +21,25 @@ from ...apimachinery.pkg.apis.meta.v1 import (
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class AuditAnnotation(LazyLoadModel):
+class AuditAnnotation(Loadable):
     key: str
     valueExpression: str
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ExpressionWarning(LazyLoadModel):
+class ExpressionWarning(Loadable):
     fieldRef: str
     warning: str
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class MatchCondition(LazyLoadModel):
+class MatchCondition(Loadable):
     expression: str
     name: str
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class NamedRuleWithOperations(LazyLoadModel):
+class NamedRuleWithOperations(Loadable):
     apiGroups: List[str] | None = None
     apiVersions: List[str] | None = None
     operations: List[str] | None = None
@@ -49,13 +49,13 @@ class NamedRuleWithOperations(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ParamKind(LazyLoadModel):
+class ParamKind(Loadable):
     apiVersion: str | None = None
     kind: str | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class RuleWithOperations(LazyLoadModel):
+class RuleWithOperations(Loadable):
     apiGroups: List[str] | None = None
     apiVersions: List[str] | None = None
     operations: List[str] | None = None
@@ -64,7 +64,7 @@ class RuleWithOperations(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ServiceReference(LazyLoadModel):
+class ServiceReference(Loadable):
     name: str
     namespace: str
     path: str | None = None
@@ -72,12 +72,12 @@ class ServiceReference(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class TypeChecking(LazyLoadModel):
+class TypeChecking(Loadable):
     expressionWarnings: List[ExpressionWarning] | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class Validation(LazyLoadModel):
+class Validation(Loadable):
     expression: str
     message: str | None = None
     messageExpression: str | None = None
@@ -85,20 +85,20 @@ class Validation(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class Variable(LazyLoadModel):
+class Variable(Loadable):
     expression: str
     name: str
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class WebhookClientConfig(LazyLoadModel):
+class WebhookClientConfig(Loadable):
     caBundle: str | None = None
     service: ServiceReference | None = None
     url: str | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class MatchResources(LazyLoadModel):
+class MatchResources(Loadable):
     excludeResourceRules: List[NamedRuleWithOperations] | None = None
     matchPolicy: str | None = None
     namespaceSelector: LabelSelector | None = None
@@ -107,7 +107,7 @@ class MatchResources(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class MutatingWebhook(LazyLoadModel):
+class MutatingWebhook(Loadable):
     admissionReviewVersions: List[str]
     clientConfig: WebhookClientConfig
     name: str
@@ -153,7 +153,7 @@ class MutatingWebhookConfiguration(K8sResource):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class MutatingWebhookConfigurationList(LazyLoadModel):
+class MutatingWebhookConfigurationList(Loadable):
     items: List[MutatingWebhookConfiguration]
     apiVersion: str = 'admissionregistration.k8s.io/v1'
     kind: str = 'MutatingWebhookConfigurationList'
@@ -161,7 +161,7 @@ class MutatingWebhookConfigurationList(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ParamRef(LazyLoadModel):
+class ParamRef(Loadable):
     name: str | None = None
     namespace: str | None = None
     parameterNotFoundAction: str | None = None
@@ -169,7 +169,7 @@ class ParamRef(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ValidatingAdmissionPolicyBindingSpec(LazyLoadModel):
+class ValidatingAdmissionPolicyBindingSpec(Loadable):
     matchResources: MatchResources | None = None
     paramRef: ParamRef | None = None
     policyName: str | None = None
@@ -177,7 +177,7 @@ class ValidatingAdmissionPolicyBindingSpec(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ValidatingAdmissionPolicySpec(LazyLoadModel):
+class ValidatingAdmissionPolicySpec(Loadable):
     auditAnnotations: List[AuditAnnotation] | None = None
     failurePolicy: str | None = None
     matchConditions: List[MatchCondition] = field(
@@ -200,14 +200,14 @@ class ValidatingAdmissionPolicySpec(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ValidatingAdmissionPolicyStatus(LazyLoadModel):
+class ValidatingAdmissionPolicyStatus(Loadable):
     conditions: List[Condition] | None = None
     observedGeneration: int | None = None
     typeChecking: TypeChecking | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ValidatingWebhook(LazyLoadModel):
+class ValidatingWebhook(Loadable):
     admissionReviewVersions: List[str]
     clientConfig: WebhookClientConfig
     name: str
@@ -252,7 +252,7 @@ class ValidatingWebhookConfiguration(K8sResource):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ValidatingWebhookConfigurationList(LazyLoadModel):
+class ValidatingWebhookConfigurationList(Loadable):
     items: List[ValidatingWebhookConfiguration]
     apiVersion: str = 'admissionregistration.k8s.io/v1'
     kind: str = 'ValidatingWebhookConfigurationList'
@@ -297,7 +297,7 @@ class ValidatingAdmissionPolicyBinding(K8sResource):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ValidatingAdmissionPolicyBindingList(LazyLoadModel):
+class ValidatingAdmissionPolicyBindingList(Loadable):
     items: List[ValidatingAdmissionPolicyBinding]
     apiVersion: str = 'admissionregistration.k8s.io/v1'
     kind: str = 'ValidatingAdmissionPolicyBindingList'
@@ -305,7 +305,7 @@ class ValidatingAdmissionPolicyBindingList(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ValidatingAdmissionPolicyList(LazyLoadModel):
+class ValidatingAdmissionPolicyList(Loadable):
     items: List[ValidatingAdmissionPolicy]
     apiVersion: str = 'admissionregistration.k8s.io/v1'
     kind: str = 'ValidatingAdmissionPolicyList'

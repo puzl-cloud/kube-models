@@ -9,37 +9,37 @@ from typing import ClassVar, List, Set
 
 from kube_models.const import *
 from kube_models.loader import *
-from kube_models.loader import LazyLoadModel
+from kube_models.loader import Loadable
 from kube_models.resource import *
 
 from ...apimachinery.pkg.apis.meta.v1 import LabelSelector, ListMeta, ObjectMeta
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ApplyConfiguration(LazyLoadModel):
+class ApplyConfiguration(Loadable):
     expression: str | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class JSONPatch(LazyLoadModel):
+class JSONPatch(Loadable):
     expression: str | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class MatchCondition(LazyLoadModel):
+class MatchCondition(Loadable):
     expression: str
     name: str
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class Mutation(LazyLoadModel):
+class Mutation(Loadable):
     patchType: str
     applyConfiguration: ApplyConfiguration | None = None
     jsonPatch: JSONPatch | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class NamedRuleWithOperations(LazyLoadModel):
+class NamedRuleWithOperations(Loadable):
     apiGroups: List[str] | None = None
     apiVersions: List[str] | None = None
     operations: List[str] | None = None
@@ -49,19 +49,19 @@ class NamedRuleWithOperations(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ParamKind(LazyLoadModel):
+class ParamKind(Loadable):
     apiVersion: str | None = None
     kind: str | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class Variable(LazyLoadModel):
+class Variable(Loadable):
     expression: str
     name: str
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class MatchResources(LazyLoadModel):
+class MatchResources(Loadable):
     excludeResourceRules: List[NamedRuleWithOperations] | None = None
     matchPolicy: str | None = None
     namespaceSelector: LabelSelector | None = None
@@ -70,7 +70,7 @@ class MatchResources(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class MutatingAdmissionPolicySpec(LazyLoadModel):
+class MutatingAdmissionPolicySpec(Loadable):
     failurePolicy: str | None = None
     matchConditions: List[MatchCondition] = field(
         default_factory=list,
@@ -87,7 +87,7 @@ class MutatingAdmissionPolicySpec(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ParamRef(LazyLoadModel):
+class ParamRef(Loadable):
     name: str | None = None
     namespace: str | None = None
     parameterNotFoundAction: str | None = None
@@ -113,14 +113,14 @@ class MutatingAdmissionPolicy(K8sResource):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class MutatingAdmissionPolicyBindingSpec(LazyLoadModel):
+class MutatingAdmissionPolicyBindingSpec(Loadable):
     matchResources: MatchResources | None = None
     paramRef: ParamRef | None = None
     policyName: str | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class MutatingAdmissionPolicyList(LazyLoadModel):
+class MutatingAdmissionPolicyList(Loadable):
     items: List[MutatingAdmissionPolicy]
     apiVersion: str = 'admissionregistration.k8s.io/v1alpha1'
     kind: str = 'MutatingAdmissionPolicyList'
@@ -146,7 +146,7 @@ class MutatingAdmissionPolicyBinding(K8sResource):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class MutatingAdmissionPolicyBindingList(LazyLoadModel):
+class MutatingAdmissionPolicyBindingList(Loadable):
     items: List[MutatingAdmissionPolicyBinding]
     apiVersion: str = 'admissionregistration.k8s.io/v1alpha1'
     kind: str = 'MutatingAdmissionPolicyBindingList'

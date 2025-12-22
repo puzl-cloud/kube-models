@@ -9,7 +9,7 @@ from typing import ClassVar, Dict, List, Set
 
 from kube_models.const import *
 from kube_models.loader import *
-from kube_models.loader import LazyLoadModel
+from kube_models.loader import Loadable
 from kube_models.resource import *
 
 from ...apimachinery.pkg.apis.meta.v1 import (
@@ -23,7 +23,7 @@ from ...apimachinery.pkg.util.intstr import IntOrString
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class PodDisruptionBudgetSpec(LazyLoadModel):
+class PodDisruptionBudgetSpec(Loadable):
     maxUnavailable: IntOrString | None = None
     minAvailable: IntOrString | None = None
     selector: LabelSelector = field(
@@ -33,7 +33,7 @@ class PodDisruptionBudgetSpec(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class PodDisruptionBudgetStatus(LazyLoadModel):
+class PodDisruptionBudgetStatus(Loadable):
     currentHealthy: int
     desiredHealthy: int
     disruptionsAllowed: int
@@ -69,7 +69,7 @@ class PodDisruptionBudget(K8sResource):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class PodDisruptionBudgetList(LazyLoadModel):
+class PodDisruptionBudgetList(Loadable):
     items: List[PodDisruptionBudget]
     apiVersion: str = 'policy/v1'
     kind: str = 'PodDisruptionBudgetList'

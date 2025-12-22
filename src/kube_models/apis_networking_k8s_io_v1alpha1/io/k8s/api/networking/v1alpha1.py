@@ -9,14 +9,14 @@ from typing import ClassVar, List, Set
 
 from kube_models.const import *
 from kube_models.loader import *
-from kube_models.loader import LazyLoadModel
+from kube_models.loader import Loadable
 from kube_models.resource import *
 
 from ...apimachinery.pkg.apis.meta.v1 import Condition, ListMeta, ObjectMeta
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ParentReference(LazyLoadModel):
+class ParentReference(Loadable):
     name: str
     resource: str
     group: str | None = None
@@ -24,12 +24,12 @@ class ParentReference(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ServiceCIDRSpec(LazyLoadModel):
+class ServiceCIDRSpec(Loadable):
     cidrs: List[str] | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class IPAddressSpec(LazyLoadModel):
+class IPAddressSpec(Loadable):
     parentRef: ParentReference
 
 
@@ -51,7 +51,7 @@ class IPAddress(K8sResource):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class IPAddressList(LazyLoadModel):
+class IPAddressList(Loadable):
     items: List[IPAddress]
     apiVersion: str = 'networking.k8s.io/v1alpha1'
     kind: str = 'IPAddressList'
@@ -59,7 +59,7 @@ class IPAddressList(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ServiceCIDRStatus(LazyLoadModel):
+class ServiceCIDRStatus(Loadable):
     conditions: List[Condition] = field(
         default_factory=list,
         metadata={
@@ -88,7 +88,7 @@ class ServiceCIDR(K8sResource):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ServiceCIDRList(LazyLoadModel):
+class ServiceCIDRList(Loadable):
     items: List[ServiceCIDR]
     apiVersion: str = 'networking.k8s.io/v1alpha1'
     kind: str = 'ServiceCIDRList'

@@ -9,7 +9,7 @@ from typing import ClassVar, List, Set
 
 from kube_models.const import *
 from kube_models.loader import *
-from kube_models.loader import LazyLoadModel
+from kube_models.loader import Loadable
 from kube_models.resource import *
 
 from ...apimachinery.pkg.api.resource import Quantity
@@ -19,38 +19,38 @@ from ..core.v1 import NodeSelector
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class NamedResourcesAllocationResult(LazyLoadModel):
+class NamedResourcesAllocationResult(Loadable):
     name: str
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class NamedResourcesFilter(LazyLoadModel):
+class NamedResourcesFilter(Loadable):
     selector: str
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class NamedResourcesIntSlice(LazyLoadModel):
+class NamedResourcesIntSlice(Loadable):
     ints: List[int]
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class NamedResourcesRequest(LazyLoadModel):
+class NamedResourcesRequest(Loadable):
     selector: str
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class NamedResourcesStringSlice(LazyLoadModel):
+class NamedResourcesStringSlice(Loadable):
     strings: List[str]
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class PodSchedulingContextSpec(LazyLoadModel):
+class PodSchedulingContextSpec(Loadable):
     potentialNodes: List[str] | None = None
     selectedNode: str | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ResourceClaimConsumerReference(LazyLoadModel):
+class ResourceClaimConsumerReference(Loadable):
     name: str
     resource: str
     uid: str
@@ -58,27 +58,27 @@ class ResourceClaimConsumerReference(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ResourceClaimParametersReference(LazyLoadModel):
+class ResourceClaimParametersReference(Loadable):
     kind: str
     name: str
     apiGroup: str | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ResourceClaimSchedulingStatus(LazyLoadModel):
+class ResourceClaimSchedulingStatus(Loadable):
     name: str | None = None
     unsuitableNodes: List[str] | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ResourceClaimSpec(LazyLoadModel):
+class ResourceClaimSpec(Loadable):
     resourceClassName: str
     allocationMode: str | None = None
     parametersRef: ResourceClaimParametersReference | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ResourceClassParametersReference(LazyLoadModel):
+class ResourceClassParametersReference(Loadable):
     kind: str
     name: str
     apiGroup: str | None = None
@@ -86,19 +86,19 @@ class ResourceClassParametersReference(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ResourceFilter(LazyLoadModel):
+class ResourceFilter(Loadable):
     driverName: str | None = None
     namedResources: NamedResourcesFilter | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class DriverAllocationResult(LazyLoadModel):
+class DriverAllocationResult(Loadable):
     namedResources: NamedResourcesAllocationResult | None = None
     vendorRequestParameters: RawExtension | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class NamedResourcesAttribute(LazyLoadModel):
+class NamedResourcesAttribute(Loadable):
     name: str
     bool: bool | None = None
     int: int | None = None
@@ -110,29 +110,29 @@ class NamedResourcesAttribute(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class NamedResourcesInstance(LazyLoadModel):
+class NamedResourcesInstance(Loadable):
     name: str
     attributes: List[NamedResourcesAttribute] | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class NamedResourcesResources(LazyLoadModel):
+class NamedResourcesResources(Loadable):
     instances: List[NamedResourcesInstance]
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class PodSchedulingContextStatus(LazyLoadModel):
+class PodSchedulingContextStatus(Loadable):
     resourceClaims: List[ResourceClaimSchedulingStatus] | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ResourceRequest(LazyLoadModel):
+class ResourceRequest(Loadable):
     namedResources: NamedResourcesRequest | None = None
     vendorParameters: RawExtension | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class StructuredResourceHandle(LazyLoadModel):
+class StructuredResourceHandle(Loadable):
     results: List[DriverAllocationResult]
     nodeName: str | None = None
     vendorClaimParameters: RawExtension | None = None
@@ -140,13 +140,13 @@ class StructuredResourceHandle(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class VendorParameters(LazyLoadModel):
+class VendorParameters(Loadable):
     driverName: str | None = None
     parameters: RawExtension | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class DriverRequests(LazyLoadModel):
+class DriverRequests(Loadable):
     driverName: str | None = None
     requests: List[ResourceRequest] | None = None
     vendorParameters: RawExtension | None = None
@@ -171,7 +171,7 @@ class PodSchedulingContext(K8sResource):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class PodSchedulingContextList(LazyLoadModel):
+class PodSchedulingContextList(Loadable):
     items: List[PodSchedulingContext]
     apiVersion: str = 'resource.k8s.io/v1alpha2'
     kind: str = 'PodSchedulingContextList'
@@ -198,7 +198,7 @@ class ResourceClaimParameters(K8sResource):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ResourceClaimParametersList(LazyLoadModel):
+class ResourceClaimParametersList(Loadable):
     items: List[ResourceClaimParameters]
     apiVersion: str = 'resource.k8s.io/v1alpha2'
     kind: str = 'ResourceClaimParametersList'
@@ -206,7 +206,7 @@ class ResourceClaimParametersList(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ResourceClaimTemplateSpec(LazyLoadModel):
+class ResourceClaimTemplateSpec(Loadable):
     spec: ResourceClaimSpec
     metadata: ObjectMeta | None = None
 
@@ -232,7 +232,7 @@ class ResourceClass(K8sResource):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ResourceClassList(LazyLoadModel):
+class ResourceClassList(Loadable):
     items: List[ResourceClass]
     apiVersion: str = 'resource.k8s.io/v1alpha2'
     kind: str = 'ResourceClassList'
@@ -259,7 +259,7 @@ class ResourceClassParameters(K8sResource):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ResourceClassParametersList(LazyLoadModel):
+class ResourceClassParametersList(Loadable):
     items: List[ResourceClassParameters]
     apiVersion: str = 'resource.k8s.io/v1alpha2'
     kind: str = 'ResourceClassParametersList'
@@ -267,7 +267,7 @@ class ResourceClassParametersList(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ResourceHandle(LazyLoadModel):
+class ResourceHandle(Loadable):
     data: str | None = None
     driverName: str | None = None
     structuredData: StructuredResourceHandle | None = None
@@ -293,7 +293,7 @@ class ResourceSlice(K8sResource):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ResourceSliceList(LazyLoadModel):
+class ResourceSliceList(Loadable):
     items: List[ResourceSlice]
     apiVersion: str = 'resource.k8s.io/v1alpha2'
     kind: str = 'ResourceSliceList'
@@ -301,14 +301,14 @@ class ResourceSliceList(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class AllocationResult(LazyLoadModel):
+class AllocationResult(Loadable):
     availableOnNodes: NodeSelector | None = None
     resourceHandles: List[ResourceHandle] | None = None
     shareable: bool | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ResourceClaimStatus(LazyLoadModel):
+class ResourceClaimStatus(Loadable):
     allocation: AllocationResult | None = None
     deallocationRequested: bool | None = None
     driverName: str | None = None
@@ -339,7 +339,7 @@ class ResourceClaimTemplate(K8sResource):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ResourceClaimTemplateList(LazyLoadModel):
+class ResourceClaimTemplateList(Loadable):
     items: List[ResourceClaimTemplate]
     apiVersion: str = 'resource.k8s.io/v1alpha2'
     kind: str = 'ResourceClaimTemplateList'
@@ -365,7 +365,7 @@ class ResourceClaim(K8sResource):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ResourceClaimList(LazyLoadModel):
+class ResourceClaimList(Loadable):
     items: List[ResourceClaim]
     apiVersion: str = 'resource.k8s.io/v1alpha2'
     kind: str = 'ResourceClaimList'

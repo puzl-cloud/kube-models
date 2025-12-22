@@ -9,12 +9,12 @@ from typing import ClassVar, Dict, List, Set
 
 from kube_models.const import *
 from kube_models.loader import *
-from kube_models.loader import LazyLoadModel
+from kube_models.loader import Loadable
 from kube_models.resource import *
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class APIResource(LazyLoadModel):
+class APIResource(Loadable):
     kind: str
     name: str
     namespaced: bool
@@ -28,7 +28,7 @@ class APIResource(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class APIResourceList(LazyLoadModel):
+class APIResourceList(Loadable):
     groupVersion: str
     resources: List[APIResource]
     apiVersion: str = 'v1'
@@ -36,12 +36,12 @@ class APIResourceList(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class FieldsV1(LazyLoadModel):
+class FieldsV1(Loadable):
     pass
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class OwnerReference(LazyLoadModel):
+class OwnerReference(Loadable):
     apiVersion: str
     kind: str
     name: str
@@ -54,7 +54,7 @@ Time = str
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ManagedFieldsEntry(LazyLoadModel):
+class ManagedFieldsEntry(Loadable):
     apiVersion: str | None = None
     fieldsType: str | None = None
     fieldsV1: FieldsV1 | None = None
@@ -65,7 +65,7 @@ class ManagedFieldsEntry(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ObjectMeta(LazyLoadModel):
+class ObjectMeta(Loadable):
     annotations: Dict[str, str] | None = None
     creationTimestamp: Time | None = None
     deletionGracePeriodSeconds: int | None = None

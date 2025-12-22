@@ -9,7 +9,7 @@ from typing import ClassVar, Set
 
 from kube_models.const import *
 from kube_models.loader import *
-from kube_models.loader import LazyLoadModel
+from kube_models.loader import Loadable
 from kube_models.resource import *
 
 from ...apimachinery.pkg.apis.meta.v1 import ObjectMeta
@@ -17,7 +17,7 @@ from .v1 import UserInfo
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class SelfSubjectReviewStatus(LazyLoadModel):
+class SelfSubjectReviewStatus(Loadable):
     userInfo: UserInfo | None = None
 
 

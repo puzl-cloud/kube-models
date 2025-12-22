@@ -9,7 +9,7 @@ from typing import ClassVar, List, Set
 
 from kube_models.const import *
 from kube_models.loader import *
-from kube_models.loader import LazyLoadModel
+from kube_models.loader import Loadable
 from kube_models.resource import *
 
 from ...apimachinery.pkg.apis.meta.v1 import ListMeta, ObjectMeta
@@ -17,13 +17,13 @@ from ..core.v1 import NodeSelector
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class PodSchedulingSpec(LazyLoadModel):
+class PodSchedulingSpec(Loadable):
     potentialNodes: List[str] | None = None
     selectedNode: str | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ResourceClaimConsumerReference(LazyLoadModel):
+class ResourceClaimConsumerReference(Loadable):
     name: str
     resource: str
     uid: str
@@ -31,27 +31,27 @@ class ResourceClaimConsumerReference(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ResourceClaimParametersReference(LazyLoadModel):
+class ResourceClaimParametersReference(Loadable):
     kind: str
     name: str
     apiGroup: str | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ResourceClaimSchedulingStatus(LazyLoadModel):
+class ResourceClaimSchedulingStatus(Loadable):
     name: str | None = None
     unsuitableNodes: List[str] | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ResourceClaimSpec(LazyLoadModel):
+class ResourceClaimSpec(Loadable):
     resourceClassName: str
     allocationMode: str | None = None
     parametersRef: ResourceClaimParametersReference | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ResourceClassParametersReference(LazyLoadModel):
+class ResourceClassParametersReference(Loadable):
     kind: str
     name: str
     apiGroup: str | None = None
@@ -59,19 +59,19 @@ class ResourceClassParametersReference(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class AllocationResult(LazyLoadModel):
+class AllocationResult(Loadable):
     availableOnNodes: NodeSelector | None = None
     resourceHandle: str | None = None
     shareable: bool | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class PodSchedulingStatus(LazyLoadModel):
+class PodSchedulingStatus(Loadable):
     resourceClaims: List[ResourceClaimSchedulingStatus] | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ResourceClaimStatus(LazyLoadModel):
+class ResourceClaimStatus(Loadable):
     allocation: AllocationResult | None = None
     deallocationRequested: bool | None = None
     driverName: str | None = None
@@ -97,7 +97,7 @@ class PodScheduling(K8sResource):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class PodSchedulingList(LazyLoadModel):
+class PodSchedulingList(Loadable):
     items: List[PodScheduling]
     apiVersion: str = 'resource.k8s.io/v1alpha1'
     kind: str = 'PodSchedulingList'
@@ -123,7 +123,7 @@ class ResourceClaim(K8sResource):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ResourceClaimList(LazyLoadModel):
+class ResourceClaimList(Loadable):
     items: List[ResourceClaim]
     apiVersion: str = 'resource.k8s.io/v1alpha1'
     kind: str = 'ResourceClaimList'
@@ -131,7 +131,7 @@ class ResourceClaimList(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ResourceClaimTemplateSpec(LazyLoadModel):
+class ResourceClaimTemplateSpec(Loadable):
     spec: ResourceClaimSpec
     metadata: ObjectMeta | None = None
 
@@ -156,7 +156,7 @@ class ResourceClass(K8sResource):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ResourceClassList(LazyLoadModel):
+class ResourceClassList(Loadable):
     items: List[ResourceClass]
     apiVersion: str = 'resource.k8s.io/v1alpha1'
     kind: str = 'ResourceClassList'
@@ -181,7 +181,7 @@ class ResourceClaimTemplate(K8sResource):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ResourceClaimTemplateList(LazyLoadModel):
+class ResourceClaimTemplateList(Loadable):
     items: List[ResourceClaimTemplate]
     apiVersion: str = 'resource.k8s.io/v1alpha1'
     kind: str = 'ResourceClaimTemplateList'

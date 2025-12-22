@@ -9,23 +9,23 @@ from typing import ClassVar, List, Set
 
 from kube_models.const import *
 from kube_models.loader import *
-from kube_models.loader import LazyLoadModel
+from kube_models.loader import Loadable
 from kube_models.resource import *
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class NodeSelectorRequirement(LazyLoadModel):
+class NodeSelectorRequirement(Loadable):
     key: str
     operator: str
     values: List[str] | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class NodeSelectorTerm(LazyLoadModel):
+class NodeSelectorTerm(Loadable):
     matchExpressions: List[NodeSelectorRequirement] | None = None
     matchFields: List[NodeSelectorRequirement] | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class NodeSelector(LazyLoadModel):
+class NodeSelector(Loadable):
     nodeSelectorTerms: List[NodeSelectorTerm]

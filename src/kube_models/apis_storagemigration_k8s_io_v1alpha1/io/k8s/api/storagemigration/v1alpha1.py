@@ -9,27 +9,27 @@ from typing import ClassVar, List, Set
 
 from kube_models.const import *
 from kube_models.loader import *
-from kube_models.loader import LazyLoadModel
+from kube_models.loader import Loadable
 from kube_models.resource import *
 
 from ...apimachinery.pkg.apis.meta.v1 import ListMeta, ObjectMeta, Time
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class GroupVersionResource(LazyLoadModel):
+class GroupVersionResource(Loadable):
     group: str | None = None
     resource: str | None = None
     version: str | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class StorageVersionMigrationSpec(LazyLoadModel):
+class StorageVersionMigrationSpec(Loadable):
     resource: GroupVersionResource
     continueToken: str | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class MigrationCondition(LazyLoadModel):
+class MigrationCondition(Loadable):
     status: str
     type: str
     lastUpdateTime: Time | None = None
@@ -38,7 +38,7 @@ class MigrationCondition(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class StorageVersionMigrationStatus(LazyLoadModel):
+class StorageVersionMigrationStatus(Loadable):
     conditions: List[MigrationCondition] = field(
         default_factory=list,
         metadata={
@@ -69,7 +69,7 @@ class StorageVersionMigration(K8sResource):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class StorageVersionMigrationList(LazyLoadModel):
+class StorageVersionMigrationList(Loadable):
     apiVersion: str = 'storagemigration.k8s.io/v1alpha1'
     items: List[StorageVersionMigration] = field(
         metadata={

@@ -9,24 +9,24 @@ from typing import ClassVar, List, Set
 
 from kube_models.const import *
 from kube_models.loader import *
-from kube_models.loader import LazyLoadModel
+from kube_models.loader import Loadable
 from kube_models.resource import *
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class GroupVersionForDiscovery(LazyLoadModel):
+class GroupVersionForDiscovery(Loadable):
     groupVersion: str
     version: str
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ServerAddressByClientCIDR(LazyLoadModel):
+class ServerAddressByClientCIDR(Loadable):
     clientCIDR: str
     serverAddress: str
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class APIGroup(LazyLoadModel):
+class APIGroup(Loadable):
     name: str
     versions: List[GroupVersionForDiscovery]
     apiVersion: str = 'v1'
@@ -36,7 +36,7 @@ class APIGroup(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class APIGroupList(LazyLoadModel):
+class APIGroupList(Loadable):
     groups: List[APIGroup]
     apiVersion: str = 'v1'
     kind: str = 'APIGroupList'

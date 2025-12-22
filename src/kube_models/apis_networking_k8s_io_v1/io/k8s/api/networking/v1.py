@@ -9,7 +9,7 @@ from typing import ClassVar, List, Set
 
 from kube_models.const import *
 from kube_models.loader import *
-from kube_models.loader import LazyLoadModel
+from kube_models.loader import Loadable
 from kube_models.resource import *
 
 from ...apimachinery.pkg.apis.meta.v1 import (
@@ -23,13 +23,13 @@ from ..core.v1 import TypedLocalObjectReference
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class IPBlock(LazyLoadModel):
+class IPBlock(Loadable):
     cidr: str
     except_: List[str] | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class IngressClassParametersReference(LazyLoadModel):
+class IngressClassParametersReference(Loadable):
     kind: str
     name: str
     apiGroup: str | None = None
@@ -38,26 +38,26 @@ class IngressClassParametersReference(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class IngressClassSpec(LazyLoadModel):
+class IngressClassSpec(Loadable):
     controller: str | None = None
     parameters: IngressClassParametersReference | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class IngressPortStatus(LazyLoadModel):
+class IngressPortStatus(Loadable):
     port: int
     protocol: str
     error: str | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class IngressTLS(LazyLoadModel):
+class IngressTLS(Loadable):
     hosts: List[str] | None = None
     secretName: str | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ParentReference(LazyLoadModel):
+class ParentReference(Loadable):
     name: str
     resource: str
     group: str | None = None
@@ -65,46 +65,46 @@ class ParentReference(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ServiceBackendPort(LazyLoadModel):
+class ServiceBackendPort(Loadable):
     name: str | None = None
     number: int | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ServiceCIDRSpec(LazyLoadModel):
+class ServiceCIDRSpec(Loadable):
     cidrs: List[str] | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class IPAddressSpec(LazyLoadModel):
+class IPAddressSpec(Loadable):
     parentRef: ParentReference
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class IngressLoadBalancerIngress(LazyLoadModel):
+class IngressLoadBalancerIngress(Loadable):
     hostname: str | None = None
     ip: str | None = None
     ports: List[IngressPortStatus] | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class IngressLoadBalancerStatus(LazyLoadModel):
+class IngressLoadBalancerStatus(Loadable):
     ingress: List[IngressLoadBalancerIngress] | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class IngressServiceBackend(LazyLoadModel):
+class IngressServiceBackend(Loadable):
     name: str
     port: ServiceBackendPort | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class IngressStatus(LazyLoadModel):
+class IngressStatus(Loadable):
     loadBalancer: IngressLoadBalancerStatus | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class NetworkPolicyPort(LazyLoadModel):
+class NetworkPolicyPort(Loadable):
     endPort: int | None = None
     port: IntOrString | None = None
     protocol: str | None = None
@@ -129,7 +129,7 @@ class IPAddress(K8sResource):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class IPAddressList(LazyLoadModel):
+class IPAddressList(Loadable):
     items: List[IPAddress]
     apiVersion: str = 'networking.k8s.io/v1'
     kind: str = 'IPAddressList'
@@ -137,7 +137,7 @@ class IPAddressList(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class IngressBackend(LazyLoadModel):
+class IngressBackend(Loadable):
     resource: TypedLocalObjectReference | None = None
     service: IngressServiceBackend | None = None
 
@@ -161,7 +161,7 @@ class IngressClass(K8sResource):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class IngressClassList(LazyLoadModel):
+class IngressClassList(Loadable):
     items: List[IngressClass]
     apiVersion: str = 'networking.k8s.io/v1'
     kind: str = 'IngressClassList'
@@ -169,14 +169,14 @@ class IngressClassList(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class NetworkPolicyPeer(LazyLoadModel):
+class NetworkPolicyPeer(Loadable):
     ipBlock: IPBlock | None = None
     namespaceSelector: LabelSelector | None = None
     podSelector: LabelSelector | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ServiceCIDRStatus(LazyLoadModel):
+class ServiceCIDRStatus(Loadable):
     conditions: List[Condition] = field(
         default_factory=list,
         metadata={
@@ -187,25 +187,25 @@ class ServiceCIDRStatus(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class HTTPIngressPath(LazyLoadModel):
+class HTTPIngressPath(Loadable):
     backend: IngressBackend
     pathType: str
     path: str | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class HTTPIngressRuleValue(LazyLoadModel):
+class HTTPIngressRuleValue(Loadable):
     paths: List[HTTPIngressPath]
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class IngressRule(LazyLoadModel):
+class IngressRule(Loadable):
     host: str | None = None
     http: HTTPIngressRuleValue | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class IngressSpec(LazyLoadModel):
+class IngressSpec(Loadable):
     defaultBackend: IngressBackend | None = None
     ingressClassName: str | None = None
     rules: List[IngressRule] | None = None
@@ -213,19 +213,19 @@ class IngressSpec(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class NetworkPolicyEgressRule(LazyLoadModel):
+class NetworkPolicyEgressRule(Loadable):
     ports: List[NetworkPolicyPort] | None = None
     to: List[NetworkPolicyPeer] | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class NetworkPolicyIngressRule(LazyLoadModel):
+class NetworkPolicyIngressRule(Loadable):
     from_: List[NetworkPolicyPeer] | None = None
     ports: List[NetworkPolicyPort] | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class NetworkPolicySpec(LazyLoadModel):
+class NetworkPolicySpec(Loadable):
     egress: List[NetworkPolicyEgressRule] | None = None
     ingress: List[NetworkPolicyIngressRule] | None = None
     podSelector: LabelSelector | None = None
@@ -252,7 +252,7 @@ class ServiceCIDR(K8sResource):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ServiceCIDRList(LazyLoadModel):
+class ServiceCIDRList(Loadable):
     items: List[ServiceCIDR]
     apiVersion: str = 'networking.k8s.io/v1'
     kind: str = 'ServiceCIDRList'
@@ -279,7 +279,7 @@ class Ingress(K8sResource):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class IngressList(LazyLoadModel):
+class IngressList(Loadable):
     items: List[Ingress]
     apiVersion: str = 'networking.k8s.io/v1'
     kind: str = 'IngressList'
@@ -305,7 +305,7 @@ class NetworkPolicy(K8sResource):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class NetworkPolicyList(LazyLoadModel):
+class NetworkPolicyList(Loadable):
     items: List[NetworkPolicy]
     apiVersion: str = 'networking.k8s.io/v1'
     kind: str = 'NetworkPolicyList'

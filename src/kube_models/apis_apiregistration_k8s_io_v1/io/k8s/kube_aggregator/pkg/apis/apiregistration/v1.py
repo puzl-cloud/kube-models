@@ -9,14 +9,14 @@ from typing import ClassVar, List, Set
 
 from kube_models.const import *
 from kube_models.loader import *
-from kube_models.loader import LazyLoadModel
+from kube_models.loader import Loadable
 from kube_models.resource import *
 
 from .....apimachinery.pkg.apis.meta.v1 import ListMeta, ObjectMeta, Time
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class APIServiceCondition(LazyLoadModel):
+class APIServiceCondition(Loadable):
     status: str
     type: str
     lastTransitionTime: Time | None = None
@@ -25,7 +25,7 @@ class APIServiceCondition(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class APIServiceStatus(LazyLoadModel):
+class APIServiceStatus(Loadable):
     conditions: List[APIServiceCondition] = field(
         default_factory=list,
         metadata={
@@ -36,14 +36,14 @@ class APIServiceStatus(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ServiceReference(LazyLoadModel):
+class ServiceReference(Loadable):
     name: str | None = None
     namespace: str | None = None
     port: int | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class APIServiceSpec(LazyLoadModel):
+class APIServiceSpec(Loadable):
     groupPriorityMinimum: int
     versionPriority: int
     caBundle: str | None = None
@@ -73,7 +73,7 @@ class APIService(K8sResource):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class APIServiceList(LazyLoadModel):
+class APIServiceList(Loadable):
     items: List[APIService]
     apiVersion: str = 'apiregistration.k8s.io/v1'
     kind: str = 'APIServiceList'

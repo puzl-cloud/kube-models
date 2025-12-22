@@ -9,7 +9,7 @@ from typing import ClassVar, List, Set
 
 from kube_models.const import *
 from kube_models.loader import *
-from kube_models.loader import LazyLoadModel
+from kube_models.loader import Loadable
 from kube_models.resource import *
 
 from ...apimachinery.pkg.apis.meta.v1 import ListMeta, MicroTime, ObjectMeta, Time
@@ -17,7 +17,7 @@ from ..core.v1 import EventSource, ObjectReference
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class EventSeries(LazyLoadModel):
+class EventSeries(Loadable):
     count: int
     lastObservedTime: MicroTime
 
@@ -53,7 +53,7 @@ class Event(K8sResource):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class EventList(LazyLoadModel):
+class EventList(Loadable):
     items: List[Event]
     apiVersion: str = 'events.k8s.io/v1beta1'
     kind: str = 'EventList'

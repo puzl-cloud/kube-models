@@ -9,7 +9,7 @@ from typing import ClassVar, Dict, List, Set
 
 from kube_models.const import *
 from kube_models.loader import *
-from kube_models.loader import LazyLoadModel
+from kube_models.loader import Loadable
 from kube_models.resource import *
 
 from ...apimachinery.pkg.api.resource import Quantity
@@ -18,13 +18,13 @@ from ..core.v1 import Toleration
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class Scheduling(LazyLoadModel):
+class Scheduling(Loadable):
     nodeSelector: Dict[str, str] | None = None
     tolerations: List[Toleration] | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class Overhead(LazyLoadModel):
+class Overhead(Loadable):
     podFixed: Dict[str, Quantity] | None = None
 
 
@@ -48,7 +48,7 @@ class RuntimeClass(K8sResource):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class RuntimeClassList(LazyLoadModel):
+class RuntimeClassList(Loadable):
     items: List[RuntimeClass]
     apiVersion: str = 'node.k8s.io/v1beta1'
     kind: str = 'RuntimeClassList'

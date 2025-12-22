@@ -9,7 +9,7 @@ from typing import ClassVar, List, Set
 
 from kube_models.const import *
 from kube_models.loader import *
-from kube_models.loader import LazyLoadModel
+from kube_models.loader import Loadable
 from kube_models.resource import *
 
 from ...apimachinery.pkg.apis.meta.v1 import ListMeta, ObjectMeta
@@ -37,7 +37,7 @@ class PriorityClass(K8sResource):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class PriorityClassList(LazyLoadModel):
+class PriorityClassList(Loadable):
     items: List[PriorityClass]
     apiVersion: str = 'scheduling.k8s.io/v1'
     kind: str = 'PriorityClassList'

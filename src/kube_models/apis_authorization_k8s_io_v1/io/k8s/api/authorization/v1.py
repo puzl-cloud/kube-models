@@ -9,7 +9,7 @@ from typing import ClassVar, Dict, List, Set
 
 from kube_models.const import *
 from kube_models.loader import *
-from kube_models.loader import LazyLoadModel
+from kube_models.loader import Loadable
 from kube_models.resource import *
 
 from ...apimachinery.pkg.apis.meta.v1 import (
@@ -20,19 +20,19 @@ from ...apimachinery.pkg.apis.meta.v1 import (
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class NonResourceAttributes(LazyLoadModel):
+class NonResourceAttributes(Loadable):
     path: str | None = None
     verb: str | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class NonResourceRule(LazyLoadModel):
+class NonResourceRule(Loadable):
     verbs: List[str]
     nonResourceURLs: List[str] | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ResourceRule(LazyLoadModel):
+class ResourceRule(Loadable):
     verbs: List[str]
     apiGroups: List[str] | None = None
     resourceNames: List[str] | None = None
@@ -40,12 +40,12 @@ class ResourceRule(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class SelfSubjectRulesReviewSpec(LazyLoadModel):
+class SelfSubjectRulesReviewSpec(Loadable):
     namespace: str | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class SubjectAccessReviewStatus(LazyLoadModel):
+class SubjectAccessReviewStatus(Loadable):
     allowed: bool
     denied: bool | None = None
     evaluationError: str | None = None
@@ -53,7 +53,7 @@ class SubjectAccessReviewStatus(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class SubjectRulesReviewStatus(LazyLoadModel):
+class SubjectRulesReviewStatus(Loadable):
     incomplete: bool
     nonResourceRules: List[NonResourceRule]
     resourceRules: List[ResourceRule]
@@ -61,19 +61,19 @@ class SubjectRulesReviewStatus(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class FieldSelectorAttributes(LazyLoadModel):
+class FieldSelectorAttributes(Loadable):
     rawSelector: str | None = None
     requirements: List[FieldSelectorRequirement] | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class LabelSelectorAttributes(LazyLoadModel):
+class LabelSelectorAttributes(Loadable):
     rawSelector: str | None = None
     requirements: List[LabelSelectorRequirement] | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ResourceAttributes(LazyLoadModel):
+class ResourceAttributes(Loadable):
     fieldSelector: FieldSelectorAttributes | None = None
     group: str | None = None
     labelSelector: LabelSelectorAttributes | None = None
@@ -86,13 +86,13 @@ class ResourceAttributes(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class SelfSubjectAccessReviewSpec(LazyLoadModel):
+class SelfSubjectAccessReviewSpec(Loadable):
     nonResourceAttributes: NonResourceAttributes | None = None
     resourceAttributes: ResourceAttributes | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class SubjectAccessReviewSpec(LazyLoadModel):
+class SubjectAccessReviewSpec(Loadable):
     extra: Dict[str, List[str]] | None = None
     groups: List[str] | None = None
     nonResourceAttributes: NonResourceAttributes | None = None

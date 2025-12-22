@@ -9,7 +9,7 @@ from typing import ClassVar, Dict, List, Set
 
 from kube_models.const import *
 from kube_models.loader import *
-from kube_models.loader import LazyLoadModel
+from kube_models.loader import Loadable
 from kube_models.resource import *
 
 from ...apimachinery.pkg.api.resource import Quantity
@@ -18,18 +18,18 @@ from ..core.v1 import PersistentVolumeSpec, TopologySelectorTerm
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class TokenRequest(LazyLoadModel):
+class TokenRequest(Loadable):
     audience: str
     expirationSeconds: int | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class VolumeNodeResources(LazyLoadModel):
+class VolumeNodeResources(Loadable):
     count: int | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class CSIDriverSpec(LazyLoadModel):
+class CSIDriverSpec(Loadable):
     attachRequired: bool | None = None
     fsGroupPolicy: str | None = None
     nodeAllocatableUpdatePeriodSeconds: int | None = None
@@ -42,7 +42,7 @@ class CSIDriverSpec(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class CSINodeDriver(LazyLoadModel):
+class CSINodeDriver(Loadable):
     name: str
     nodeID: str
     allocatable: VolumeNodeResources | None = None
@@ -50,7 +50,7 @@ class CSINodeDriver(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class CSINodeSpec(LazyLoadModel):
+class CSINodeSpec(Loadable):
     drivers: List[CSINodeDriver] = field(
         metadata={
             'x-kubernetes-patch-strategy': 'merge',
@@ -60,7 +60,7 @@ class CSINodeSpec(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class VolumeError(LazyLoadModel):
+class VolumeError(Loadable):
     errorCode: int | None = None
     message: str | None = None
     time: Time | None = None
@@ -85,7 +85,7 @@ class CSIDriver(K8sResource):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class CSIDriverList(LazyLoadModel):
+class CSIDriverList(Loadable):
     items: List[CSIDriver]
     apiVersion: str = 'storage.k8s.io/v1'
     kind: str = 'CSIDriverList'
@@ -111,7 +111,7 @@ class CSINode(K8sResource):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class CSINodeList(LazyLoadModel):
+class CSINodeList(Loadable):
     items: List[CSINode]
     apiVersion: str = 'storage.k8s.io/v1'
     kind: str = 'CSINodeList'
@@ -140,7 +140,7 @@ class CSIStorageCapacity(K8sResource):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class CSIStorageCapacityList(LazyLoadModel):
+class CSIStorageCapacityList(Loadable):
     items: List[CSIStorageCapacity]
     apiVersion: str = 'storage.k8s.io/v1'
     kind: str = 'CSIStorageCapacityList'
@@ -172,7 +172,7 @@ class StorageClass(K8sResource):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class StorageClassList(LazyLoadModel):
+class StorageClassList(Loadable):
     items: List[StorageClass]
     apiVersion: str = 'storage.k8s.io/v1'
     kind: str = 'StorageClassList'
@@ -180,20 +180,20 @@ class StorageClassList(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class VolumeAttachmentSource(LazyLoadModel):
+class VolumeAttachmentSource(Loadable):
     inlineVolumeSpec: PersistentVolumeSpec | None = None
     persistentVolumeName: str | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class VolumeAttachmentSpec(LazyLoadModel):
+class VolumeAttachmentSpec(Loadable):
     attacher: str
     nodeName: str
     source: VolumeAttachmentSource
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class VolumeAttachmentStatus(LazyLoadModel):
+class VolumeAttachmentStatus(Loadable):
     attached: bool
     attachError: VolumeError | None = None
     attachmentMetadata: Dict[str, str] | None = None
@@ -220,7 +220,7 @@ class VolumeAttributesClass(K8sResource):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class VolumeAttributesClassList(LazyLoadModel):
+class VolumeAttributesClassList(Loadable):
     items: List[VolumeAttributesClass]
     apiVersion: str = 'storage.k8s.io/v1'
     kind: str = 'VolumeAttributesClassList'
@@ -247,7 +247,7 @@ class VolumeAttachment(K8sResource):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class VolumeAttachmentList(LazyLoadModel):
+class VolumeAttachmentList(Loadable):
     items: List[VolumeAttachment]
     apiVersion: str = 'storage.k8s.io/v1'
     kind: str = 'VolumeAttachmentList'

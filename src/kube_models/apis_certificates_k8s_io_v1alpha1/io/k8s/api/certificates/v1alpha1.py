@@ -9,20 +9,20 @@ from typing import ClassVar, List, Set
 
 from kube_models.const import *
 from kube_models.loader import *
-from kube_models.loader import LazyLoadModel
+from kube_models.loader import Loadable
 from kube_models.resource import *
 
 from ...apimachinery.pkg.apis.meta.v1 import Condition, ListMeta, ObjectMeta, Time
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ClusterTrustBundleSpec(LazyLoadModel):
+class ClusterTrustBundleSpec(Loadable):
     trustBundle: str
     signerName: str | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class PodCertificateRequestSpec(LazyLoadModel):
+class PodCertificateRequestSpec(Loadable):
     nodeName: str
     nodeUID: str
     pkixPublicKey: str
@@ -54,7 +54,7 @@ class ClusterTrustBundle(K8sResource):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ClusterTrustBundleList(LazyLoadModel):
+class ClusterTrustBundleList(Loadable):
     items: List[ClusterTrustBundle]
     apiVersion: str = 'certificates.k8s.io/v1alpha1'
     kind: str = 'ClusterTrustBundleList'
@@ -62,7 +62,7 @@ class ClusterTrustBundleList(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class PodCertificateRequestStatus(LazyLoadModel):
+class PodCertificateRequestStatus(Loadable):
     beginRefreshAt: Time | None = None
     certificateChain: str | None = None
     conditions: List[Condition] = field(
@@ -96,7 +96,7 @@ class PodCertificateRequest(K8sResource):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class PodCertificateRequestList(LazyLoadModel):
+class PodCertificateRequestList(Loadable):
     items: List[PodCertificateRequest]
     apiVersion: str = 'certificates.k8s.io/v1alpha1'
     kind: str = 'PodCertificateRequestList'

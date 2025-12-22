@@ -9,14 +9,14 @@ from typing import ClassVar, List, Set
 
 from kube_models.const import *
 from kube_models.loader import *
-from kube_models.loader import LazyLoadModel
+from kube_models.loader import Loadable
 from kube_models.resource import *
 
 from ...apimachinery.pkg.apis.meta.v1 import ListMeta, MicroTime, ObjectMeta
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class LeaseSpec(LazyLoadModel):
+class LeaseSpec(Loadable):
     acquireTime: MicroTime | None = None
     holderIdentity: str | None = None
     leaseDurationSeconds: int | None = None
@@ -45,7 +45,7 @@ class Lease(K8sResource):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class LeaseList(LazyLoadModel):
+class LeaseList(Loadable):
     items: List[Lease]
     apiVersion: str = 'coordination.k8s.io/v1'
     kind: str = 'LeaseList'

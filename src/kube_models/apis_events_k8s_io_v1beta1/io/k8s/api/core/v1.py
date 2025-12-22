@@ -9,18 +9,18 @@ from typing import ClassVar, Set
 
 from kube_models.const import *
 from kube_models.loader import *
-from kube_models.loader import LazyLoadModel
+from kube_models.loader import Loadable
 from kube_models.resource import *
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class EventSource(LazyLoadModel):
+class EventSource(Loadable):
     component: str | None = None
     host: str | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ObjectReference(LazyLoadModel):
+class ObjectReference(Loadable):
     apiVersion: str | None = None
     fieldPath: str | None = None
     kind: str | None = None

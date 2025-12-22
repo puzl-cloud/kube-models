@@ -9,7 +9,7 @@ from typing import ClassVar, Dict, List, Set
 
 from kube_models.const import *
 from kube_models.loader import *
-from kube_models.loader import LazyLoadModel
+from kube_models.loader import Loadable
 from kube_models.resource import *
 
 from ...apimachinery.pkg.apis.meta.v1 import ListMeta, ObjectMeta
@@ -35,7 +35,7 @@ class VolumeAttributesClass(K8sResource):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class VolumeAttributesClassList(LazyLoadModel):
+class VolumeAttributesClassList(Loadable):
     items: List[VolumeAttributesClass]
     apiVersion: str = 'storage.k8s.io/v1alpha1'
     kind: str = 'VolumeAttributesClassList'

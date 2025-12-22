@@ -9,14 +9,14 @@ from typing import ClassVar, List, Set
 
 from kube_models.const import *
 from kube_models.loader import *
-from kube_models.loader import LazyLoadModel
+from kube_models.loader import Loadable
 from kube_models.resource import *
 
 from ...apimachinery.pkg.apis.meta.v1 import ListMeta, ObjectMeta, Time
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ServerStorageVersion(LazyLoadModel):
+class ServerStorageVersion(Loadable):
     apiServerID: str | None = None
     decodableVersions: List[str] | None = None
     encodingVersion: str | None = None
@@ -24,12 +24,12 @@ class ServerStorageVersion(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class StorageVersionSpec(LazyLoadModel):
+class StorageVersionSpec(Loadable):
     pass
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class StorageVersionCondition(LazyLoadModel):
+class StorageVersionCondition(Loadable):
     message: str
     reason: str
     status: str
@@ -39,7 +39,7 @@ class StorageVersionCondition(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class StorageVersionStatus(LazyLoadModel):
+class StorageVersionStatus(Loadable):
     commonEncodingVersion: str | None = None
     conditions: List[StorageVersionCondition] | None = None
     storageVersions: List[ServerStorageVersion] | None = None
@@ -65,7 +65,7 @@ class StorageVersion(K8sResource):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class StorageVersionList(LazyLoadModel):
+class StorageVersionList(Loadable):
     items: List[StorageVersion]
     apiVersion: str = 'internal.apiserver.k8s.io/v1alpha1'
     kind: str = 'StorageVersionList'

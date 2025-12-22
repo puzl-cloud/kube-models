@@ -9,20 +9,20 @@ from typing import ClassVar, Dict, List, Set
 
 from kube_models.const import *
 from kube_models.loader import *
-from kube_models.loader import LazyLoadModel
+from kube_models.loader import Loadable
 from kube_models.resource import *
 
 from ...apimachinery.pkg.apis.meta.v1 import ObjectMeta
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class TokenReviewSpec(LazyLoadModel):
+class TokenReviewSpec(Loadable):
     audiences: List[str] | None = None
     token: str | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class UserInfo(LazyLoadModel):
+class UserInfo(Loadable):
     extra: Dict[str, List[str]] | None = None
     groups: List[str] | None = None
     uid: str | None = None
@@ -30,12 +30,12 @@ class UserInfo(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class SelfSubjectReviewStatus(LazyLoadModel):
+class SelfSubjectReviewStatus(Loadable):
     userInfo: UserInfo | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class TokenReviewStatus(LazyLoadModel):
+class TokenReviewStatus(Loadable):
     audiences: List[str] | None = None
     authenticated: bool | None = None
     error: str | None = None

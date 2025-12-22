@@ -9,14 +9,14 @@ from typing import Any, ClassVar, Dict, List, Set
 
 from kube_models.const import *
 from kube_models.loader import *
-from kube_models.loader import LazyLoadModel
+from kube_models.loader import Loadable
 from kube_models.resource import *
 
 from .....apimachinery.pkg.apis.meta.v1 import ListMeta, ObjectMeta, Time
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class CustomResourceColumnDefinition(LazyLoadModel):
+class CustomResourceColumnDefinition(Loadable):
     jsonPath: str
     name: str
     type: str
@@ -26,7 +26,7 @@ class CustomResourceColumnDefinition(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class CustomResourceDefinitionNames(LazyLoadModel):
+class CustomResourceDefinitionNames(Loadable):
     kind: str
     plural: str
     categories: List[str] | None = None
@@ -36,25 +36,25 @@ class CustomResourceDefinitionNames(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class CustomResourceSubresourceScale(LazyLoadModel):
+class CustomResourceSubresourceScale(Loadable):
     specReplicasPath: str
     statusReplicasPath: str
     labelSelectorPath: str | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class CustomResourceSubresourceStatus(LazyLoadModel):
+class CustomResourceSubresourceStatus(Loadable):
     pass
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class CustomResourceSubresources(LazyLoadModel):
+class CustomResourceSubresources(Loadable):
     scale: CustomResourceSubresourceScale | None = None
     status: CustomResourceSubresourceStatus | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ExternalDocumentation(LazyLoadModel):
+class ExternalDocumentation(Loadable):
     description: str | None = None
     url: str | None = None
 
@@ -72,12 +72,12 @@ JSONSchemaPropsOrStringArray = Any
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class SelectableField(LazyLoadModel):
+class SelectableField(Loadable):
     jsonPath: str
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ServiceReference(LazyLoadModel):
+class ServiceReference(Loadable):
     name: str
     namespace: str
     path: str | None = None
@@ -85,7 +85,7 @@ class ServiceReference(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ValidationRule(LazyLoadModel):
+class ValidationRule(Loadable):
     rule: str
     fieldPath: str | None = None
     message: str | None = None
@@ -95,26 +95,26 @@ class ValidationRule(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class WebhookClientConfig(LazyLoadModel):
+class WebhookClientConfig(Loadable):
     caBundle: str | None = None
     service: ServiceReference | None = None
     url: str | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class WebhookConversion(LazyLoadModel):
+class WebhookConversion(Loadable):
     conversionReviewVersions: List[str]
     clientConfig: WebhookClientConfig | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class CustomResourceConversion(LazyLoadModel):
+class CustomResourceConversion(Loadable):
     strategy: str
     webhook: WebhookConversion | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class CustomResourceDefinitionCondition(LazyLoadModel):
+class CustomResourceDefinitionCondition(Loadable):
     status: str
     type: str
     lastTransitionTime: Time | None = None
@@ -123,14 +123,14 @@ class CustomResourceDefinitionCondition(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class CustomResourceDefinitionStatus(LazyLoadModel):
+class CustomResourceDefinitionStatus(Loadable):
     acceptedNames: CustomResourceDefinitionNames | None = None
     conditions: List[CustomResourceDefinitionCondition] | None = None
     storedVersions: List[str] | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class JSONSchemaProps(LazyLoadModel):
+class JSONSchemaProps(Loadable):
     field_ref: str | None = None
     field_schema: str | None = None
     additionalItems: JSONSchemaPropsOrBool | None = None
@@ -178,12 +178,12 @@ class JSONSchemaProps(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class CustomResourceValidation(LazyLoadModel):
+class CustomResourceValidation(Loadable):
     openAPIV3Schema: JSONSchemaProps | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class CustomResourceDefinitionVersion(LazyLoadModel):
+class CustomResourceDefinitionVersion(Loadable):
     name: str
     served: bool
     storage: bool
@@ -196,7 +196,7 @@ class CustomResourceDefinitionVersion(LazyLoadModel):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class CustomResourceDefinitionSpec(LazyLoadModel):
+class CustomResourceDefinitionSpec(Loadable):
     group: str
     names: CustomResourceDefinitionNames
     scope: str
@@ -225,7 +225,7 @@ class CustomResourceDefinition(K8sResource):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class CustomResourceDefinitionList(LazyLoadModel):
+class CustomResourceDefinitionList(Loadable):
     items: List[CustomResourceDefinition]
     apiVersion: str = 'apiextensions.k8s.io/v1'
     kind: str = 'CustomResourceDefinitionList'

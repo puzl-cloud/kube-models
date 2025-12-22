@@ -9,7 +9,7 @@ from typing import ClassVar, List, Set
 
 from kube_models.const import *
 from kube_models.loader import *
-from kube_models.loader import LazyLoadModel
+from kube_models.loader import Loadable
 from kube_models.resource import *
 
 from ...apimachinery.pkg.apis.meta.v1 import ListMeta, ObjectMeta, Time
@@ -18,20 +18,20 @@ from .v1 import JobSpec
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class CronJobStatus(LazyLoadModel):
+class CronJobStatus(Loadable):
     active: List[ObjectReference] | None = None
     lastScheduleTime: Time | None = None
     lastSuccessfulTime: Time | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class JobTemplateSpec(LazyLoadModel):
+class JobTemplateSpec(Loadable):
     metadata: ObjectMeta | None = None
     spec: JobSpec | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class CronJobSpec(LazyLoadModel):
+class CronJobSpec(Loadable):
     jobTemplate: JobTemplateSpec
     schedule: str
     concurrencyPolicy: str | None = None
@@ -61,7 +61,7 @@ class CronJob(K8sResource):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class CronJobList(LazyLoadModel):
+class CronJobList(Loadable):
     items: List[CronJob]
     apiVersion: str = 'batch/v1beta1'
     kind: str = 'CronJobList'

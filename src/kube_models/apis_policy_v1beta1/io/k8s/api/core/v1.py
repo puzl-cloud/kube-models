@@ -9,12 +9,12 @@ from typing import ClassVar, Set
 
 from kube_models.const import *
 from kube_models.loader import *
-from kube_models.loader import LazyLoadModel
+from kube_models.loader import Loadable
 from kube_models.resource import *
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class SELinuxOptions(LazyLoadModel):
+class SELinuxOptions(Loadable):
     level: str | None = None
     role: str | None = None
     type: str | None = None
