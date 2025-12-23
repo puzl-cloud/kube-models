@@ -237,6 +237,7 @@ class PodCertificateProjection(Loadable):
     credentialBundlePath: str | None = None
     keyPath: str | None = None
     maxExpirationSeconds: int | None = None
+    userAnnotations: Dict[str, str] | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
@@ -446,6 +447,13 @@ class WindowsSecurityContextOptions(Loadable):
     gmsaCredentialSpecName: str | None = None
     hostProcess: bool | None = None
     runAsUserName: str | None = None
+
+
+@dataclass(slots=True, kw_only=True, frozen=True)
+class WorkloadReference(Loadable):
+    name: str
+    podGroup: str
+    podGroupReplicaKey: str | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
@@ -1023,6 +1031,7 @@ class PodSpec(Loadable):
             'x-kubernetes-patch-merge-key': 'name',
         },
     )
+    workloadRef: WorkloadReference | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)

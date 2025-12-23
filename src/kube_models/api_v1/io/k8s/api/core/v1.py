@@ -410,6 +410,7 @@ class PodCertificateProjection(Loadable):
     credentialBundlePath: str | None = None
     keyPath: str | None = None
     maxExpirationSeconds: int | None = None
+    userAnnotations: Dict[str, str] | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
@@ -690,6 +691,13 @@ class WindowsSecurityContextOptions(Loadable):
     gmsaCredentialSpecName: str | None = None
     hostProcess: bool | None = None
     runAsUserName: str | None = None
+
+
+@dataclass(slots=True, kw_only=True, frozen=True)
+class WorkloadReference(Loadable):
+    name: str
+    podGroup: str
+    podGroupReplicaKey: str | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
@@ -974,6 +982,7 @@ class NodeStatus(Loadable):
     )
     config: NodeConfigStatus | None = None
     daemonEndpoints: NodeDaemonEndpoints | None = None
+    declaredFeatures: List[str] | None = None
     features: NodeFeatures | None = None
     images: List[ContainerImage] | None = None
     nodeInfo: NodeSystemInfo | None = None
@@ -1555,6 +1564,7 @@ class PodAffinityTerm(Loadable):
 
 @dataclass(slots=True, kw_only=True, frozen=True)
 class PodStatus(Loadable):
+    allocatedResources: Dict[str, Quantity] | None = None
     conditions: List[PodCondition] = field(
         default_factory=list,
         metadata={
@@ -1596,6 +1606,7 @@ class PodStatus(Loadable):
             'x-kubernetes-patch-merge-key': 'name',
         },
     )
+    resources: ResourceRequirements | None = None
     startTime: Time | None = None
 
 
@@ -2149,6 +2160,7 @@ class PodSpec(Loadable):
             'x-kubernetes-patch-merge-key': 'name',
         },
     )
+    workloadRef: WorkloadReference | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)

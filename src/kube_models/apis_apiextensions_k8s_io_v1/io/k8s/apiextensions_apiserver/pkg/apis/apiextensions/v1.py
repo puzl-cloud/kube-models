@@ -119,6 +119,7 @@ class CustomResourceDefinitionCondition(Loadable):
     type: str
     lastTransitionTime: Time | None = None
     message: str | None = None
+    observedGeneration: int | None = None
     reason: str | None = None
 
 
@@ -126,6 +127,7 @@ class CustomResourceDefinitionCondition(Loadable):
 class CustomResourceDefinitionStatus(Loadable):
     acceptedNames: CustomResourceDefinitionNames | None = None
     conditions: List[CustomResourceDefinitionCondition] | None = None
+    observedGeneration: int | None = None
     storedVersions: List[str] | None = None
 
 

@@ -25,8 +25,8 @@ class PodFailurePolicyOnExitCodesRequirement(Loadable):
 
 @dataclass(slots=True, kw_only=True, frozen=True)
 class PodFailurePolicyOnPodConditionsPattern(Loadable):
-    status: str
     type: str
+    status: str | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)

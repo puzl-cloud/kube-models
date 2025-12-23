@@ -36,6 +36,7 @@ class CSIDriverSpec(Loadable):
     podInfoOnMount: bool | None = None
     requiresRepublish: bool | None = None
     seLinuxMount: bool | None = None
+    serviceAccountTokenInSecrets: bool | None = None
     storageCapacity: bool | None = None
     tokenRequests: List[TokenRequest] | None = None
     volumeLifecycleModes: List[str] | None = None

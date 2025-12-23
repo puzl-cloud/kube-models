@@ -92,16 +92,6 @@ Time = str
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class Condition(Loadable):
-    lastTransitionTime: Time
-    message: str
-    reason: str
-    status: str
-    type: str
-    observedGeneration: int | None = None
-
-
-@dataclass(slots=True, kw_only=True, frozen=True)
 class DeleteOptions(Loadable):
     apiVersion: str = 'v1'
     dryRun: List[str] | None = None
