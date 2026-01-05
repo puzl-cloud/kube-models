@@ -55,8 +55,8 @@ class K8sResource(Loadable):
             cls.__api_path = f"{base}{namespaced_path}/{cls.plural_}"
             return cls.__api_path
 
-    def to_dict(self) -> Dict[str, Any]:
-        res = super(K8sResource, self).to_dict()
+    def to_dict(self, drop_nones: bool = False) -> Dict[str, Any]:
+        res = super(K8sResource, self).to_dict(drop_nones)
         for var in _DYNAMIC_CLASS_VARS:
             res[var] = getattr(self, var)
         return res

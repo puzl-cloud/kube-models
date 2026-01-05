@@ -25,7 +25,9 @@ from ..core.v1 import TypedLocalObjectReference
 @dataclass(slots=True, kw_only=True, frozen=True)
 class IPBlock(Loadable):
     cidr: str
-    except_: List[str] | None = None
+    except_: List[str] = field(
+        metadata={'original_name': 'except'}, default_factory=list
+    )
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
@@ -220,7 +222,9 @@ class NetworkPolicyEgressRule(Loadable):
 
 @dataclass(slots=True, kw_only=True, frozen=True)
 class NetworkPolicyIngressRule(Loadable):
-    from_: List[NetworkPolicyPeer] | None = None
+    from_: List[NetworkPolicyPeer] = field(
+        metadata={'original_name': 'from'}, default_factory=list
+    )
     ports: List[NetworkPolicyPort] | None = None
 
 

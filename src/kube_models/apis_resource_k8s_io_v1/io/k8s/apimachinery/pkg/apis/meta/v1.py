@@ -44,7 +44,9 @@ class FieldsV1(Loadable):
 
 @dataclass(slots=True, kw_only=True, frozen=True)
 class ListMeta(Loadable):
-    continue_: str | None = None
+    continue_: str = field(
+        metadata={'original_name': 'continue'}, default_factory=lambda: None
+    )
     remainingItemCount: int | None = None
     resourceVersion: str | None = None
     selfLink: str | None = None

@@ -27,7 +27,8 @@ class PodDisruptionBudgetSpec(Loadable):
     maxUnavailable: IntOrString | None = None
     minAvailable: IntOrString | None = None
     selector: LabelSelector = field(
-        default_factory=dict, metadata={'x-kubernetes-patch-strategy': 'replace'}
+        default_factory=lambda: None,
+        metadata={'x-kubernetes-patch-strategy': 'replace'},
     )
     unhealthyPodEvictionPolicy: str | None = None
 

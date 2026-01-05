@@ -133,8 +133,12 @@ class CustomResourceDefinitionStatus(Loadable):
 
 @dataclass(slots=True, kw_only=True, frozen=True)
 class JSONSchemaProps(Loadable):
-    field_ref: str | None = None
-    field_schema: str | None = None
+    field_ref: str = field(
+        metadata={'original_name': '$ref'}, default_factory=lambda: None
+    )
+    field_schema: str = field(
+        metadata={'original_name': '$schema'}, default_factory=lambda: None
+    )
     additionalItems: JSONSchemaPropsOrBool | None = None
     additionalProperties: JSONSchemaPropsOrBool | None = None
     allOf: List[JSONSchemaProps] | None = None
@@ -160,7 +164,9 @@ class JSONSchemaProps(Loadable):
     minProperties: int | None = None
     minimum: float | None = None
     multipleOf: float | None = None
-    not_: JSONSchemaProps | None = None
+    not_: JSONSchemaProps = field(
+        metadata={'original_name': 'not'}, default_factory=lambda: None
+    )
     nullable: bool | None = None
     oneOf: List[JSONSchemaProps] | None = None
     pattern: str | None = None
@@ -170,13 +176,37 @@ class JSONSchemaProps(Loadable):
     title: str | None = None
     type: str | None = None
     uniqueItems: bool | None = None
-    x_kubernetes_embedded_resource: bool | None = None
-    x_kubernetes_int_or_string: bool | None = None
-    x_kubernetes_list_map_keys: List[str] | None = None
-    x_kubernetes_list_type: str | None = None
-    x_kubernetes_map_type: str | None = None
-    x_kubernetes_preserve_unknown_fields: bool | None = None
-    x_kubernetes_validations: List[ValidationRule] | None = None
+    x_kubernetes_embedded_resource: bool = field(
+        metadata={'original_name': 'x-kubernetes-embedded-resource'},
+        default_factory=lambda: None,
+    )
+    x_kubernetes_int_or_string: bool = field(
+        metadata={'original_name': 'x-kubernetes-int-or-string'},
+        default_factory=lambda: None,
+    )
+    x_kubernetes_list_map_keys: List[str] = field(
+        metadata={'original_name': 'x-kubernetes-list-map-keys'}, default_factory=list
+    )
+    x_kubernetes_list_type: str = field(
+        metadata={'original_name': 'x-kubernetes-list-type'},
+        default_factory=lambda: None,
+    )
+    x_kubernetes_map_type: str = field(
+        metadata={'original_name': 'x-kubernetes-map-type'},
+        default_factory=lambda: None,
+    )
+    x_kubernetes_preserve_unknown_fields: bool = field(
+        metadata={'original_name': 'x-kubernetes-preserve-unknown-fields'},
+        default_factory=lambda: None,
+    )
+    x_kubernetes_validations: List[ValidationRule] = field(
+        metadata={
+            'original_name': 'x-kubernetes-validations',
+            'x-kubernetes-patch-strategy': 'merge',
+            'x-kubernetes-patch-merge-key': 'rule',
+        },
+        default_factory=list,
+    )
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
@@ -192,7 +222,9 @@ class CustomResourceDefinitionVersion(Loadable):
     additionalPrinterColumns: List[CustomResourceColumnDefinition] | None = None
     deprecated: bool | None = None
     deprecationWarning: str | None = None
-    schema_: CustomResourceValidation | None = None
+    schema_: CustomResourceValidation = field(
+        metadata={'original_name': 'schema'}, default_factory=lambda: None
+    )
     selectableFields: List[SelectableField] | None = None
     subresources: CustomResourceSubresources | None = None
 

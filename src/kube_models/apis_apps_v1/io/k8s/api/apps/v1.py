@@ -224,7 +224,8 @@ class DeploymentSpec(Loadable):
     replicas: int | None = None
     revisionHistoryLimit: int | None = None
     strategy: DeploymentStrategy = field(
-        default_factory=dict, metadata={'x-kubernetes-patch-strategy': 'retainKeys'}
+        default_factory=lambda: None,
+        metadata={'x-kubernetes-patch-strategy': 'retainKeys'},
     )
 
 
