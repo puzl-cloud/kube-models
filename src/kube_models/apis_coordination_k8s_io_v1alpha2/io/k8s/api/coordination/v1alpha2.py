@@ -27,10 +27,10 @@ class LeaseCandidateSpec(Loadable):
 
 @dataclass(slots=True, kw_only=True, frozen=True)
 class LeaseCandidate(K8sResource):
+    spec: LeaseCandidateSpec
     apiVersion: ClassVar[str] = 'coordination.k8s.io/v1alpha2'
     kind: ClassVar[str] = 'LeaseCandidate'
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
-    spec: LeaseCandidateSpec | None = None
     plural_: ClassVar[str] = 'leasecandidates'
     is_namespaced_: ClassVar[bool] = True
     group_: ClassVar[Optional[str]] = 'coordination.k8s.io'

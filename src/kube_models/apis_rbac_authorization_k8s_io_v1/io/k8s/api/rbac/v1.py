@@ -26,9 +26,9 @@ class PolicyRule(Loadable):
 
 @dataclass(slots=True, kw_only=True, frozen=True)
 class RoleRef(Loadable):
-    apiGroup: str
     kind: str
     name: str
+    apiGroup: str | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)

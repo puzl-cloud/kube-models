@@ -17,9 +17,9 @@ from ...apimachinery.pkg.apis.meta.v1 import ListMeta, ObjectMeta, Time
 
 @dataclass(slots=True, kw_only=True, frozen=True)
 class ServerStorageVersion(Loadable):
-    apiServerID: str | None = None
-    decodableVersions: List[str] | None = None
-    encodingVersion: str | None = None
+    apiServerID: str
+    decodableVersions: List[str]
+    encodingVersion: str
     servedVersions: List[str] | None = None
 
 
@@ -47,11 +47,11 @@ class StorageVersionStatus(Loadable):
 
 @dataclass(slots=True, kw_only=True, frozen=True)
 class StorageVersion(K8sResource):
-    spec: StorageVersionSpec
-    status: StorageVersionStatus
+    metadata: ObjectMeta
     apiVersion: ClassVar[str] = 'internal.apiserver.k8s.io/v1alpha1'
     kind: ClassVar[str] = 'StorageVersion'
-    metadata: ObjectMeta = field(default_factory=ObjectMeta)
+    spec: StorageVersionSpec | None = None
+    status: StorageVersionStatus | None = None
     plural_: ClassVar[str] = 'storageversions'
     is_namespaced_: ClassVar[bool] = False
     group_: ClassVar[Optional[str]] = 'internal.apiserver.k8s.io'

@@ -23,6 +23,27 @@ class DeviceTaintSelector(Loadable):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
+class PoolStatus(Loadable):
+    driver: str
+    generation: int
+    poolName: str
+    allocatedDevices: int | None = None
+    availableDevices: int | None = None
+    nodeName: str | None = None
+    resourceSliceCount: int | None = None
+    totalDevices: int | None = None
+    unavailableDevices: int | None = None
+    validationError: str | None = None
+
+
+@dataclass(slots=True, kw_only=True, frozen=True)
+class ResourcePoolStatusRequestSpec(Loadable):
+    driver: str
+    limit: int | None = 100
+    poolName: str | None = None
+
+
+@dataclass(slots=True, kw_only=True, frozen=True)
 class DeviceTaint(Loadable):
     effect: str
     key: str
@@ -45,6 +66,19 @@ class DeviceTaintRuleStatus(Loadable):
             'x-kubernetes-patch-merge-key': 'type',
         },
     )
+
+
+@dataclass(slots=True, kw_only=True, frozen=True)
+class ResourcePoolStatusRequestStatus(Loadable):
+    poolCount: int
+    conditions: List[Condition] = field(
+        default_factory=list,
+        metadata={
+            'x-kubernetes-patch-strategy': 'merge',
+            'x-kubernetes-patch-merge-key': 'type',
+        },
+    )
+    pools: List[PoolStatus] | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
@@ -71,4 +105,31 @@ class DeviceTaintRuleList(Loadable):
     items: List[DeviceTaintRule]
     apiVersion: str = 'resource.k8s.io/v1alpha3'
     kind: str = 'DeviceTaintRuleList'
+    metadata: ListMeta = field(default_factory=ObjectMeta)
+
+
+@dataclass(slots=True, kw_only=True, frozen=True)
+class ResourcePoolStatusRequest(K8sResource):
+    metadata: ObjectMeta
+    spec: ResourcePoolStatusRequestSpec
+    apiVersion: ClassVar[str] = 'resource.k8s.io/v1alpha3'
+    kind: ClassVar[str] = 'ResourcePoolStatusRequest'
+    status: ResourcePoolStatusRequestStatus | None = None
+    plural_: ClassVar[str] = 'resourcepoolstatusrequests'
+    is_namespaced_: ClassVar[bool] = False
+    group_: ClassVar[Optional[str]] = 'resource.k8s.io'
+    patch_strategies_: ClassVar[set[PatchRequestType]] = {
+        'application/apply-patch+cbor',
+        'application/apply-patch+yaml',
+        'application/json-patch+json',
+        'application/merge-patch+json',
+        'application/strategic-merge-patch+json',
+    }
+
+
+@dataclass(slots=True, kw_only=True, frozen=True)
+class ResourcePoolStatusRequestList(Loadable):
+    items: List[ResourcePoolStatusRequest]
+    apiVersion: str = 'resource.k8s.io/v1alpha3'
+    kind: str = 'ResourcePoolStatusRequestList'
     metadata: ListMeta = field(default_factory=ObjectMeta)

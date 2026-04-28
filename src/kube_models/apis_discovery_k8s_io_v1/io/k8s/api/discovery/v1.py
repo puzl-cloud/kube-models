@@ -62,8 +62,8 @@ class Endpoint(Loadable):
 @dataclass(slots=True, kw_only=True, frozen=True)
 class EndpointSlice(K8sResource):
     addressType: str
-    endpoints: List[Endpoint]
     apiVersion: ClassVar[str] = 'discovery.k8s.io/v1'
+    endpoints: List[Endpoint] | None = None
     kind: ClassVar[str] = 'EndpointSlice'
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
     ports: List[EndpointPort] | None = None

@@ -264,6 +264,11 @@ class PodSchedulingGate(Loadable):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
+class PodSchedulingGroup(Loadable):
+    podGroupName: str | None = None
+
+
+@dataclass(slots=True, kw_only=True, frozen=True)
 class PortworxVolumeSource(Loadable):
     volumeID: str
     fsType: str | None = None
@@ -442,13 +447,6 @@ class WindowsSecurityContextOptions(Loadable):
     gmsaCredentialSpecName: str | None = None
     hostProcess: bool | None = None
     runAsUserName: str | None = None
-
-
-@dataclass(slots=True, kw_only=True, frozen=True)
-class WorkloadReference(Loadable):
-    name: str
-    podGroup: str
-    podGroupReplicaKey: str | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
@@ -1041,6 +1039,7 @@ class PodSpec(Loadable):
             'x-kubernetes-patch-merge-key': 'name',
         },
     )
+    schedulingGroup: PodSchedulingGroup | None = None
     securityContext: PodSecurityContext | None = None
     serviceAccount: str | None = None
     serviceAccountName: str | None = None
@@ -1063,7 +1062,6 @@ class PodSpec(Loadable):
             'x-kubernetes-patch-merge-key': 'name',
         },
     )
-    workloadRef: WorkloadReference | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)

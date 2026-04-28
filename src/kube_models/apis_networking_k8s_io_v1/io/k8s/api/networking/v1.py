@@ -114,10 +114,10 @@ class NetworkPolicyPort(Loadable):
 
 @dataclass(slots=True, kw_only=True, frozen=True)
 class IPAddress(K8sResource):
+    spec: IPAddressSpec
     apiVersion: ClassVar[str] = 'networking.k8s.io/v1'
     kind: ClassVar[str] = 'IPAddress'
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
-    spec: IPAddressSpec | None = None
     plural_: ClassVar[str] = 'ipaddresses'
     is_namespaced_: ClassVar[bool] = False
     group_: ClassVar[Optional[str]] = 'networking.k8s.io'

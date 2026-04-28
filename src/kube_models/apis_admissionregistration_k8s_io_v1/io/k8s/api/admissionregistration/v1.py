@@ -21,6 +21,11 @@ from ...apimachinery.pkg.apis.meta.v1 import (
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
+class ApplyConfiguration(Loadable):
+    expression: str | None = None
+
+
+@dataclass(slots=True, kw_only=True, frozen=True)
 class AuditAnnotation(Loadable):
     key: str
     valueExpression: str
@@ -33,9 +38,21 @@ class ExpressionWarning(Loadable):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
+class JSONPatch(Loadable):
+    expression: str | None = None
+
+
+@dataclass(slots=True, kw_only=True, frozen=True)
 class MatchCondition(Loadable):
     expression: str
     name: str
+
+
+@dataclass(slots=True, kw_only=True, frozen=True)
+class Mutation(Loadable):
+    patchType: str
+    applyConfiguration: ApplyConfiguration | None = None
+    jsonPatch: JSONPatch | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
@@ -107,6 +124,23 @@ class MatchResources(Loadable):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
+class MutatingAdmissionPolicySpec(Loadable):
+    failurePolicy: str | None = None
+    matchConditions: List[MatchCondition] = field(
+        default_factory=list,
+        metadata={
+            'x-kubernetes-patch-strategy': 'merge',
+            'x-kubernetes-patch-merge-key': 'name',
+        },
+    )
+    matchConstraints: MatchResources | None = None
+    mutations: List[Mutation] | None = None
+    paramKind: ParamKind | None = None
+    reinvocationPolicy: str | None = None
+    variables: List[Variable] | None = None
+
+
+@dataclass(slots=True, kw_only=True, frozen=True)
 class MutatingWebhook(Loadable):
     admissionReviewVersions: List[str]
     clientConfig: WebhookClientConfig
@@ -170,10 +204,10 @@ class ParamRef(Loadable):
 
 @dataclass(slots=True, kw_only=True, frozen=True)
 class ValidatingAdmissionPolicyBindingSpec(Loadable):
+    policyName: str
+    validationActions: List[str]
     matchResources: MatchResources | None = None
     paramRef: ParamRef | None = None
-    policyName: str | None = None
-    validationActions: List[str] | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
@@ -260,6 +294,39 @@ class ValidatingWebhookConfigurationList(Loadable):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
+class MutatingAdmissionPolicy(K8sResource):
+    apiVersion: ClassVar[str] = 'admissionregistration.k8s.io/v1'
+    kind: ClassVar[str] = 'MutatingAdmissionPolicy'
+    metadata: ObjectMeta = field(default_factory=ObjectMeta)
+    spec: MutatingAdmissionPolicySpec | None = None
+    plural_: ClassVar[str] = 'mutatingadmissionpolicies'
+    is_namespaced_: ClassVar[bool] = False
+    group_: ClassVar[Optional[str]] = 'admissionregistration.k8s.io'
+    patch_strategies_: ClassVar[set[PatchRequestType]] = {
+        'application/apply-patch+cbor',
+        'application/apply-patch+yaml',
+        'application/json-patch+json',
+        'application/merge-patch+json',
+        'application/strategic-merge-patch+json',
+    }
+
+
+@dataclass(slots=True, kw_only=True, frozen=True)
+class MutatingAdmissionPolicyBindingSpec(Loadable):
+    matchResources: MatchResources | None = None
+    paramRef: ParamRef | None = None
+    policyName: str | None = None
+
+
+@dataclass(slots=True, kw_only=True, frozen=True)
+class MutatingAdmissionPolicyList(Loadable):
+    items: List[MutatingAdmissionPolicy]
+    apiVersion: str = 'admissionregistration.k8s.io/v1'
+    kind: str = 'MutatingAdmissionPolicyList'
+    metadata: ListMeta = field(default_factory=ObjectMeta)
+
+
+@dataclass(slots=True, kw_only=True, frozen=True)
 class ValidatingAdmissionPolicy(K8sResource):
     apiVersion: ClassVar[str] = 'admissionregistration.k8s.io/v1'
     kind: ClassVar[str] = 'ValidatingAdmissionPolicy'
@@ -280,10 +347,10 @@ class ValidatingAdmissionPolicy(K8sResource):
 
 @dataclass(slots=True, kw_only=True, frozen=True)
 class ValidatingAdmissionPolicyBinding(K8sResource):
+    spec: ValidatingAdmissionPolicyBindingSpec
     apiVersion: ClassVar[str] = 'admissionregistration.k8s.io/v1'
     kind: ClassVar[str] = 'ValidatingAdmissionPolicyBinding'
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
-    spec: ValidatingAdmissionPolicyBindingSpec | None = None
     plural_: ClassVar[str] = 'validatingadmissionpolicybindings'
     is_namespaced_: ClassVar[bool] = False
     group_: ClassVar[Optional[str]] = 'admissionregistration.k8s.io'
@@ -309,4 +376,30 @@ class ValidatingAdmissionPolicyList(Loadable):
     items: List[ValidatingAdmissionPolicy]
     apiVersion: str = 'admissionregistration.k8s.io/v1'
     kind: str = 'ValidatingAdmissionPolicyList'
+    metadata: ListMeta = field(default_factory=ObjectMeta)
+
+
+@dataclass(slots=True, kw_only=True, frozen=True)
+class MutatingAdmissionPolicyBinding(K8sResource):
+    apiVersion: ClassVar[str] = 'admissionregistration.k8s.io/v1'
+    kind: ClassVar[str] = 'MutatingAdmissionPolicyBinding'
+    metadata: ObjectMeta = field(default_factory=ObjectMeta)
+    spec: MutatingAdmissionPolicyBindingSpec | None = None
+    plural_: ClassVar[str] = 'mutatingadmissionpolicybindings'
+    is_namespaced_: ClassVar[bool] = False
+    group_: ClassVar[Optional[str]] = 'admissionregistration.k8s.io'
+    patch_strategies_: ClassVar[set[PatchRequestType]] = {
+        'application/apply-patch+cbor',
+        'application/apply-patch+yaml',
+        'application/json-patch+json',
+        'application/merge-patch+json',
+        'application/strategic-merge-patch+json',
+    }
+
+
+@dataclass(slots=True, kw_only=True, frozen=True)
+class MutatingAdmissionPolicyBindingList(Loadable):
+    items: List[MutatingAdmissionPolicyBinding]
+    apiVersion: str = 'admissionregistration.k8s.io/v1'
+    kind: str = 'MutatingAdmissionPolicyBindingList'
     metadata: ListMeta = field(default_factory=ObjectMeta)

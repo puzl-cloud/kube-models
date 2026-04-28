@@ -41,10 +41,10 @@ class HorizontalPodAutoscalerStatus(Loadable):
 
 @dataclass(slots=True, kw_only=True, frozen=True)
 class HorizontalPodAutoscaler(K8sResource):
+    spec: HorizontalPodAutoscalerSpec
     apiVersion: ClassVar[str] = 'autoscaling/v1'
     kind: ClassVar[str] = 'HorizontalPodAutoscaler'
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
-    spec: HorizontalPodAutoscalerSpec | None = None
     status: HorizontalPodAutoscalerStatus | None = None
     plural_: ClassVar[str] = 'horizontalpodautoscalers'
     is_namespaced_: ClassVar[bool] = True

@@ -263,6 +263,11 @@ class ImageVolumeSource(Loadable):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
+class ImageVolumeStatus(Loadable):
+    imageRef: str
+
+
+@dataclass(slots=True, kw_only=True, frozen=True)
 class KeyToPath(Loadable):
     key: str
     path: str
@@ -459,6 +464,11 @@ class PodSchedulingGate(Loadable):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
+class PodSchedulingGroup(Loadable):
+    podGroupName: str | None = None
+
+
+@dataclass(slots=True, kw_only=True, frozen=True)
 class PortStatus(Loadable):
     port: int
     protocol: str
@@ -510,6 +520,7 @@ class ResourceClaim(Loadable):
 class ResourceHealth(Loadable):
     resourceID: str
     health: str | None = None
+    message: str | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
@@ -670,11 +681,8 @@ class VolumeMount(Loadable):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class VolumeMountStatus(Loadable):
-    mountPath: str
-    name: str
-    readOnly: bool | None = None
-    recursiveReadOnly: str | None = None
+class VolumeStatus(Loadable):
+    image: ImageVolumeStatus | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
@@ -691,13 +699,6 @@ class WindowsSecurityContextOptions(Loadable):
     gmsaCredentialSpecName: str | None = None
     hostProcess: bool | None = None
     runAsUserName: str | None = None
-
-
-@dataclass(slots=True, kw_only=True, frozen=True)
-class WorkloadReference(Loadable):
-    name: str
-    podGroup: str
-    podGroupReplicaKey: str | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
@@ -939,6 +940,13 @@ class NamespaceStatus(Loadable):
         },
     )
     phase: str | None = None
+
+
+@dataclass(slots=True, kw_only=True, frozen=True)
+class NodeAllocatableResourceClaimStatus(Loadable):
+    resourceClaimName: str
+    resources: Dict[str, Quantity]
+    containers: List[str] | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
@@ -1207,6 +1215,15 @@ class Taint(Loadable):
     key: str
     timeAdded: Time | None = None
     value: str | None = None
+
+
+@dataclass(slots=True, kw_only=True, frozen=True)
+class VolumeMountStatus(Loadable):
+    mountPath: str
+    name: str
+    readOnly: bool | None = None
+    recursiveReadOnly: str | None = None
+    volumeStatus: VolumeStatus | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
@@ -1585,6 +1602,9 @@ class PodStatus(Loadable):
     )
     initContainerStatuses: List[ContainerStatus] | None = None
     message: str | None = None
+    nodeAllocatableResourceClaimStatuses: (
+        List[NodeAllocatableResourceClaimStatus] | None
+    ) = None
     nominatedNodeName: str | None = None
     observedGeneration: int | None = None
     phase: str | None = None
@@ -2138,6 +2158,7 @@ class PodSpec(Loadable):
             'x-kubernetes-patch-merge-key': 'name',
         },
     )
+    schedulingGroup: PodSchedulingGroup | None = None
     securityContext: PodSecurityContext | None = None
     serviceAccount: str | None = None
     serviceAccountName: str | None = None
@@ -2160,7 +2181,6 @@ class PodSpec(Loadable):
             'x-kubernetes-patch-merge-key': 'name',
         },
     )
-    workloadRef: WorkloadReference | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)

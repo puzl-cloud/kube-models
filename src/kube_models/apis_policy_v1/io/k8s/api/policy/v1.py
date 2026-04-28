@@ -35,10 +35,6 @@ class PodDisruptionBudgetSpec(Loadable):
 
 @dataclass(slots=True, kw_only=True, frozen=True)
 class PodDisruptionBudgetStatus(Loadable):
-    currentHealthy: int
-    desiredHealthy: int
-    disruptionsAllowed: int
-    expectedPods: int
     conditions: List[Condition] = field(
         default_factory=list,
         metadata={
@@ -46,7 +42,11 @@ class PodDisruptionBudgetStatus(Loadable):
             'x-kubernetes-patch-merge-key': 'type',
         },
     )
+    currentHealthy: int | None = None
+    desiredHealthy: int | None = None
     disruptedPods: Dict[str, Time] | None = None
+    disruptionsAllowed: int | None = None
+    expectedPods: int | None = None
     observedGeneration: int | None = None
 
 

@@ -25,14 +25,15 @@ class ClusterTrustBundleSpec(Loadable):
 class PodCertificateRequestSpec(Loadable):
     nodeName: str
     nodeUID: str
-    pkixPublicKey: str
     podName: str
     podUID: str
-    proofOfPossession: str
     serviceAccountName: str
     serviceAccountUID: str
     signerName: str
+    stubPKCS10Request: str
     maxExpirationSeconds: int | None = 86400
+    pkixPublicKey: str | None = None
+    proofOfPossession: str | None = None
     unverifiedUserAnnotations: Dict[str, str] | None = None
 
 

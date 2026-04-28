@@ -49,16 +49,6 @@ class LabelSelectorRequirement(Loadable):
     values: List[str] | None = None
 
 
-@dataclass(slots=True, kw_only=True, frozen=True)
-class ListMeta(Loadable):
-    continue_: str = field(
-        metadata={'original_name': 'continue'}, default_factory=lambda: None
-    )
-    remainingItemCount: int | None = None
-    resourceVersion: str | None = None
-    selfLink: str | None = None
-
-
 MicroTime = str
 
 
@@ -81,6 +71,11 @@ class Patch(Loadable):
 class Preconditions(Loadable):
     resourceVersion: str | None = None
     uid: str | None = None
+
+
+@dataclass(slots=True, kw_only=True, frozen=True)
+class ShardInfo(Loadable):
+    selector: str
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
@@ -129,6 +124,17 @@ class DeleteOptions(Loadable):
 class LabelSelector(Loadable):
     matchExpressions: List[LabelSelectorRequirement] | None = None
     matchLabels: Dict[str, str] | None = None
+
+
+@dataclass(slots=True, kw_only=True, frozen=True)
+class ListMeta(Loadable):
+    continue_: str = field(
+        metadata={'original_name': 'continue'}, default_factory=lambda: None
+    )
+    remainingItemCount: int | None = None
+    resourceVersion: str | None = None
+    selfLink: str | None = None
+    shardInfo: ShardInfo | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)

@@ -163,10 +163,10 @@ class JobList(Loadable):
 
 @dataclass(slots=True, kw_only=True, frozen=True)
 class CronJob(K8sResource):
+    spec: CronJobSpec
     apiVersion: ClassVar[str] = 'batch/v1'
     kind: ClassVar[str] = 'CronJob'
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
-    spec: CronJobSpec | None = None
     status: CronJobStatus | None = None
     plural_: ClassVar[str] = 'cronjobs'
     is_namespaced_: ClassVar[bool] = True

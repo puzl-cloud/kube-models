@@ -26,9 +26,13 @@ class CELDeviceSelector(Loadable):
 @dataclass(slots=True, kw_only=True, frozen=True)
 class DeviceAttribute(Loadable):
     bool: bool | None = None
+    bools: List[bool] | None = None
     int: int | None = None
+    ints: List[int] | None = None
     string: str | None = None
+    strings: List[str] | None = None
     version: str | None = None
+    versions: List[str] | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
@@ -41,6 +45,13 @@ class DeviceConstraint(Loadable):
 @dataclass(slots=True, kw_only=True, frozen=True)
 class DeviceSelector(Loadable):
     cel: CELDeviceSelector | None = None
+
+
+@dataclass(slots=True, kw_only=True, frozen=True)
+class DeviceTaintSelector(Loadable):
+    device: str | None = None
+    driver: str | None = None
+    pool: str | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
@@ -137,6 +148,12 @@ class DeviceTaint(Loadable):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
+class DeviceTaintRuleSpec(Loadable):
+    taint: DeviceTaint
+    deviceSelector: DeviceTaintSelector | None = None
+
+
+@dataclass(slots=True, kw_only=True, frozen=True)
 class ExactDeviceRequest(Loadable):
     deviceClassName: str
     adminAccess: bool | None = None
@@ -145,6 +162,12 @@ class ExactDeviceRequest(Loadable):
     count: int | None = None
     selectors: List[DeviceSelector] | None = None
     tolerations: List[DeviceToleration] | None = None
+
+
+@dataclass(slots=True, kw_only=True, frozen=True)
+class NodeAllocatableResourceMapping(Loadable):
+    allocationMultiplier: Quantity | None = None
+    capacityKey: str | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
@@ -216,6 +239,17 @@ class DeviceRequest(Loadable):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
+class DeviceTaintRuleStatus(Loadable):
+    conditions: List[Condition] = field(
+        default_factory=list,
+        metadata={
+            'x-kubernetes-patch-strategy': 'merge',
+            'x-kubernetes-patch-merge-key': 'type',
+        },
+    )
+
+
+@dataclass(slots=True, kw_only=True, frozen=True)
 class AllocationResult(Loadable):
     allocationTimestamp: Time | None = None
     devices: DeviceAllocationResult | None = None
@@ -233,6 +267,9 @@ class Device(Loadable):
     bindsToNode: bool | None = None
     capacity: Dict[str, DeviceCapacity] | None = None
     consumesCounters: List[DeviceCounterConsumption] | None = None
+    nodeAllocatableResourceMappings: (
+        Dict[str, NodeAllocatableResourceMapping] | None
+    ) = None
     nodeName: str | None = None
     nodeSelector: NodeSelector | None = None
     taints: List[DeviceTaint] | None = None
@@ -268,6 +305,33 @@ class DeviceClassList(Loadable):
     items: List[DeviceClass]
     apiVersion: str = 'resource.k8s.io/v1beta2'
     kind: str = 'DeviceClassList'
+    metadata: ListMeta = field(default_factory=ObjectMeta)
+
+
+@dataclass(slots=True, kw_only=True, frozen=True)
+class DeviceTaintRule(K8sResource):
+    spec: DeviceTaintRuleSpec
+    apiVersion: ClassVar[str] = 'resource.k8s.io/v1beta2'
+    kind: ClassVar[str] = 'DeviceTaintRule'
+    metadata: ObjectMeta = field(default_factory=ObjectMeta)
+    status: DeviceTaintRuleStatus | None = None
+    plural_: ClassVar[str] = 'devicetaintrules'
+    is_namespaced_: ClassVar[bool] = False
+    group_: ClassVar[Optional[str]] = 'resource.k8s.io'
+    patch_strategies_: ClassVar[set[PatchRequestType]] = {
+        'application/apply-patch+cbor',
+        'application/apply-patch+yaml',
+        'application/json-patch+json',
+        'application/merge-patch+json',
+        'application/strategic-merge-patch+json',
+    }
+
+
+@dataclass(slots=True, kw_only=True, frozen=True)
+class DeviceTaintRuleList(Loadable):
+    items: List[DeviceTaintRule]
+    apiVersion: str = 'resource.k8s.io/v1beta2'
+    kind: str = 'DeviceTaintRuleList'
     metadata: ListMeta = field(default_factory=ObjectMeta)
 
 

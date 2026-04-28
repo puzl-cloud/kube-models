@@ -34,6 +34,7 @@ class CSIDriverSpec(Loadable):
     fsGroupPolicy: str | None = None
     nodeAllocatableUpdatePeriodSeconds: int | None = None
     podInfoOnMount: bool | None = None
+    preventPodSchedulingIfMissing: bool | None = None
     requiresRepublish: bool | None = None
     seLinuxMount: bool | None = None
     serviceAccountTokenInSecrets: bool | None = None

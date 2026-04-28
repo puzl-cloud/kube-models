@@ -26,9 +26,13 @@ class CELDeviceSelector(Loadable):
 @dataclass(slots=True, kw_only=True, frozen=True)
 class DeviceAttribute(Loadable):
     bool: bool | None = None
+    bools: List[bool] | None = None
     int: int | None = None
+    ints: List[int] | None = None
     string: str | None = None
+    strings: List[str] | None = None
     version: str | None = None
+    versions: List[str] | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
@@ -137,6 +141,12 @@ class DeviceTaint(Loadable):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
+class NodeAllocatableResourceMapping(Loadable):
+    allocationMultiplier: Quantity | None = None
+    capacityKey: str | None = None
+
+
+@dataclass(slots=True, kw_only=True, frozen=True)
 class OpaqueDeviceConfiguration(Loadable):
     driver: str
     parameters: RawExtension
@@ -227,6 +237,9 @@ class BasicDevice(Loadable):
     bindsToNode: bool | None = None
     capacity: Dict[str, DeviceCapacity] | None = None
     consumesCounters: List[DeviceCounterConsumption] | None = None
+    nodeAllocatableResourceMappings: (
+        Dict[str, NodeAllocatableResourceMapping] | None
+    ) = None
     nodeName: str | None = None
     nodeSelector: NodeSelector | None = None
     taints: List[DeviceTaint] | None = None

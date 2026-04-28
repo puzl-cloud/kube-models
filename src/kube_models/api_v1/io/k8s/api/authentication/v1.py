@@ -25,23 +25,23 @@ class BoundObjectReference(Loadable):
 
 @dataclass(slots=True, kw_only=True, frozen=True)
 class TokenRequestSpec(Loadable):
-    audiences: List[str]
+    audiences: List[str] | None = None
     boundObjectRef: BoundObjectReference | None = None
     expirationSeconds: int | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
 class TokenRequestStatus(Loadable):
-    expirationTimestamp: Time
-    token: str
+    expirationTimestamp: Time | None = None
+    token: str | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
 class TokenRequest(K8sResource):
-    spec: TokenRequestSpec
     apiVersion: ClassVar[str] = 'authentication.k8s.io/v1'
     kind: ClassVar[str] = 'TokenRequest'
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
+    spec: TokenRequestSpec | None = None
     status: TokenRequestStatus | None = None
     plural_: ClassVar[str] = 'token'
     is_namespaced_: ClassVar[bool] = True

@@ -43,16 +43,6 @@ class FieldsV1(Loadable):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class ListMeta(Loadable):
-    continue_: str = field(
-        metadata={'original_name': 'continue'}, default_factory=lambda: None
-    )
-    remainingItemCount: int | None = None
-    resourceVersion: str | None = None
-    selfLink: str | None = None
-
-
-@dataclass(slots=True, kw_only=True, frozen=True)
 class OwnerReference(Loadable):
     apiVersion: str
     kind: str
@@ -71,6 +61,11 @@ class Patch(Loadable):
 class Preconditions(Loadable):
     resourceVersion: str | None = None
     uid: str | None = None
+
+
+@dataclass(slots=True, kw_only=True, frozen=True)
+class ShardInfo(Loadable):
+    selector: str
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
@@ -113,6 +108,17 @@ class DeleteOptions(Loadable):
     orphanDependents: bool | None = None
     preconditions: Preconditions | None = None
     propagationPolicy: str | None = None
+
+
+@dataclass(slots=True, kw_only=True, frozen=True)
+class ListMeta(Loadable):
+    continue_: str = field(
+        metadata={'original_name': 'continue'}, default_factory=lambda: None
+    )
+    remainingItemCount: int | None = None
+    resourceVersion: str | None = None
+    selfLink: str | None = None
+    shardInfo: ShardInfo | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)

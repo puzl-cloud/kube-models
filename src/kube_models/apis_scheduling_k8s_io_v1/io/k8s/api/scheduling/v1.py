@@ -17,13 +17,13 @@ from ...apimachinery.pkg.apis.meta.v1 import ListMeta, ObjectMeta
 
 @dataclass(slots=True, kw_only=True, frozen=True)
 class PriorityClass(K8sResource):
-    value: int
     apiVersion: ClassVar[str] = 'scheduling.k8s.io/v1'
     description: str | None = None
     globalDefault: bool | None = None
     kind: ClassVar[str] = 'PriorityClass'
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
     preemptionPolicy: str | None = None
+    value: int | None = None
     plural_: ClassVar[str] = 'priorityclasses'
     is_namespaced_: ClassVar[bool] = False
     group_: ClassVar[Optional[str]] = 'scheduling.k8s.io'

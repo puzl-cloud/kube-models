@@ -17,8 +17,8 @@ from ...apimachinery.pkg.apis.meta.v1 import ObjectMeta
 
 @dataclass(slots=True, kw_only=True, frozen=True)
 class TokenReviewSpec(Loadable):
+    token: str
     audiences: List[str] | None = None
-    token: str | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
