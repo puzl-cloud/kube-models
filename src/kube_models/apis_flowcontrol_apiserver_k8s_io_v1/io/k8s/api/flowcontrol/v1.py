@@ -71,11 +71,11 @@ class UserSubject(Loadable):
 
 @dataclass(slots=True, kw_only=True, frozen=True)
 class FlowSchemaCondition(Loadable):
+    type: str
     lastTransitionTime: Time | None = None
     message: str | None = None
     reason: str | None = None
     status: str | None = None
-    type: str | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
@@ -97,19 +97,19 @@ class LimitResponse(Loadable):
 
 @dataclass(slots=True, kw_only=True, frozen=True)
 class LimitedPriorityLevelConfiguration(Loadable):
+    limitResponse: LimitResponse
     borrowingLimitPercent: int | None = None
     lendablePercent: int | None = None
-    limitResponse: LimitResponse | None = None
     nominalConcurrencyShares: int | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
 class PriorityLevelConfigurationCondition(Loadable):
+    type: str
     lastTransitionTime: Time | None = None
     message: str | None = None
     reason: str | None = None
     status: str | None = None
-    type: str | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
@@ -147,10 +147,10 @@ class PolicyRulesWithSubjects(Loadable):
 
 @dataclass(slots=True, kw_only=True, frozen=True)
 class PriorityLevelConfiguration(K8sResource):
+    spec: PriorityLevelConfigurationSpec
     apiVersion: ClassVar[str] = 'flowcontrol.apiserver.k8s.io/v1'
     kind: ClassVar[str] = 'PriorityLevelConfiguration'
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
-    spec: PriorityLevelConfigurationSpec | None = None
     status: PriorityLevelConfigurationStatus | None = None
     plural_: ClassVar[str] = 'prioritylevelconfigurations'
     is_namespaced_: ClassVar[bool] = False
@@ -182,10 +182,10 @@ class FlowSchemaSpec(Loadable):
 
 @dataclass(slots=True, kw_only=True, frozen=True)
 class FlowSchema(K8sResource):
+    spec: FlowSchemaSpec
     apiVersion: ClassVar[str] = 'flowcontrol.apiserver.k8s.io/v1'
     kind: ClassVar[str] = 'FlowSchema'
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
-    spec: FlowSchemaSpec | None = None
     status: FlowSchemaStatus | None = None
     plural_: ClassVar[str] = 'flowschemas'
     is_namespaced_: ClassVar[bool] = False

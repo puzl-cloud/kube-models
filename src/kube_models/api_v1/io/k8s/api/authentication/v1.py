@@ -5,7 +5,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
-from typing import ClassVar, List, Set
+from typing import ClassVar, Dict, List, Set
 
 from kube_models.const import *
 from kube_models.loader import *
@@ -25,6 +25,7 @@ class BoundObjectReference(Loadable):
 
 @dataclass(slots=True, kw_only=True, frozen=True)
 class TokenRequestSpec(Loadable):
+    attestations: Dict[str, List[str]] | None = None
     audiences: List[str] | None = None
     boundObjectRef: BoundObjectReference | None = None
     expirationSeconds: int | None = None

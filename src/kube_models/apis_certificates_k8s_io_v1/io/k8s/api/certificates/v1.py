@@ -12,7 +12,7 @@ from kube_models.loader import *
 from kube_models.loader import Loadable
 from kube_models.resource import *
 
-from ...apimachinery.pkg.apis.meta.v1 import ListMeta, ObjectMeta, Time
+from ...apimachinery.pkg.apis.meta.v1 import Condition, ListMeta, ObjectMeta, Time
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
@@ -25,6 +25,26 @@ class CertificateSigningRequestSpec(Loadable):
     uid: str | None = None
     usages: List[str] | None = None
     username: str | None = None
+
+
+@dataclass(slots=True, kw_only=True, frozen=True)
+class ClusterTrustBundleSpec(Loadable):
+    trustBundle: str
+    signerName: str | None = None
+
+
+@dataclass(slots=True, kw_only=True, frozen=True)
+class PodCertificateRequestSpec(Loadable):
+    nodeName: str
+    nodeUID: str
+    podName: str
+    podUID: str
+    serviceAccountName: str
+    serviceAccountUID: str
+    signerName: str
+    stubPKCS10Request: str
+    maxExpirationSeconds: int | None = 86400
+    unverifiedUserAnnotations: Dict[str, str] | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
@@ -67,4 +87,72 @@ class CertificateSigningRequestList(Loadable):
     items: List[CertificateSigningRequest]
     apiVersion: str = 'certificates.k8s.io/v1'
     kind: str = 'CertificateSigningRequestList'
+    metadata: ListMeta = field(default_factory=ObjectMeta)
+
+
+@dataclass(slots=True, kw_only=True, frozen=True)
+class ClusterTrustBundle(K8sResource):
+    spec: ClusterTrustBundleSpec
+    apiVersion: ClassVar[str] = 'certificates.k8s.io/v1'
+    kind: ClassVar[str] = 'ClusterTrustBundle'
+    metadata: ObjectMeta = field(default_factory=ObjectMeta)
+    plural_: ClassVar[str] = 'clustertrustbundles'
+    is_namespaced_: ClassVar[bool] = False
+    group_: ClassVar[Optional[str]] = 'certificates.k8s.io'
+    patch_strategies_: ClassVar[set[PatchRequestType]] = {
+        'application/apply-patch+cbor',
+        'application/apply-patch+yaml',
+        'application/json-patch+json',
+        'application/merge-patch+json',
+        'application/strategic-merge-patch+json',
+    }
+
+
+@dataclass(slots=True, kw_only=True, frozen=True)
+class ClusterTrustBundleList(Loadable):
+    items: List[ClusterTrustBundle]
+    apiVersion: str = 'certificates.k8s.io/v1'
+    kind: str = 'ClusterTrustBundleList'
+    metadata: ListMeta = field(default_factory=ObjectMeta)
+
+
+@dataclass(slots=True, kw_only=True, frozen=True)
+class PodCertificateRequestStatus(Loadable):
+    beginRefreshAt: Time | None = None
+    certificateChain: str | None = None
+    conditions: List[Condition] = field(
+        default_factory=list,
+        metadata={
+            'x-kubernetes-patch-strategy': 'merge',
+            'x-kubernetes-patch-merge-key': 'type',
+        },
+    )
+    notAfter: Time | None = None
+    notBefore: Time | None = None
+
+
+@dataclass(slots=True, kw_only=True, frozen=True)
+class PodCertificateRequest(K8sResource):
+    spec: PodCertificateRequestSpec
+    apiVersion: ClassVar[str] = 'certificates.k8s.io/v1'
+    kind: ClassVar[str] = 'PodCertificateRequest'
+    metadata: ObjectMeta = field(default_factory=ObjectMeta)
+    status: PodCertificateRequestStatus | None = None
+    plural_: ClassVar[str] = 'podcertificaterequests'
+    is_namespaced_: ClassVar[bool] = True
+    group_: ClassVar[Optional[str]] = 'certificates.k8s.io'
+    patch_strategies_: ClassVar[set[PatchRequestType]] = {
+        'application/apply-patch+cbor',
+        'application/apply-patch+yaml',
+        'application/json-patch+json',
+        'application/merge-patch+json',
+        'application/strategic-merge-patch+json',
+    }
+
+
+@dataclass(slots=True, kw_only=True, frozen=True)
+class PodCertificateRequestList(Loadable):
+    items: List[PodCertificateRequest]
+    apiVersion: str = 'certificates.k8s.io/v1'
+    kind: str = 'PodCertificateRequestList'
     metadata: ListMeta = field(default_factory=ObjectMeta)

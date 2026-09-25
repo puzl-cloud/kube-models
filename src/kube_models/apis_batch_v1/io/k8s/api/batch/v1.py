@@ -14,6 +14,12 @@ from kube_models.resource import *
 
 from ...apimachinery.pkg.apis.meta.v1 import LabelSelector, ListMeta, ObjectMeta, Time
 from ..core.v1 import ObjectReference, PodTemplateSpec
+from ..scheduling.v1alpha3 import (
+    WorkloadPodGroupDisruptionMode,
+    WorkloadPodGroupResourceClaim,
+    WorkloadPodGroupSchedulingConstraints,
+    WorkloadPodGroupSchedulingPolicy,
+)
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
@@ -97,6 +103,20 @@ class SuccessPolicy(Loadable):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
+class JobSchedulingConfiguration(Loadable):
+    disruptionMode: WorkloadPodGroupDisruptionMode | None = None
+    resourceClaims: List[WorkloadPodGroupResourceClaim] = field(
+        default_factory=list,
+        metadata={
+            'x-kubernetes-patch-strategy': 'merge',
+            'x-kubernetes-patch-merge-key': 'name',
+        },
+    )
+    schedulingConstraints: WorkloadPodGroupSchedulingConstraints | None = None
+    schedulingPolicy: WorkloadPodGroupSchedulingPolicy | None = None
+
+
+@dataclass(slots=True, kw_only=True, frozen=True)
 class JobSpec(Loadable):
     template: PodTemplateSpec
     activeDeadlineSeconds: int | None = None
@@ -110,6 +130,7 @@ class JobSpec(Loadable):
     parallelism: int | None = None
     podFailurePolicy: PodFailurePolicy | None = None
     podReplacementPolicy: str | None = None
+    scheduling: JobSchedulingConfiguration | None = None
     selector: LabelSelector | None = None
     successPolicy: SuccessPolicy | None = None
     suspend: bool | None = None

@@ -50,6 +50,7 @@ class HorizontalPodAutoscalerCondition(Loadable):
     type: str
     lastTransitionTime: Time | None = None
     message: str | None = None
+    observedGeneration: int | None = None
     reason: str | None = None
 
 

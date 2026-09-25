@@ -12,6 +12,7 @@ from kube_models.loader import *
 from kube_models.loader import Loadable
 from kube_models.resource import *
 
+from ...apimachinery.pkg.api.resource import Quantity
 from ...apimachinery.pkg.apis.meta.v1 import Condition, ListMeta, ObjectMeta, Time
 
 
@@ -23,22 +24,17 @@ class DeviceTaintSelector(Loadable):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class PoolStatus(Loadable):
-    driver: str
-    generation: int
-    poolName: str
-    allocatedDevices: int | None = None
-    availableDevices: int | None = None
-    nodeName: str | None = None
-    resourceSliceCount: int | None = None
-    totalDevices: int | None = None
-    unavailableDevices: int | None = None
-    validationError: str | None = None
+class PartitionTypeStatus(Loadable):
+    allocatable: int
+    attribute: str
+    total: int
+    type: str
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
 class ResourcePoolStatusRequestSpec(Loadable):
     driver: str
+    defaultPartitionTypeAttribute: str | None = None
     limit: int | None = 100
     poolName: str | None = None
 
@@ -58,6 +54,21 @@ class DeviceTaintRuleSpec(Loadable):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
+class ShareableCapacityStatus(Loadable):
+    available: Quantity
+    consumed: Quantity
+    name: str
+    total: Quantity
+
+
+@dataclass(slots=True, kw_only=True, frozen=True)
+class ShareableSummaryStatus(Loadable):
+    fullyAvailableDevices: int
+    partiallyAvailableDevices: int
+    capacity: List[ShareableCapacityStatus] | None = None
+
+
+@dataclass(slots=True, kw_only=True, frozen=True)
 class DeviceTaintRuleStatus(Loadable):
     conditions: List[Condition] = field(
         default_factory=list,
@@ -66,6 +77,22 @@ class DeviceTaintRuleStatus(Loadable):
             'x-kubernetes-patch-merge-key': 'type',
         },
     )
+
+
+@dataclass(slots=True, kw_only=True, frozen=True)
+class PoolStatus(Loadable):
+    driver: str
+    generation: int
+    poolName: str
+    allocatedDevices: int | None = None
+    availableDevices: int | None = None
+    nodeName: str | None = None
+    partitionSummary: List[PartitionTypeStatus] | None = None
+    resourceSliceCount: int | None = None
+    shareableSummary: ShareableSummaryStatus | None = None
+    totalDevices: int | None = None
+    unavailableDevices: int | None = None
+    validationError: str | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)

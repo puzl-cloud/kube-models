@@ -43,8 +43,21 @@ class DeviceConstraint(Loadable):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
+class DeviceDerivedAttribute(Loadable):
+    expression: str
+    name: str
+
+
+@dataclass(slots=True, kw_only=True, frozen=True)
 class DeviceSelector(Loadable):
     cel: CELDeviceSelector | None = None
+
+
+@dataclass(slots=True, kw_only=True, frozen=True)
+class DeviceTaintSelector(Loadable):
+    device: str | None = None
+    driver: str | None = None
+    pool: str | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
@@ -105,6 +118,7 @@ class CounterSet(Loadable):
 class DeviceCounterConsumption(Loadable):
     counterSet: str
     counters: Dict[str, Counter]
+    compatibilityGroups: List[str] | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
@@ -118,6 +132,7 @@ class DeviceRequestAllocationResult(Loadable):
     bindingFailureConditions: List[str] | None = None
     consumedCapacity: Dict[str, Quantity] | None = None
     shareID: str | None = None
+    skipNodeOperations: List[str] | None = None
     tolerations: List[DeviceToleration] | None = None
 
 
@@ -128,6 +143,7 @@ class DeviceSubRequest(Loadable):
     allocationMode: str | None = None
     capacity: CapacityRequirements | None = None
     count: int | None = None
+    derivedAttributes: List[DeviceDerivedAttribute] | None = None
     selectors: List[DeviceSelector] | None = None
     tolerations: List[DeviceToleration] | None = None
 
@@ -141,20 +157,40 @@ class DeviceTaint(Loadable):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
+class DeviceTaintRuleSpec(Loadable):
+    taint: DeviceTaint
+    deviceSelector: DeviceTaintSelector | None = None
+
+
+@dataclass(slots=True, kw_only=True, frozen=True)
 class ExactDeviceRequest(Loadable):
     deviceClassName: str
     adminAccess: bool | None = None
     allocationMode: str | None = None
     capacity: CapacityRequirements | None = None
     count: int | None = None
+    derivedAttributes: List[DeviceDerivedAttribute] | None = None
     selectors: List[DeviceSelector] | None = None
     tolerations: List[DeviceToleration] | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class NodeAllocatableResourceMapping(Loadable):
-    allocationMultiplier: Quantity | None = None
+class NodeAllocatableMapping(Loadable):
     capacityKey: str | None = None
+    capacityMultiplier: Quantity | None = None
+    deviceMultiplier: Quantity | None = None
+
+
+@dataclass(slots=True, kw_only=True, frozen=True)
+class NodeAllocatableOverhead(Loadable):
+    perContainer: Quantity | None = None
+    perPod: Quantity | None = None
+
+
+@dataclass(slots=True, kw_only=True, frozen=True)
+class NodeAllocatableResource(Loadable):
+    mapping: NodeAllocatableMapping | None = None
+    overhead: NodeAllocatableOverhead | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
@@ -226,6 +262,17 @@ class DeviceRequest(Loadable):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
+class DeviceTaintRuleStatus(Loadable):
+    conditions: List[Condition] = field(
+        default_factory=list,
+        metadata={
+            'x-kubernetes-patch-strategy': 'merge',
+            'x-kubernetes-patch-merge-key': 'type',
+        },
+    )
+
+
+@dataclass(slots=True, kw_only=True, frozen=True)
 class AllocationResult(Loadable):
     allocationTimestamp: Time | None = None
     devices: DeviceAllocationResult | None = None
@@ -243,9 +290,7 @@ class Device(Loadable):
     bindsToNode: bool | None = None
     capacity: Dict[str, DeviceCapacity] | None = None
     consumesCounters: List[DeviceCounterConsumption] | None = None
-    nodeAllocatableResourceMappings: (
-        Dict[str, NodeAllocatableResourceMapping] | None
-    ) = None
+    nodeAllocatableResources: Dict[str, NodeAllocatableResource] | None = None
     nodeName: str | None = None
     nodeSelector: NodeSelector | None = None
     taints: List[DeviceTaint] | None = None
@@ -260,10 +305,10 @@ class DeviceClaim(Loadable):
 
 @dataclass(slots=True, kw_only=True, frozen=True)
 class DeviceClass(K8sResource):
-    spec: DeviceClassSpec
     apiVersion: ClassVar[str] = 'resource.k8s.io/v1'
     kind: ClassVar[str] = 'DeviceClass'
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
+    spec: DeviceClassSpec | None = None
     plural_: ClassVar[str] = 'deviceclasses'
     is_namespaced_: ClassVar[bool] = False
     group_: ClassVar[Optional[str]] = 'resource.k8s.io'
@@ -281,6 +326,33 @@ class DeviceClassList(Loadable):
     items: List[DeviceClass]
     apiVersion: str = 'resource.k8s.io/v1'
     kind: str = 'DeviceClassList'
+    metadata: ListMeta = field(default_factory=ObjectMeta)
+
+
+@dataclass(slots=True, kw_only=True, frozen=True)
+class DeviceTaintRule(K8sResource):
+    spec: DeviceTaintRuleSpec
+    apiVersion: ClassVar[str] = 'resource.k8s.io/v1'
+    kind: ClassVar[str] = 'DeviceTaintRule'
+    metadata: ObjectMeta = field(default_factory=ObjectMeta)
+    status: DeviceTaintRuleStatus | None = None
+    plural_: ClassVar[str] = 'devicetaintrules'
+    is_namespaced_: ClassVar[bool] = False
+    group_: ClassVar[Optional[str]] = 'resource.k8s.io'
+    patch_strategies_: ClassVar[set[PatchRequestType]] = {
+        'application/apply-patch+cbor',
+        'application/apply-patch+yaml',
+        'application/json-patch+json',
+        'application/merge-patch+json',
+        'application/strategic-merge-patch+json',
+    }
+
+
+@dataclass(slots=True, kw_only=True, frozen=True)
+class DeviceTaintRuleList(Loadable):
+    items: List[DeviceTaintRule]
+    apiVersion: str = 'resource.k8s.io/v1'
+    kind: str = 'DeviceTaintRuleList'
     metadata: ListMeta = field(default_factory=ObjectMeta)
 
 
@@ -304,8 +376,8 @@ class ResourceClaimStatus(Loadable):
 
 @dataclass(slots=True, kw_only=True, frozen=True)
 class ResourceClaimTemplateSpec(Loadable):
-    spec: ResourceClaimSpec
     metadata: ObjectMeta | None = None
+    spec: ResourceClaimSpec | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
@@ -316,16 +388,18 @@ class ResourceSliceSpec(Loadable):
     devices: List[Device] | None = None
     nodeName: str | None = None
     nodeSelector: NodeSelector | None = None
+    partitionTypeAttribute: str | None = None
     perDeviceNodeSelection: bool | None = None
     sharedCounters: List[CounterSet] | None = None
+    skipNodeOperations: List[str] | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
 class ResourceClaim(K8sResource):
-    spec: ResourceClaimSpec
     apiVersion: ClassVar[str] = 'resource.k8s.io/v1'
     kind: ClassVar[str] = 'ResourceClaim'
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
+    spec: ResourceClaimSpec | None = None
     status: ResourceClaimStatus | None = None
     plural_: ClassVar[str] = 'resourceclaims'
     is_namespaced_: ClassVar[bool] = True
@@ -349,10 +423,10 @@ class ResourceClaimList(Loadable):
 
 @dataclass(slots=True, kw_only=True, frozen=True)
 class ResourceClaimTemplate(K8sResource):
-    spec: ResourceClaimTemplateSpec
     apiVersion: ClassVar[str] = 'resource.k8s.io/v1'
     kind: ClassVar[str] = 'ResourceClaimTemplate'
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
+    spec: ResourceClaimTemplateSpec | None = None
     plural_: ClassVar[str] = 'resourceclaimtemplates'
     is_namespaced_: ClassVar[bool] = True
     group_: ClassVar[Optional[str]] = 'resource.k8s.io'

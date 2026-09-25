@@ -170,6 +170,12 @@ class EventSource(Loadable):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
+class EvictionResponder(Loadable):
+    name: str
+    priority: int
+
+
+@dataclass(slots=True, kw_only=True, frozen=True)
 class ExecAction(Loadable):
     command: List[str] | None = None
 
@@ -208,6 +214,7 @@ class GCEPersistentDiskVolumeSource(Loadable):
 @dataclass(slots=True, kw_only=True, frozen=True)
 class GRPCAction(Loadable):
     port: int
+    mode: str | None = None
     service: str | None = None
 
 
@@ -272,6 +279,7 @@ class KeyToPath(Loadable):
     key: str
     path: str
     mode: int | None = None
+    user: int | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
@@ -340,6 +348,11 @@ class NodeFeatures(Loadable):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
+class NodePodPreemptionPolicy(Loadable):
+    disableResizePreemption: List[str] | None = None
+
+
+@dataclass(slots=True, kw_only=True, frozen=True)
 class NodeRuntimeHandlerFeatures(Loadable):
     recursiveReadOnlyMounts: bool | None = None
     userNamespaces: bool | None = None
@@ -375,6 +388,7 @@ class NodeSystemInfo(Loadable):
     operatingSystem: str
     osImage: str
     systemUUID: str
+    runningInUserNamespace: bool | None = None
     swap: NodeSwapStatus | None = None
 
 
@@ -415,6 +429,7 @@ class PodCertificateProjection(Loadable):
     credentialBundlePath: str | None = None
     keyPath: str | None = None
     maxExpirationSeconds: int | None = None
+    user: int | None = None
     userAnnotations: Dict[str, str] | None = None
 
 
@@ -593,6 +608,7 @@ class SecretReference(Loadable):
 @dataclass(slots=True, kw_only=True, frozen=True)
 class SecretVolumeSource(Loadable):
     defaultMode: int | None = None
+    defaultUser: int | None = None
     items: List[KeyToPath] | None = None
     optional: bool | None = None
     secretName: str | None = None
@@ -603,6 +619,7 @@ class ServiceAccountTokenProjection(Loadable):
     path: str
     audience: str | None = None
     expirationSeconds: int | None = None
+    user: int | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
@@ -670,9 +687,17 @@ class VolumeDevice(Loadable):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
+class VolumeHealthCondition(Loadable):
+    reason: str
+    status: str
+    message: str | None = None
+
+
+@dataclass(slots=True, kw_only=True, frozen=True)
 class VolumeMount(Loadable):
     mountPath: str
     name: str
+    bindMountOptions: List[str] | None = None
     mountPropagation: str | None = None
     readOnly: bool | None = None
     recursiveReadOnly: str | None = None
@@ -770,6 +795,7 @@ class ConfigMapProjection(Loadable):
 @dataclass(slots=True, kw_only=True, frozen=True)
 class ConfigMapVolumeSource(Loadable):
     defaultMode: int | None = None
+    defaultUser: int | None = None
     items: List[KeyToPath] | None = None
     name: str | None = None
     optional: bool | None = None
@@ -805,6 +831,7 @@ class ContainerUser(Loadable):
 @dataclass(slots=True, kw_only=True, frozen=True)
 class EmptyDirVolumeSource(Loadable):
     medium: str | None = None
+    mode: int | None = None
     sizeLimit: Quantity | None = None
 
 
@@ -860,6 +887,7 @@ class HTTPGetAction(Loadable):
     host: str | None = None
     httpHeaders: List[HTTPHeader] | None = None
     path: str | None = None
+    protocol: str | None = None
     scheme: str | None = None
 
 
@@ -943,10 +971,36 @@ class NamespaceStatus(Loadable):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
+class NodeAllocatableMappedResources(Loadable):
+    name: str
+    quantity: Quantity
+
+
+@dataclass(slots=True, kw_only=True, frozen=True)
+class NodeAllocatableOverheadResources(Loadable):
+    name: str
+    perContainer: Quantity | None = None
+    perPod: Quantity | None = None
+
+
+@dataclass(slots=True, kw_only=True, frozen=True)
 class NodeAllocatableResourceClaimStatus(Loadable):
     resourceClaimName: str
-    resources: Dict[str, Quantity]
     containers: List[str] | None = None
+    mapping: List[NodeAllocatableMappedResources] = field(
+        default_factory=list,
+        metadata={
+            'x-kubernetes-patch-strategy': 'merge',
+            'x-kubernetes-patch-merge-key': 'name',
+        },
+    )
+    overhead: List[NodeAllocatableOverheadResources] = field(
+        default_factory=list,
+        metadata={
+            'x-kubernetes-patch-strategy': 'merge',
+            'x-kubernetes-patch-merge-key': 'name',
+        },
+    )
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
@@ -1011,24 +1065,6 @@ class PersistentVolumeClaimCondition(Loadable):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
-class PersistentVolumeClaimStatus(Loadable):
-    accessModes: List[str] | None = None
-    allocatedResourceStatuses: Dict[str, str] | None = None
-    allocatedResources: Dict[str, Quantity] | None = None
-    capacity: Dict[str, Quantity] | None = None
-    conditions: List[PersistentVolumeClaimCondition] = field(
-        default_factory=list,
-        metadata={
-            'x-kubernetes-patch-strategy': 'merge',
-            'x-kubernetes-patch-merge-key': 'type',
-        },
-    )
-    currentVolumeAttributesClassName: str | None = None
-    modifyVolumeStatus: ModifyVolumeStatus | None = None
-    phase: str | None = None
-
-
-@dataclass(slots=True, kw_only=True, frozen=True)
 class PersistentVolumeStatus(Loadable):
     lastPhaseTransitionTime: Time | None = None
     message: str | None = None
@@ -1069,6 +1105,19 @@ class PodSecurityContext(Loadable):
     supplementalGroupsPolicy: str | None = None
     sysctls: List[Sysctl] | None = None
     windowsOptions: WindowsSecurityContextOptions | None = None
+
+
+@dataclass(slots=True, kw_only=True, frozen=True)
+class PodVolumeHealth(Loadable):
+    name: str
+    healthConditions: List[VolumeHealthCondition] = field(
+        default_factory=list,
+        metadata={
+            'x-kubernetes-patch-strategy': 'merge',
+            'x-kubernetes-patch-merge-key': 'status',
+        },
+    )
+    lastTransitionTime: Time | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
@@ -1218,6 +1267,18 @@ class Taint(Loadable):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
+class VolumeHealthStatus(Loadable):
+    healthConditions: List[VolumeHealthCondition] = field(
+        default_factory=list,
+        metadata={
+            'x-kubernetes-patch-strategy': 'merge',
+            'x-kubernetes-patch-merge-key': 'status',
+        },
+    )
+    lastTransitionTime: Time | None = None
+
+
+@dataclass(slots=True, kw_only=True, frozen=True)
 class VolumeMountStatus(Loadable):
     mountPath: str
     name: str
@@ -1255,6 +1316,7 @@ class ClusterTrustBundleProjection(Loadable):
     name: str | None = None
     optional: bool | None = None
     signerName: str | None = None
+    user: int | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
@@ -1351,11 +1413,13 @@ class DownwardAPIVolumeFile(Loadable):
     fieldRef: ObjectFieldSelector | None = None
     mode: int | None = None
     resourceFieldRef: ResourceFieldSelector | None = None
+    user: int | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
 class DownwardAPIVolumeSource(Loadable):
     defaultMode: int | None = None
+    defaultUser: int | None = None
     items: List[DownwardAPIVolumeFile] | None = None
 
 
@@ -1510,6 +1574,7 @@ class NodeSpec(Loadable):
     podCIDRs: List[str] = field(
         default_factory=list, metadata={'x-kubernetes-patch-strategy': 'merge'}
     )
+    podPreemptionPolicy: NodePodPreemptionPolicy | None = None
     providerID: str | None = None
     taints: List[Taint] | None = None
     unschedulable: bool | None = None
@@ -1526,6 +1591,25 @@ class PersistentVolumeClaimSpec(Loadable):
     volumeAttributesClassName: str | None = None
     volumeMode: str | None = None
     volumeName: str | None = None
+
+
+@dataclass(slots=True, kw_only=True, frozen=True)
+class PersistentVolumeClaimStatus(Loadable):
+    accessModes: List[str] | None = None
+    allocatedResourceStatuses: Dict[str, str] | None = None
+    allocatedResources: Dict[str, Quantity] | None = None
+    capacity: Dict[str, Quantity] | None = None
+    conditions: List[PersistentVolumeClaimCondition] = field(
+        default_factory=list,
+        metadata={
+            'x-kubernetes-patch-strategy': 'merge',
+            'x-kubernetes-patch-merge-key': 'type',
+        },
+    )
+    currentVolumeAttributesClassName: str | None = None
+    healthStatus: VolumeHealthStatus | None = None
+    modifyVolumeStatus: ModifyVolumeStatus | None = None
+    phase: str | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
@@ -1602,9 +1686,15 @@ class PodStatus(Loadable):
     )
     initContainerStatuses: List[ContainerStatus] | None = None
     message: str | None = None
-    nodeAllocatableResourceClaimStatuses: (
-        List[NodeAllocatableResourceClaimStatus] | None
-    ) = None
+    nodeAllocatableResourceClaimStatuses: List[NodeAllocatableResourceClaimStatus] = (
+        field(
+            default_factory=list,
+            metadata={
+                'x-kubernetes-patch-strategy': 'merge',
+                'x-kubernetes-patch-merge-key': 'resourceClaimName',
+            },
+        )
+    )
     nominatedNodeName: str | None = None
     observedGeneration: int | None = None
     phase: str | None = None
@@ -1628,6 +1718,7 @@ class PodStatus(Loadable):
     )
     resources: ResourceRequirements | None = None
     startTime: Time | None = None
+    volumeHealth: List[PodVolumeHealth] | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
@@ -2046,6 +2137,7 @@ class EphemeralContainer(Loadable):
 @dataclass(slots=True, kw_only=True, frozen=True)
 class ProjectedVolumeSource(Loadable):
     defaultMode: int | None = None
+    defaultUser: int | None = None
     sources: List[VolumeProjection] | None = None
 
 
@@ -2099,6 +2191,13 @@ class PodSpec(Loadable):
     dnsPolicy: str | None = None
     enableServiceLinks: bool | None = None
     ephemeralContainers: List[EphemeralContainer] = field(
+        default_factory=list,
+        metadata={
+            'x-kubernetes-patch-strategy': 'merge',
+            'x-kubernetes-patch-merge-key': 'name',
+        },
+    )
+    evictionResponders: List[EvictionResponder] = field(
         default_factory=list,
         metadata={
             'x-kubernetes-patch-strategy': 'merge',

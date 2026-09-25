@@ -89,6 +89,12 @@ class ContainerRestartRuleOnExitCodes(Loadable):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
+class EvictionResponder(Loadable):
+    name: str
+    priority: int
+
+
+@dataclass(slots=True, kw_only=True, frozen=True)
 class ExecAction(Loadable):
     command: List[str] | None = None
 
@@ -127,6 +133,7 @@ class GCEPersistentDiskVolumeSource(Loadable):
 @dataclass(slots=True, kw_only=True, frozen=True)
 class GRPCAction(Loadable):
     port: int
+    mode: str | None = None
     service: str | None = None
 
 
@@ -173,6 +180,7 @@ class KeyToPath(Loadable):
     key: str
     path: str
     mode: int | None = None
+    user: int | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
@@ -237,6 +245,7 @@ class PodCertificateProjection(Loadable):
     credentialBundlePath: str | None = None
     keyPath: str | None = None
     maxExpirationSeconds: int | None = None
+    user: int | None = None
     userAnnotations: Dict[str, str] | None = None
 
 
@@ -365,6 +374,7 @@ class SecretProjection(Loadable):
 @dataclass(slots=True, kw_only=True, frozen=True)
 class SecretVolumeSource(Loadable):
     defaultMode: int | None = None
+    defaultUser: int | None = None
     items: List[KeyToPath] | None = None
     optional: bool | None = None
     secretName: str | None = None
@@ -375,6 +385,7 @@ class ServiceAccountTokenProjection(Loadable):
     path: str
     audience: str | None = None
     expirationSeconds: int | None = None
+    user: int | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
@@ -431,6 +442,7 @@ class VolumeDevice(Loadable):
 class VolumeMount(Loadable):
     mountPath: str
     name: str
+    bindMountOptions: List[str] | None = None
     mountPropagation: str | None = None
     readOnly: bool | None = None
     recursiveReadOnly: str | None = None
@@ -491,6 +503,7 @@ class ConfigMapProjection(Loadable):
 @dataclass(slots=True, kw_only=True, frozen=True)
 class ConfigMapVolumeSource(Loadable):
     defaultMode: int | None = None
+    defaultUser: int | None = None
     items: List[KeyToPath] | None = None
     name: str | None = None
     optional: bool | None = None
@@ -505,6 +518,7 @@ class ContainerRestartRule(Loadable):
 @dataclass(slots=True, kw_only=True, frozen=True)
 class EmptyDirVolumeSource(Loadable):
     medium: str | None = None
+    mode: int | None = None
     sizeLimit: Quantity | None = None
 
 
@@ -530,6 +544,7 @@ class HTTPGetAction(Loadable):
     host: str | None = None
     httpHeaders: List[HTTPHeader] | None = None
     path: str | None = None
+    protocol: str | None = None
     scheme: str | None = None
 
 
@@ -626,6 +641,7 @@ class ClusterTrustBundleProjection(Loadable):
     name: str | None = None
     optional: bool | None = None
     signerName: str | None = None
+    user: int | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
@@ -634,11 +650,13 @@ class DownwardAPIVolumeFile(Loadable):
     fieldRef: ObjectFieldSelector | None = None
     mode: int | None = None
     resourceFieldRef: ResourceFieldSelector | None = None
+    user: int | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
 class DownwardAPIVolumeSource(Loadable):
     defaultMode: int | None = None
+    defaultUser: int | None = None
     items: List[DownwardAPIVolumeFile] | None = None
 
 
@@ -895,6 +913,7 @@ class EphemeralContainer(Loadable):
 @dataclass(slots=True, kw_only=True, frozen=True)
 class ProjectedVolumeSource(Loadable):
     defaultMode: int | None = None
+    defaultUser: int | None = None
     sources: List[VolumeProjection] | None = None
 
 
@@ -948,6 +967,13 @@ class PodSpec(Loadable):
     dnsPolicy: str | None = None
     enableServiceLinks: bool | None = None
     ephemeralContainers: List[EphemeralContainer] = field(
+        default_factory=list,
+        metadata={
+            'x-kubernetes-patch-strategy': 'merge',
+            'x-kubernetes-patch-merge-key': 'name',
+        },
+    )
+    evictionResponders: List[EvictionResponder] = field(
         default_factory=list,
         metadata={
             'x-kubernetes-patch-strategy': 'merge',

@@ -31,11 +31,11 @@ class StatefulSetPersistentVolumeClaimRetentionPolicy(Loadable):
 
 @dataclass(slots=True, kw_only=True, frozen=True)
 class DaemonSetCondition(Loadable):
-    status: str
-    type: str
     lastTransitionTime: Time | None = None
     message: str | None = None
     reason: str | None = None
+    status: str | None = None
+    type: str | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
@@ -60,12 +60,12 @@ class DaemonSetStatus(Loadable):
 
 @dataclass(slots=True, kw_only=True, frozen=True)
 class DeploymentCondition(Loadable):
-    status: str
-    type: str
     lastTransitionTime: Time | None = None
     lastUpdateTime: Time | None = None
     message: str | None = None
     reason: str | None = None
+    status: str | None = None
+    type: str | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
@@ -89,11 +89,11 @@ class DeploymentStatus(Loadable):
 
 @dataclass(slots=True, kw_only=True, frozen=True)
 class ReplicaSetCondition(Loadable):
-    status: str
-    type: str
     lastTransitionTime: Time | None = None
     message: str | None = None
     reason: str | None = None
+    status: str | None = None
+    type: str | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
@@ -133,11 +133,11 @@ class RollingUpdateStatefulSetStrategy(Loadable):
 
 @dataclass(slots=True, kw_only=True, frozen=True)
 class StatefulSetCondition(Loadable):
-    status: str
-    type: str
     lastTransitionTime: Time | None = None
     message: str | None = None
     reason: str | None = None
+    status: str | None = None
+    type: str | None = None
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
@@ -168,11 +168,11 @@ class StatefulSetUpdateStrategy(Loadable):
 
 @dataclass(slots=True, kw_only=True, frozen=True)
 class ControllerRevision(K8sResource):
-    revision: int
+    data: RawExtension
     apiVersion: ClassVar[str] = 'apps/v1'
-    data: RawExtension | None = None
     kind: ClassVar[str] = 'ControllerRevision'
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
+    revision: int | None = None
     plural_: ClassVar[str] = 'controllerrevisions'
     is_namespaced_: ClassVar[bool] = True
     group_: ClassVar[Optional[str]] = 'apps'
@@ -256,10 +256,10 @@ class StatefulSetSpec(Loadable):
 
 @dataclass(slots=True, kw_only=True, frozen=True)
 class DaemonSet(K8sResource):
+    spec: DaemonSetSpec
     apiVersion: ClassVar[str] = 'apps/v1'
     kind: ClassVar[str] = 'DaemonSet'
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
-    spec: DaemonSetSpec | None = None
     status: DaemonSetStatus | None = None
     plural_: ClassVar[str] = 'daemonsets'
     is_namespaced_: ClassVar[bool] = True
@@ -283,10 +283,10 @@ class DaemonSetList(Loadable):
 
 @dataclass(slots=True, kw_only=True, frozen=True)
 class Deployment(K8sResource):
+    spec: DeploymentSpec
     apiVersion: ClassVar[str] = 'apps/v1'
     kind: ClassVar[str] = 'Deployment'
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
-    spec: DeploymentSpec | None = None
     status: DeploymentStatus | None = None
     plural_: ClassVar[str] = 'deployments'
     is_namespaced_: ClassVar[bool] = True
@@ -310,10 +310,10 @@ class DeploymentList(Loadable):
 
 @dataclass(slots=True, kw_only=True, frozen=True)
 class ReplicaSet(K8sResource):
+    spec: ReplicaSetSpec
     apiVersion: ClassVar[str] = 'apps/v1'
     kind: ClassVar[str] = 'ReplicaSet'
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
-    spec: ReplicaSetSpec | None = None
     status: ReplicaSetStatus | None = None
     plural_: ClassVar[str] = 'replicasets'
     is_namespaced_: ClassVar[bool] = True
@@ -337,10 +337,10 @@ class ReplicaSetList(Loadable):
 
 @dataclass(slots=True, kw_only=True, frozen=True)
 class StatefulSet(K8sResource):
+    spec: StatefulSetSpec
     apiVersion: ClassVar[str] = 'apps/v1'
     kind: ClassVar[str] = 'StatefulSet'
     metadata: ObjectMeta = field(default_factory=ObjectMeta)
-    spec: StatefulSetSpec | None = None
     status: StatefulSetStatus | None = None
     plural_: ClassVar[str] = 'statefulsets'
     is_namespaced_: ClassVar[bool] = True

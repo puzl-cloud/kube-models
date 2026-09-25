@@ -62,6 +62,16 @@ class CSINodeSpec(Loadable):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
+class StorageHealthCondition(Loadable):
+    reason: str
+    status: str
+    accessMode: str | None = None
+    lastTransitionTime: Time | None = None
+    message: str | None = None
+    volumeMode: str | None = None
+
+
+@dataclass(slots=True, kw_only=True, frozen=True)
 class VolumeError(Loadable):
     errorCode: int | None = None
     message: str | None = None
@@ -91,32 +101,6 @@ class CSIDriverList(Loadable):
     items: List[CSIDriver]
     apiVersion: str = 'storage.k8s.io/v1'
     kind: str = 'CSIDriverList'
-    metadata: ListMeta = field(default_factory=ObjectMeta)
-
-
-@dataclass(slots=True, kw_only=True, frozen=True)
-class CSINode(K8sResource):
-    spec: CSINodeSpec
-    apiVersion: ClassVar[str] = 'storage.k8s.io/v1'
-    kind: ClassVar[str] = 'CSINode'
-    metadata: ObjectMeta = field(default_factory=ObjectMeta)
-    plural_: ClassVar[str] = 'csinodes'
-    is_namespaced_: ClassVar[bool] = False
-    group_: ClassVar[Optional[str]] = 'storage.k8s.io'
-    patch_strategies_: ClassVar[set[PatchRequestType]] = {
-        'application/apply-patch+cbor',
-        'application/apply-patch+yaml',
-        'application/json-patch+json',
-        'application/merge-patch+json',
-        'application/strategic-merge-patch+json',
-    }
-
-
-@dataclass(slots=True, kw_only=True, frozen=True)
-class CSINodeList(Loadable):
-    items: List[CSINode]
-    apiVersion: str = 'storage.k8s.io/v1'
-    kind: str = 'CSINodeList'
     metadata: ListMeta = field(default_factory=ObjectMeta)
 
 
@@ -182,6 +166,12 @@ class StorageClassList(Loadable):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
+class StorageHealth(Loadable):
+    name: str
+    healthConditions: List[StorageHealthCondition] | None = None
+
+
+@dataclass(slots=True, kw_only=True, frozen=True)
 class VolumeAttachmentSource(Loadable):
     inlineVolumeSpec: PersistentVolumeSpec | None = None
     persistentVolumeName: str | None = None
@@ -230,6 +220,17 @@ class VolumeAttributesClassList(Loadable):
 
 
 @dataclass(slots=True, kw_only=True, frozen=True)
+class CSINodeStatus(Loadable):
+    storageHealth: List[StorageHealth] = field(
+        default_factory=list,
+        metadata={
+            'x-kubernetes-patch-strategy': 'merge',
+            'x-kubernetes-patch-merge-key': 'name',
+        },
+    )
+
+
+@dataclass(slots=True, kw_only=True, frozen=True)
 class VolumeAttachment(K8sResource):
     spec: VolumeAttachmentSpec
     apiVersion: ClassVar[str] = 'storage.k8s.io/v1'
@@ -253,4 +254,31 @@ class VolumeAttachmentList(Loadable):
     items: List[VolumeAttachment]
     apiVersion: str = 'storage.k8s.io/v1'
     kind: str = 'VolumeAttachmentList'
+    metadata: ListMeta = field(default_factory=ObjectMeta)
+
+
+@dataclass(slots=True, kw_only=True, frozen=True)
+class CSINode(K8sResource):
+    spec: CSINodeSpec
+    apiVersion: ClassVar[str] = 'storage.k8s.io/v1'
+    kind: ClassVar[str] = 'CSINode'
+    metadata: ObjectMeta = field(default_factory=ObjectMeta)
+    status: CSINodeStatus | None = None
+    plural_: ClassVar[str] = 'csinodes'
+    is_namespaced_: ClassVar[bool] = False
+    group_: ClassVar[Optional[str]] = 'storage.k8s.io'
+    patch_strategies_: ClassVar[set[PatchRequestType]] = {
+        'application/apply-patch+cbor',
+        'application/apply-patch+yaml',
+        'application/json-patch+json',
+        'application/merge-patch+json',
+        'application/strategic-merge-patch+json',
+    }
+
+
+@dataclass(slots=True, kw_only=True, frozen=True)
+class CSINodeList(Loadable):
+    items: List[CSINode]
+    apiVersion: str = 'storage.k8s.io/v1'
+    kind: str = 'CSINodeList'
     metadata: ListMeta = field(default_factory=ObjectMeta)
